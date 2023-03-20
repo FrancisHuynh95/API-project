@@ -21,6 +21,12 @@ module.exports = {
       preview: {
         type: Sequelize.BOOLEAN
       },
+      spotId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Spots'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

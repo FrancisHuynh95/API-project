@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     lng: {
-      type: DataTypes.STRING,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     name: {

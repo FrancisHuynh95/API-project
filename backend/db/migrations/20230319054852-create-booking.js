@@ -24,6 +24,18 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users'
+        }
+      },
+      spotId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Spots'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

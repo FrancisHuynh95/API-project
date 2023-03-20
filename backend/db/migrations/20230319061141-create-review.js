@@ -20,6 +20,18 @@ module.exports = {
       stars: {
         type: Sequelize.INTEGER
       },
+      spotId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Spots'
+        }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
