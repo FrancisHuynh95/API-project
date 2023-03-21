@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage, User } = require('../../db/models');
 
-
+/*
+Get all spots
+------------------------------------------------------------------------------------------------------------
+*/
 router.get('/', async (req, res) => {
     const getAll = await Spot.findAll({
         include: [
@@ -34,9 +37,7 @@ router.get('/', async (req, res) => {
 
     /*
     For Spot Images
-    */
-
-    /*
+    -----------------------------------------------------------------------------------------------------
     For Reviews
     */
     newArr.forEach(spot => {
@@ -55,13 +56,15 @@ router.get('/', async (req, res) => {
         delete spot.Reviews
     })
 
-    /*
-    For Reviews
-    */
-
     res.statusCode = 200;
     res.json({spots: newArr})
 })
+
+
+/*
+Get details of a spot from an id
+---------------------------------------------------------------------------------------------------------------
+*/
 
 
 
