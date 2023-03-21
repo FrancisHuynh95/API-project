@@ -77,6 +77,19 @@ router.get('/:spotId', async (req,res) => {
         ]
     })
 
+    const findImages = await SpotImage.findAll({
+        where:{
+            id: getId
+        }
+    })
+
+    let imgArr = []
+    findImages.forEach(image => {
+        imgArr.push(image.toJSON())
+    })
+    
+    console.log(imgArr)
+
     let newArr = []
     findSpot.forEach(spot => {
         newArr.push(spot.toJSON())
