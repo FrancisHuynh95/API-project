@@ -40,13 +40,19 @@ router.get('/', async (req, res) => {
     For Reviews
     */
     newArr.forEach(spot => {
-        console.log('SPOT LOOP')
+        // console.log(spot)
+        const count = spot.Reviews.length
+        let sum = 0;
         spot.Reviews.forEach(review => {
-            let length = (spot.Reviews.length)
-            let sum = 0;
-            console.log('review loop', length, sum+= review.stars)
-            // console.log(review.stars)
+            sum += review.stars
+            if (count) {
+                spot.avgRating = sum / count
+            }
         })
+        if (!spot.avgRating) {
+            spot.avgRating = 'No rating recorded'
+        }
+        delete spot.Reviews
     })
 
     /*
@@ -54,7 +60,7 @@ router.get('/', async (req, res) => {
     */
 
     res.statusCode = 200;
-    res.json(newArr)
+    res.json({spots: newArr})
 })
 
 
