@@ -91,7 +91,7 @@ router.get('/:spotId', async (req,res) => {
                 spot.numReviews = count
             }
         })
-        if (!spot.avgRating) {
+        if (!spot.avgStarRating) {
             spot.avgStarRating = 'No rating recorded'
             spot.numReviews = 0
         }
