@@ -17,12 +17,12 @@ module.exports = {
       preview: true
     },
       {
-      spotId: 2,
+      spotId: 1,
       url: 'testURL2',
       preview: true
     },
       {
-      spotId: 3,
+      spotId: 2,
       url: 'testURL3',
       preview: true
     },
