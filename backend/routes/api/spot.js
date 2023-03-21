@@ -65,7 +65,43 @@ router.get('/', async (req, res) => {
 Get details of a spot from an id
 ---------------------------------------------------------------------------------------------------------------
 */
+router.get('/:spotId', async (req,res) => {
+    const getId = req.params.spotId
+    const findSpot = await Spot.findAll({
+        where:{
+            id:getId
+        },
+        include: [
+            { model: Review },
+            { model: SpotImage }
+        ]
+    })
 
+    let newArr = []
+    findSpot.forEach(spot => {
+        newArr.push(spot.toJSON())
+    })
+    newArr.forEach(spot => {
+        const count = spot.Reviews.length
+        let sum = 0;
+        spot.Reviews.forEach(review => {
+            sum += review.stars
+            if (count) {
+                spot.avgStarRating = sum / count
+                spot.numReviews = count
+            }
+        })
+        if (!spot.avgRating) {
+            spot.avgStarRating = 'No rating recorded'
+            spot.numReviews = 0
+        }
+        delete spot.Reviews
+    })
+
+    res.statusCode = 200;
+    res.json({spots: newArr})
+
+})
 
 
 module.exports = router;
