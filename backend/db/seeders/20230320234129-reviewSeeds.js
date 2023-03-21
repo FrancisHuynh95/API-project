@@ -8,25 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    options.tableName = 'SpotImages';
-
-    await queryInterface.bulkInsert(options, [
-      {
-      spotId: 1,
-      url: 'testURL',
-      preview: true
-    },
-      {
-      spotId: 2,
-      url: 'testURL2',
-      preview: true
-    },
-      {
-      spotId: 3,
-      url: 'testURL3',
-      preview: true
-    },
-  ])
+    options.tableName = 'reviews';
     /**
      * Add seed commands here.
      *
@@ -36,7 +18,26 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-
+   await queryInterface.bulkInsert(options, [
+    {
+      spotId: 1,
+      userId: 1,
+      review: 'Review 1',
+      stars: 1
+    },
+    {
+      spotId: 2,
+      userId: 2,
+      review: 'Review 2',
+      stars: 2
+    },
+    {
+      spotId: 3,
+      userId: 3,
+      review: 'Review 3',
+      stars: 3
+    }
+   ])
   },
 
   async down (queryInterface, Sequelize) {
@@ -46,10 +47,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'SpotImages';
+    options.tableName = 'reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      spotId: { [Op.in]: [1, 2, 3] }
+      spotId: { [Op.in]: [1,2,3] }
     }, {});
   }
 };

@@ -1,5 +1,4 @@
 'use strict';
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -8,25 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    options.tableName = 'SpotImages';
-
-    await queryInterface.bulkInsert(options, [
-      {
-      spotId: 1,
-      url: 'testURL',
-      preview: true
-    },
-      {
-      spotId: 2,
-      url: 'testURL2',
-      preview: true
-    },
-      {
-      spotId: 3,
-      url: 'testURL3',
-      preview: true
-    },
-  ])
+    options.tableName = 'Bookings';
     /**
      * Add seed commands here.
      *
@@ -36,7 +17,27 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+   await queryInterface.bulkInsert(options, [
+    {
+    spotId: 1,
+    userId: 1,
+    startDate: '2023/1/1',
+    endDate: '2023/1/3'
+   },
+    {
+    spotId: 2,
+    userId: 2,
+    startDate: '2023/2/1',
+    endDate: '2023/2/3'
+   },
+    {
+    spotId: 3,
+    userId: 3,
+    startDate: '2023/3/1',
+    endDate: '2023/3/3'
+   },
 
+  ])
   },
 
   async down (queryInterface, Sequelize) {
@@ -46,10 +47,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'SpotImages';
+    options.tableName = 'Bookings';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      spotId: { [Op.in]: [1, 2, 3] }
+      spotId: { [Op.in]: [1,2,3] }
     }, {});
   }
 };
