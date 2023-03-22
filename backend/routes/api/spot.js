@@ -295,6 +295,24 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         price,
     } = req.body
 
+    const errorObj = {}
+
+    if(!address) errorObj.address = 'Street address is required'
+    if(!city) errorObj.city = 'City is required'
+    if(!state) errorObj.state = 'State is required'
+    if(!country) errorObj.country = 'Country is required'
+    if(!lat) errorObj.lat = 'Latitude is not valid'
+    if(!lng) errorObj.lng = 'Longitude is not valid'
+    if(name.length >= 50) errorObj.name = 'Name must be less than 50 characters'
+    if(!description) errorObj.description = 'Description is required'
+    if(!price) errorObj.price = 'Price per day is required'
+
+    if(Object.keys(errorObj).length){
+        res.statusCode = 400;
+        errorObj.message = 'Bad Request'
+        res.json(errorObj)
+    }
+
     getSpot.address = address;
     getSpot.city = city;
     getSpot.state = state;
@@ -315,6 +333,15 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     res.statusCode = 200;
     res.json(newGetSpot)
+})
+
+/*
+Delete a Spot
+--------------------------------------------------------------------------------------------------------------------
+*/
+
+router.delete('/:spotId', requireAuth, async(req,res) => {
+    
 })
 
 module.exports = router;
