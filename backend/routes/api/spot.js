@@ -224,7 +224,7 @@ router.post('/', requireAuth, async (req,res) => {
 
     const newSpot2 = await Spot.findByPk(user.id, {
         attributes: {
-            exclude: ['createdAt', 'updatedAt', 'id', 'ownerId']
+            exclude: ['ownerId']
         }
     })
     console.log(newSpot2)
