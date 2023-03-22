@@ -250,5 +250,17 @@ router.post('/', requireAuth, async (req, res, next) => {
         res.json(newSpot2)
     }
 })
+/*
+Add an Image to a Spot based on the Spot's Id
+-----------------------------------------------------------------------------------------------------------
+*/
+
+router.post('/:spotId/images', requireAuth, async (req,res) => {
+    const getSpotId = req.params.spotId
+    const getSpot = await Spot.findByPk(getSpotId)
+
+    res.json(getSpot)
+})
+
 
 module.exports = router;
