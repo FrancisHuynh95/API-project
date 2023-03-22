@@ -257,9 +257,22 @@ Add an Image to a Spot based on the Spot's Id
 
 router.post('/:spotId/images', requireAuth, async (req,res) => {
     const getSpotId = req.params.spotId
-    const getSpot = await Spot.findByPk(getSpotId)
+    const {url, preview} = req.body
+    const newImage = await SpotImage.create({
+        url,
+        preview,
+        spotId : getSpotId
+    })
 
-    res.json(getSpot)
+    const getNewImage = await SpotImage.findOne({
+        where: {
+        url: url},
+        attributes: {
+            exclude: ['spotId', 'createdAt', 'updatedAt']
+        }
+    })
+
+    res.json(getNewImage)
 })
 
 
