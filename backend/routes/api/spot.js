@@ -263,7 +263,6 @@ router.post('/:spotId/images', requireAuth, async (req,res) => {
         preview,
         spotId : getSpotId
     })
-
     const getNewImage = await SpotImage.findOne({
         where: {
         url: url},
@@ -271,9 +270,20 @@ router.post('/:spotId/images', requireAuth, async (req,res) => {
             exclude: ['spotId', 'createdAt', 'updatedAt']
         }
     })
-
+    res.statusCode = 200;
     res.json(getNewImage)
 })
 
+/*
+Edit a spot
+----------------------------------------------------------------------------------------------------------------------
+*/
+
+router.put('/:spotId', requireAuth, async(req,res) => {
+    const getSpotId = req.params.spotId
+    const getSpot = await Spot.findByPk(getSpotId)
+
+    res.json(getSpot)
+})
 
 module.exports = router;

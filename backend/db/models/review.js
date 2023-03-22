@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: "Users"
-      },
+      }
+    },
       spotId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -39,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-    }
   }, {
     sequelize,
     modelName: 'Review',
