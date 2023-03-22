@@ -62,14 +62,17 @@ router.get('/', async (req, res) => {
 
 
 /*
-Get details of a spot from an id
+ Get all Spots owned by the Current User
 ---------------------------------------------------------------------------------------------------------------
 */
+
+
+
 /*
 Get details of a spot from an id
 ---------------------------------------------------------------------------------------------------------------
 */
-router.get('/:spotId', async (req,res) => {
+router.get('/:spotId', async (req,res,next) => {
     const getId = req.params.spotId
     const findSpot = await Spot.findAll({
         where:{
@@ -84,10 +87,8 @@ router.get('/:spotId', async (req,res) => {
 
     if(findSpot.length === 0) {
         res.statusCode = 404;
-        res.json({
-            message: `Spot couldn't be found.`,
-            statusCode: res.statusCode
-    })
+        const err = new Error (`Spot couldn't be found`)
+        return next(err)
     }
         let newArr = [];
         let newArr2 = [];
