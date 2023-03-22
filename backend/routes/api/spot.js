@@ -78,50 +78,58 @@ router.get('/:spotId', async (req,res) => {
         ]
     })
 
-    let newArr = [];
-    let newArr2 = [];
-    findSpot.forEach(spot => {
-        newArr.push(spot.toJSON())
+    if(findSpot.length === 0) {
+        res.statusCode = 404;
+        res.json({
+            message: `Spot couldn't be found.`,
+            statusCode: res.statusCode
     })
-    newArr.forEach(spot => {
-        const count = spot.Reviews.length
-        let sum = 0;
-        spot.Reviews.forEach(review => {
-            sum += review.stars
-            if (count) {
-                spot.avgStarRating = sum / count
-                spot.numReviews = count
-            }
+    }
+        let newArr = [];
+        let newArr2 = [];
+        findSpot.forEach(spot => {
+            newArr.push(spot.toJSON())
         })
-        if (!spot.avgStarRating) {
-            spot.avgStarRating = 'No rating recorded'
-            spot.numReviews = 0
-        }
-        delete spot.Reviews
-
-
-        if(spot.SpotImages){
-            spot.SpotImages.forEach(image => {
-                newArr2.push({
-                    id: image.id,
-                    url: image.url,
-                    preview: image.preview
-                })
+        newArr.forEach(spot => {
+            const count = spot.Reviews.length
+            let sum = 0;
+            spot.Reviews.forEach(review => {
+                sum += review.stars
+                if (count) {
+                    spot.avgStarRating = sum / count
+                    spot.numReviews = count
+                }
             })
-            spot.SpotImages = newArr2
-
-            spot.Owner = {
-                id: spot.User.id,
-                firstName: spot.User.firstName,
-                lastName: spot.User.lastName
+            if (!spot.avgStarRating) {
+                spot.avgStarRating = 'No rating recorded'
+                spot.numReviews = 0
             }
-            delete (spot.User)
-        }
+            delete spot.Reviews
 
 
-    })
-    res.statusCode = 200;
-    res.json({spots: newArr})
+            if(spot.SpotImages){
+                spot.SpotImages.forEach(image => {
+                    newArr2.push({
+                        id: image.id,
+                        url: image.url,
+                        preview: image.preview
+                    })
+                })
+                spot.SpotImages = newArr2
+
+                spot.Owner = {
+                    id: spot.User.id,
+                    firstName: spot.User.firstName,
+                    lastName: spot.User.lastName
+                }
+                delete (spot.User)
+            }
+
+
+        })
+        res.statusCode = 200;
+        res.json({spots: newArr})
+
 
 })
 
