@@ -194,7 +194,7 @@ CREATE A SPOT
 
 */
 
-router.post('/', requireAuth, async (req,res) => {
+router.post('/', requireAuth, async (req, res, next) => {
     const {
         address,
         city,
@@ -205,32 +205,50 @@ router.post('/', requireAuth, async (req,res) => {
         name,
         description,
         price
-      } = req.body
+    } = req.body
 
-    const {user} = req
+    const errorObj = {}
 
-    const newSpot = await Spot.create({
-        address: address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price,
-        ownerId: user.id
-    })
+    if (!address) errorObj.address = `Street address is required`
+    if (!city) errorObj.city = `City is required`
+    if (!state) errorObj.state = 'State is required'
+    if (!country) errorObj.country = `Country is required`
+    if (!lat) errorObj.lat = `Latitude is not valid`
+    if (!lng) errorObj.lng = `Longitude is not valid`
+    if (name.length > 50) errorObj.name = `Name must be less than 50 characters`
+    if (!description) errorObj.description = `Description is required`
+    if (!price) errorObj.price = `Pricce per day is required`
 
-    const newSpot2 = await Spot.findByPk(user.id, {
-        attributes: {
-            exclude: ['ownerId']
-        }
-    })
-    console.log(newSpot2)
+    if (Object.keys(errorObj).length > 0) {
+        errorObj.message = "Bad Request"
+        res.statusCode = 400;
+        return res.json(errorObj)
+    }
+    else {
+        const { user } = req
 
-    res.json(newSpot2)
+        const newSpot = await Spot.create({
+            address: address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price,
+            ownerId: user.id
+        })
 
+        const newSpot2 = await Spot.findByPk(user.id, {
+            attributes: {
+                exclude: ['ownerId']
+            }
+        })
+        console.log(newSpot2)
+
+        res.json(newSpot2)
+    }
 })
 
 module.exports = router;
