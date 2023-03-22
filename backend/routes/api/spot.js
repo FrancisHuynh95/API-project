@@ -255,17 +255,18 @@ Add an Image to a Spot based on the Spot's Id
 -----------------------------------------------------------------------------------------------------------
 */
 
-router.post('/:spotId/images', requireAuth, async (req,res) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
     const getSpotId = req.params.spotId
-    const {url, preview} = req.body
+    const { url, preview } = req.body
     const newImage = await SpotImage.create({
         url,
         preview,
-        spotId : getSpotId
+        spotId: getSpotId
     })
     const getNewImage = await SpotImage.findOne({
         where: {
-        url: url},
+            url: url
+        },
         attributes: {
             exclude: ['spotId', 'createdAt', 'updatedAt']
         }
@@ -279,11 +280,41 @@ Edit a spot
 ----------------------------------------------------------------------------------------------------------------------
 */
 
-router.put('/:spotId', requireAuth, async(req,res) => {
+router.put('/:spotId', requireAuth, async (req, res) => {
     const getSpotId = req.params.spotId
     const getSpot = await Spot.findByPk(getSpotId)
+    const {
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+    } = req.body
 
-    res.json(getSpot)
+    getSpot.address = address;
+    getSpot.city = city;
+    getSpot.state = state;
+    getSpot.country = country;
+    getSpot.lat = lat;
+    getSpot.lng = lng;
+    getSpot.name = name;
+    getSpot.description = description;
+    getSpot.price = price;
+
+    await getSpot.save()
+
+    const newGetSpot = getSpot.toJSON()
+    delete newGetSpot.createdAt
+    delete newGetSpot.updatedAt
+    delete newGetSpot.id
+    delete newGetSpot.ownerId
+
+    res.statusCode = 200;
+    res.json(newGetSpot)
 })
 
 module.exports = router;
