@@ -65,6 +65,10 @@ router.get('/', async (req, res) => {
 Get details of a spot from an id
 ---------------------------------------------------------------------------------------------------------------
 */
+/*
+Get details of a spot from an id
+---------------------------------------------------------------------------------------------------------------
+*/
 router.get('/:spotId', async (req,res) => {
     const getId = req.params.spotId
     const findSpot = await Spot.findAll({
