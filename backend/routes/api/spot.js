@@ -73,24 +73,13 @@ router.get('/:spotId', async (req,res) => {
         },
         include: [
             { model: Review },
-            { model: SpotImage }
+            { model: SpotImage },
+            {model: User}
         ]
     })
 
-    const findImages = await SpotImage.findAll({
-        where:{
-            id: getId
-        }
-    })
-
-    let imgArr = []
-    findImages.forEach(image => {
-        imgArr.push(image.toJSON())
-    })
-    
-    console.log(imgArr)
-
-    let newArr = []
+    let newArr = [];
+    let newArr2 = [];
     findSpot.forEach(spot => {
         newArr.push(spot.toJSON())
     })
@@ -109,8 +98,28 @@ router.get('/:spotId', async (req,res) => {
             spot.numReviews = 0
         }
         delete spot.Reviews
-    })
 
+
+        if(spot.SpotImages){
+            spot.SpotImages.forEach(image => {
+                newArr2.push({
+                    id: image.id,
+                    url: image.url,
+                    preview: image.preview
+                })
+            })
+            spot.SpotImages = newArr2
+
+            spot.Owner = {
+                id: spot.User.id,
+                firstName: spot.User.firstName,
+                lastName: spot.User.lastName
+            }
+            delete (spot.User)
+        }
+
+
+    })
     res.statusCode = 200;
     res.json({spots: newArr})
 
