@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 /*
 Get all spots
@@ -113,7 +113,7 @@ router.get('/current', requireAuth, async (req, res) => {
         delete spot.Reviews
     })
     res.statusCode = 200;
-    res.json(newArr)
+    res.json({newArr})
 
 })
 
@@ -239,15 +239,7 @@ router.post('/', requireAuth, async (req, res, next) => {
             price,
             ownerId: user.id
         })
-
-        const newSpot2 = await Spot.findByPk(user.id, {
-            attributes: {
-                exclude: ['ownerId']
-            }
-        })
-        console.log(newSpot2)
-
-        res.json(newSpot2)
+        res.json(newSpot)
     }
 })
 /*
@@ -377,5 +369,39 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
         message: "Successfully deleted"
     })
 })
+
+/*
+Get all reviews by Spot Id
+-------------------------------------------------------------------------------------------------------------------
+*/
+
+router.get('/:spotId/reviews', async (req,res) => {
+    const getSpotId = req.params.spotId;
+    const getReview = await Review.findAll({where: {
+        spotId: getSpotId
+    }, include:[
+        {model: User,
+        attributes: {
+            exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+        }},
+        {model: ReviewImage,
+        attributes: {
+            exclude: ['reviewId', 'createdAt', 'updatedAt' ]
+        }},
+    ]
+    })
+
+    if(getReview.length === 0){
+        res.statusCode = 404;
+        res.json({
+            message: `Spot couldn't be found`
+        })
+    }
+    res.json({getReview})
+})
+
+/*
+Create a review for a spot based on spot's id
+*/
 
 module.exports = router;

@@ -20,14 +20,20 @@ router.get('/current', requireAuth, async (req, res) => {
                     exclude: ['username', 'hashedPassword', 'email', 'createdAt', 'updatedAt']
                 },
             },
-            {model: Spot,
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'description']
-            }},
-            {model: ReviewImage,
-            attributes: {
-                exclude: ['reviewId', 'createdAt', 'updatedAt']
-            }}
+            {
+                model: Spot,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'description']
+                },
+
+                include: { model: SpotImage }
+            },
+            {
+                model: ReviewImage,
+                attributes: {
+                    exclude: ['reviewId', 'createdAt', 'updatedAt']
+                }
+            }
 
         ]
     })
@@ -37,8 +43,22 @@ router.get('/current', requireAuth, async (req, res) => {
             ownerId: user.id
         }
     })
-    console.log(getSpot)
-    //need to add previewImage to the spots object
+
+    const newArr = [];
+    getReviews.forEach(ele => {
+        newArr.push(ele.toJSON())
+    })
+    newArr.forEach(ele => {
+        ele.Spot.SpotImages.forEach(spot => {
+            if(spot.preview){
+                ele.Spot.previewImage = spot.url
+            }
+        })
+        if(!ele.Spot.previewImage) {
+            newArr.Spot.previewImage = 'No preview image'
+        }
+        delete ele.Spot.SpotImages
+    })
 
     const errorObj = {}
     const reviewObj = {}
@@ -51,22 +71,13 @@ router.get('/current', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    res.json(reviewObj)
+    res.json({review: newArr})
 })
 
 /*
 Get all Reviews by a Spot's Id
 */
-router.get('/:spotId/reviews', async(req,res) => {
-    const getSpotId = req.params.spotId
-    const getSpot = await Review.findByPk(getSpotId, {
-        include: [
-            {model: User},
-            {model: ReviewImage}
-        ]
-    })
-    res.json(getSpot)
-})
+
 
 /*
 Create a Review for a Spot based on the Spot's Id
@@ -84,30 +95,30 @@ Add an Image to a Review based on the Review's Id
 /*
 Edit a review
 */
-router.put('/:reviewId', requireAuth, async(req,res) => {
+router.put('/:reviewId', requireAuth, async (req, res) => {
     const getId = req.params.reviewId;
     const { user } = req;
-    const {review, stars } = req.body
+    const { review, stars } = req.body
     const getReview = await Review.findByPk(getId);
 
     let errorObj = {}
-    if(!review) {
+    if (!review) {
         errorObj.review = 'Review text is required'
     }
 
-    if(!stars && typeof(stars) !== 'integer' && stars < 1 && stars > 5){
-        errorObj.stars = 'Stars must be an integer from 1 to 5'
-    }
+    // if(!stars || typeof stars !== 'integer' || stars < 1 || stars > 5){
+    //      errorObj.stars = 'Stars must be an integer from 1 to 5'
+    // }
 
-    if(Object.keys(errorObj) > 0){
+    if (Object.keys(errorObj) > 0) {
         res.statusCode = 404;
         errorObj.statusCode = res.statusCode;
-        res.json(errorObj)
+        return res.json(errorObj)
     }
 
-    if(getReview.length === 0){
+    if (getReview.length === 0) {
         res.statusCode = 404;
-        res.json({
+        return res.json({
             message: `Review couldn't be found`
         })
     }
@@ -126,11 +137,11 @@ router.put('/:reviewId', requireAuth, async(req,res) => {
 Delete a review
 */
 
-router.delete('/:reviewId', requireAuth, async(req,res) => {
+router.delete('/:reviewId', requireAuth, async (req, res) => {
     const getId = req.params.reviewId
     const getReview = await Review.findByPk(getId)
 
-    if(!getReview){
+    if (!getReview) {
         res.statusCode = 404;
         res.json({
             message: `Review couldn't be found.`
