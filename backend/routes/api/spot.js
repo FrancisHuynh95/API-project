@@ -343,11 +343,20 @@ Delete a Spot
 router.delete('/:spotId', requireAuth, async(req,res) => {
     const getSpotId = req.params.spotId
     const getSpot = await Spot.findByPk(getSpotId)
+    const {user} = req;
+
 
     let errorObj = {}
     if(!getSpot) {
         res.statusCode = 404
         errorObj.message = `Spot couldn't be found`
+        return res.json(errorObj)
+    }
+
+    if(user.id !== getSpot.ownerId){
+        res.statusCode = 404
+        errorObj.message = `Authentication required`
+        errorObj.statusCode = res.statusCode
         return res.json(errorObj)
     }
     res.statusCode = 200;
