@@ -295,19 +295,30 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         price,
     } = req.body
 
+    const { user } = req
+
     const errorObj = {}
 
-    if(!address) errorObj.address = 'Street address is required'
-    if(!city) errorObj.city = 'City is required'
-    if(!state) errorObj.state = 'State is required'
-    if(!country) errorObj.country = 'Country is required'
-    if(!lat) errorObj.lat = 'Latitude is not valid'
-    if(!lng) errorObj.lng = 'Longitude is not valid'
-    if(name.length >= 50) errorObj.name = 'Name must be less than 50 characters'
-    if(!description) errorObj.description = 'Description is required'
-    if(!price) errorObj.price = 'Price per day is required'
 
-    if(Object.keys(errorObj).length){
+    if (!address) errorObj.address = 'Street address is required'
+    if (!city) errorObj.city = 'City is required'
+    if (!state) errorObj.state = 'State is required'
+    if (!country) errorObj.country = 'Country is required'
+    if (!lat) errorObj.lat = 'Latitude is not valid'
+    if (!lng) errorObj.lng = 'Longitude is not valid'
+    if (name.length >= 50) errorObj.name = 'Name must be less than 50 characters'
+    if (!description) errorObj.description = 'Description is required'
+    if (!price) errorObj.price = 'Price per day is required'
+
+    if (getSpot.userId !== user.id) {
+        res.statusCode = 404;
+        errorObj.message = `Authentiation required`
+        errorObj.statusCode = res.statusCode
+
+        return res.json(errorObj)
+    }
+
+    if (Object.keys(errorObj).length) {
         res.statusCode = 400;
         errorObj.message = 'Bad Request'
         res.json(errorObj)
@@ -340,20 +351,20 @@ Delete a Spot
 --------------------------------------------------------------------------------------------------------------------
 */
 
-router.delete('/:spotId', requireAuth, async(req,res) => {
+router.delete('/:spotId', requireAuth, async (req, res) => {
     const getSpotId = req.params.spotId
     const getSpot = await Spot.findByPk(getSpotId)
-    const {user} = req;
+    const { user } = req;
 
 
     let errorObj = {}
-    if(!getSpot) {
+    if (!getSpot) {
         res.statusCode = 404
         errorObj.message = `Spot couldn't be found`
         return res.json(errorObj)
     }
 
-    if(user.id !== getSpot.ownerId){
+    if (user.id !== getSpot.ownerId) {
         res.statusCode = 404
         errorObj.message = `Authentication required`
         errorObj.statusCode = res.statusCode
