@@ -1,4 +1,146 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
+
+
+/*
+Get all Reviews written by the current user
+*/
+router.get('/current', requireAuth, async (req, res) => {
+    const { user } = req;
+    const getReviews = await Review.findAll({
+        where: {
+            userId: user.id
+        },
+        include: [
+            {
+                model: User,
+                attributes: {
+                    exclude: ['username', 'hashedPassword', 'email', 'createdAt', 'updatedAt']
+                },
+            },
+            {model: Spot,
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'description']
+            }},
+            {model: ReviewImage,
+            attributes: {
+                exclude: ['reviewId', 'createdAt', 'updatedAt']
+            }}
+
+        ]
+    })
+
+    const getSpot = await Spot.findAll({
+        where: {
+            ownerId: user.id
+        }
+    })
+    console.log(getSpot)
+    //need to add previewImage to the spots object
+
+    const errorObj = {}
+    const reviewObj = {}
+    reviewObj.Reviews = getReviews
+
+    if (getReviews.length === 0) {
+        res.statusCode = 404
+        errorObj.message = `Authentication required`
+        errorObj.statusCode = res.statusCode
+        return res.json(errorObj)
+    }
+
+    res.json(reviewObj)
+})
+
+/*
+Get all Reviews by a Spot's Id
+*/
+router.get('/:spotId/reviews', async(req,res) => {
+    const getSpotId = req.params.spotId
+    const getSpot = await Review.findByPk(getSpotId, {
+        include: [
+            {model: User},
+            {model: ReviewImage}
+        ]
+    })
+    res.json(getSpot)
+})
+
+/*
+Create a Review for a Spot based on the Spot's Id
+*/
+
+/*
+Add an Image to a Review based on the Review's Id
+*/
+
+
+
+
+
+
+/*
+Edit a review
+*/
+router.put('/:reviewId', requireAuth, async(req,res) => {
+    const getId = req.params.reviewId;
+    const { user } = req;
+    const {review, stars } = req.body
+    const getReview = await Review.findByPk(getId);
+
+    let errorObj = {}
+    if(!review) {
+        errorObj.review = 'Review text is required'
+    }
+
+    if(!stars && typeof(stars) !== 'integer' && stars < 1 && stars > 5){
+        errorObj.stars = 'Stars must be an integer from 1 to 5'
+    }
+
+    if(Object.keys(errorObj) > 0){
+        res.statusCode = 404;
+        errorObj.statusCode = res.statusCode;
+        res.json(errorObj)
+    }
+
+    if(getReview.length === 0){
+        res.statusCode = 404;
+        res.json({
+            message: `Review couldn't be found`
+        })
+    }
+
+    getReview.review = review;
+    getReview.stars = stars;
+
+    await getReview.save()
+
+    res.json(getReview)
+})
+
+
+
+/*
+Delete a review
+*/
+
+router.delete('/:reviewId', requireAuth, async(req,res) => {
+    const getId = req.params.reviewId
+    const getReview = await Review.findByPk(getId)
+
+    if(!getReview){
+        res.statusCode = 404;
+        res.json({
+            message: `Review couldn't be found.`
+        })
+    }
+    await getReview.destroy()
+    res.statusCode = 200;
+    res.json({
+        message: "Successfully deleted"
+    })
+})
+
+module.exports = router
