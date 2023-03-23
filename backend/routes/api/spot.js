@@ -310,7 +310,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     if (!description) errorObj.description = 'Description is required'
     if (!price) errorObj.price = 'Price per day is required'
 
-    if (getSpot.userId !== user.id) {
+    if (getSpot.ownerId !== user.id) {
         res.statusCode = 404;
         errorObj.message = `Authentiation required`
         errorObj.statusCode = res.statusCode
