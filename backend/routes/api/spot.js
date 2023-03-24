@@ -251,6 +251,14 @@ Add an Image to a Spot based on the Spot's Id
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const getSpotId = req.params.spotId
     const { url, preview } = req.body
+    const getSpot = await Spot.findByPk(getSpotId)
+
+    if(!getSpot){
+        res.statusCode = 404;
+        return res.json({
+            message: `Spot couldn't be found`
+        })
+    }
     const newImage = await SpotImage.create({
         url,
         preview,
@@ -291,6 +299,13 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     const { user } = req
 
     const errorObj = { errors: {} }
+//edit a spot couldnt find a spot with id
+    if(!getSpot){
+        res.statusCode = 404;
+        return res.json({
+            message: `Spot couldn't be found`
+        })
+    }
 
 
     if (!address) errorObj.errors.address = 'Street address is required'
