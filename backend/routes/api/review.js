@@ -6,6 +6,7 @@ const { requireAuth } = require('../../utils/auth')
 
 /*
 Get all Reviews written by the current user
+broken on render might be bugged.. new user doesn't work, seeder user works
 */
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req;
@@ -119,6 +120,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 
 /*
 Edit a review
+broken on render
 */
 router.put('/:reviewId', requireAuth, async (req, res) => {
     const getId = req.params.reviewId;
