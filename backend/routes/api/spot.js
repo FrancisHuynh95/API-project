@@ -98,7 +98,6 @@ router.get('/current', requireAuth, async (req, res) => {
     })
 
     newArr.forEach(spot => {
-        // console.log(spot)
         const count = spot.Reviews.length
         let sum = 0;
         spot.Reviews.forEach(review => {
@@ -112,8 +111,10 @@ router.get('/current', requireAuth, async (req, res) => {
         }
         delete spot.Reviews
     })
+    const Reviews = newArr
+
     res.statusCode = 200;
-    res.json({ newArr })
+    res.json({ Reviews })
 
 })
 
@@ -207,17 +208,17 @@ router.post('/', requireAuth, async (req, res, next) => {
         price
     } = req.body
 
-    const errorObj = {}
+    const errorObj = { errors: {} }
 
-    if (!address) errorObj.address = `Street address is required`
-    if (!city) errorObj.city = `City is required`
-    if (!state) errorObj.state = 'State is required'
-    if (!country) errorObj.country = `Country is required`
-    if (!lat) errorObj.lat = `Latitude is not valid`
-    if (!lng) errorObj.lng = `Longitude is not valid`
-    if (name.length > 50) errorObj.name = `Name must be less than 50 characters`
-    if (!description) errorObj.description = `Description is required`
-    if (!price) errorObj.price = `Pricce per day is required`
+    if (!address) errorObj.errors = `Street address is required`
+    if (!city) errorObj.errors.City = `City is required`
+    if (!state) errorObj.errors.state = 'State is required'
+    if (!country) errorObj.errors.country = `Country is required`
+    if (!lat) errorObj.errors.lat = `Latitude is not valid`
+    if (!lng) errorObj.errors.lng = `Longitude is not valid`
+    if (name.length >= 50) errorObj.errors.name = `Name must be less than 50 characters`
+    if (!description) errorObj.errors.description = `Description is required`
+    if (!price) errorObj.errors.price = `Pricce per day is required`
 
     if (Object.keys(errorObj).length > 0) {
         errorObj.message = "Bad Request"
@@ -289,18 +290,18 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     const { user } = req
 
-    const errorObj = {}
+    const errorObj = { errors: {} }
 
 
-    if (!address) errorObj.address = 'Street address is required'
-    if (!city) errorObj.city = 'City is required'
-    if (!state) errorObj.state = 'State is required'
-    if (!country) errorObj.country = 'Country is required'
-    if (!lat) errorObj.lat = 'Latitude is not valid'
-    if (!lng) errorObj.lng = 'Longitude is not valid'
-    if (name.length >= 50) errorObj.name = 'Name must be less than 50 characters'
-    if (!description) errorObj.description = 'Description is required'
-    if (!price) errorObj.price = 'Price per day is required'
+    if (!address) errorObj.errors.address = 'Street address is required'
+    if (!city) errorObj.errors.city = 'City is required'
+    if (!state) errorObj.errors.state = 'State is required'
+    if (!country) errorObj.errors.country = 'Country is required'
+    if (!lat) errorObj.errors.lat = 'Latitude is not valid'
+    if (!lng) errorObj.errors.lng = 'Longitude is not valid'
+    if (name.length >= 50) errorObj.errors.name = 'Name must be less than 50 characters'
+    if (!description) errorObj.errors.description = 'Description is required'
+    if (!price) errorObj.errors.price = 'Price per day is required'
 
     if (getSpot.ownerId !== user.id) {
         res.statusCode = 404;
@@ -418,6 +419,13 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
         where:
             { userId: user.id }
     })
+    const getSpot = await Spot.findByPk(getSpotId)
+    if (!getSpot) {
+        res.statusCode = 404;
+        res.json({
+            message: `Spot couldn't be found`
+        })
+    }
 
     const errorObj = {};
     const newArr = []
@@ -436,9 +444,9 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
         errorObj.statusCode = res.statusCode
         return res.json(errorObj)
     } else {
-
-        if (!review) errorObj.review = 'Review text is required.'
-        if (!stars || stars > 5 || stars < 1 || typeof stars !== "number") errorObj.stars = 'Stars must be an integer from 1 to 5'
+        let newErrorObj = { errors: {} }
+        if (!review) newErrorObj.errors.review = 'Review text is required.'
+        if (!stars || stars > 5 || stars < 1 || typeof stars !== "number") newErrorObj.errors.stars = 'Stars must be an integer from 1 to 5'
 
 
         if (Object.keys(errorObj).length > 0) {
@@ -446,13 +454,17 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             errorObj.statusCode = res.statusCode;
             return res.json(errorObj)
         }
+        if (Object.keys(newErrorObj).length > 0) {
+            res.statusCode = 400;
+            res.json(newErrorObj)
+        }
         const newReview = await Review.create({
             review: review,
             stars: stars,
             spotId: +getSpotId,
             userId: +user.id
         })
-        res.statusCode = 200;
+        res.statusCode = 201;
         res.json(newReview)
     }
 })
@@ -515,21 +527,104 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 Create a Booking from a Spot based on the Spot's id
 */
 
-router.post('/:spotId/bookings', requireAuth, async(req,res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req;
     const getSpotId = req.params.spotId;
-    const findBooking = await Booking.findAll({where: {
-        spotId: getSpotId}
+    const { startDate, endDate } = req.body
+    const newStartDate = new Date(startDate)
+    const newEndDate = new Date(endDate)
+    const startDateTime = newStartDate.getTime()
+    const endDateTime = newEndDate.getTime()
+    const getSpot = await Spot.findByPk(getSpotId)
+    const today = new Date()
+    const todayTime = today.getTime()
+
+    if (user.id === getSpot.ownerId) {
+        res.statusCode = 404;
+        res.json({
+            message: "Owner cannot create a booking for their own spot"
+        })
+    }
+
+    const findBooking = await Booking.findAll({
+        where: {
+            spotId: getSpotId
+        }
     })
+
+    const findSpot = await Spot.findAll({
+        where: {
+            id: getSpotId
+        }
+    })
+
 
     const newArr = [];
     findBooking.forEach(booking => {
         newArr.push(booking.toJSON())
     })
+    let bookedStartDate
+    let bookedStartDateTime
+    let bookedEndDate
+    let bookedEndDateTime
+    let errorObj = {}
+    let errorObjConflicts = { errors: {} }
+
+    //spot must not belong to the current user
 
     newArr.forEach(ele => {
-        console.log(typeof ele.startDate)
+        bookedStartDate = new Date(ele.startDate)
+        bookedStartDateTime = bookedStartDate.getTime()
+        bookedEndDate = new Date(ele.endDate)
+        bookedEndDateTime = bookedEndDate.getTime()
+
+        if (startDateTime < bookedStartDateTime && endDateTime > bookedStartDateTime) {
+            errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`
+            errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
+        }
+        if (startDateTime > bookedStartDateTime && startDateTime < bookedEndDateTime) {
+            errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`;
+            errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
+        }
+
+        if (bookedStartDateTime > startDateTime && endDateTime > bookedEndDateTime) {
+            errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`;
+            errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
+            errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
+        }
+
     })
 
+    if (Object.keys(errorObjConflicts).length > 0) {
+        res.statusCode = 403;
+        return res.json(errorObjConflicts)
+    }
+
+    if (endDateTime <= bookedStartDateTime) {
+        res.statusCode = 400;
+        errorObj.message = `Bad Request`
+        errorObj.errors = {
+            endDate: "endDate cannot be on or before startDate"
+        }
+    }
+    if (findSpot.length === 0) {
+        errorObj.message = `Spot couldn't be found`
+        res.statusCode = 404;
+    }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = router;

@@ -16,13 +16,9 @@ module.exports = {
       },
       startDate: {
         type: Sequelize.DATE,
-        allowNull: false,
-        unique: true
       },
       endDate: {
         type: Sequelize.DATE,
-        allowNull: false,
-        unique: true
       },
       userId: {
         type: Sequelize.INTEGER,

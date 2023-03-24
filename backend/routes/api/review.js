@@ -82,16 +82,26 @@ Add an Image to a Review based on the Review's Id
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const getId = req.params.reviewId;
     const { url } = req.body;
+    const { user } = req;
 
     const getReviewImg = await ReviewImage.findAll({
         where: { reviewId: getId }
     })
 
+    const getReview = await Review.findByPk(getId)
+
+    if (getReview.userId !== user.id) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Authentication required"
+        })
+    }
+
     const newArr = []
     getReviewImg.forEach(ele => {
         newArr.push(ele.toJSON())
     })
-    if(!getReviewImg){
+    if (!getReviewImg) {
         res.statusCode = 404;
         res.json({
             message: `Review couldn't be found.`
@@ -99,9 +109,9 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     }
 
     console.log(newArr)
-    if(newArr.length > 10) {
+    if (newArr.length > 10) {
         res.statusCode = 403;
-       return res.json({
+        return res.json({
             message: "Maximum number of images for this resource was reached."
         })
     } else {
@@ -128,14 +138,29 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     const { review, stars } = req.body
     const getReview = await Review.findByPk(getId);
 
-    let errorObj = {}
-    if (!review) {
-        errorObj.review = 'Review text is required'
+    if (user.id !== getReview.userId) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Authentication required"
+        })
     }
 
-    // if(!stars || typeof stars !== 'integer' || stars < 1 || stars > 5){
-    //      errorObj.stars = 'Stars must be an integer from 1 to 5'
-    // }
+    let errorObj = { error: {} }
+    let newErrorObj = {}
+    if (stars < 1 || stars > 5) {
+        newErrorObj.errors.stars = "Stars must be an integer from 1 to 5"
+    }
+
+    if (review.length === 0) {
+        newErrorObj.errors.review = "Review text is required"
+    }
+
+    if (Object.keys(newErrorObj).length > 0) {
+        res.statusCode = 400;
+        res.newErrorObj.message = "Bad Request"
+        return res.json(newErrorObj)
+    }
+
 
     if (Object.keys(errorObj) > 0) {
         res.statusCode = 404;
@@ -143,35 +168,39 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    if (getReview.length === 0) {
+    if (!getReview.length) {
         res.statusCode = 404;
         return res.json({
             message: `Review couldn't be found`
         })
     }
-
     getReview.review = review;
     getReview.stars = stars;
-
     await getReview.save()
 
     res.json(getReview)
 })
-
-
 
 /*
 Delete a review
 */
 
 router.delete('/:reviewId', requireAuth, async (req, res) => {
+    const { user } = req
     const getId = req.params.reviewId
     const getReview = await Review.findByPk(getId)
 
     if (!getReview) {
         res.statusCode = 404;
-        res.json({
+        return res.json({
             message: `Review couldn't be found.`
+        })
+    }
+
+    if (user.id !== getReview.userId) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Authentication required"
         })
     }
     await getReview.destroy()
