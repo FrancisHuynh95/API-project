@@ -220,7 +220,7 @@ router.post('/', requireAuth, async (req, res, next) => {
     if (!description) errorObj.errors.description = `Description is required`
     if (!price) errorObj.errors.price = `Pricce per day is required`
 
-    if (Object.keys(errorObj).length > 0) {
+    if (Object.keys(errorObj.errors).length > 0) {
         errorObj.message = "Bad Request"
         res.statusCode = 400;
         return res.json(errorObj)
@@ -311,7 +311,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    if (Object.keys(errorObj).length) {
+    if (Object.keys(errorObj.errors).length) {
         res.statusCode = 400;
         errorObj.message = 'Bad Request'
         res.json(errorObj)
