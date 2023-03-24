@@ -50,11 +50,11 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     newArr.forEach(ele => {
         ele.Spot.SpotImages.forEach(spot => {
-            if(spot.preview){
+            if (spot.preview) {
                 ele.Spot.previewImage = spot.url
             }
         })
-        if(!ele.Spot.previewImage) {
+        if (!ele.Spot.previewImage) {
             newArr.Spot.previewImage = 'No preview image'
         }
         delete ele.Spot.SpotImages
@@ -71,23 +71,48 @@ router.get('/current', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    res.json({review: newArr})
+    res.json({ review: newArr })
 })
-
-/*
-Get all Reviews by a Spot's Id
-*/
-
-
-/*
-Create a Review for a Spot based on the Spot's Id
-*/
 
 /*
 Add an Image to a Review based on the Review's Id
 */
 
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    const getId = req.params.reviewId;
+    const { url } = req.body;
 
+    const getReviewImg = await ReviewImage.findAll({
+        where: { reviewId: getId }
+    })
+
+    const newArr = []
+    getReviewImg.forEach(ele => {
+        newArr.push(ele.toJSON())
+    })
+    if(!getReviewImg){
+        res.statusCode = 404;
+        res.json({
+            message: `Review couldn't be found.`
+        })
+    }
+
+    console.log(newArr)
+    if(newArr.length > 10) {
+        res.statusCode = 403;
+       return res.json({
+            message: "Maximum number of images for this resource was reached."
+        })
+    } else {
+
+        const newImg = await ReviewImage.create({
+            url,
+            reviewId: getId
+        })
+        res.statusCode = 200;
+        res.json(newImg)
+    }
+})
 
 
 
