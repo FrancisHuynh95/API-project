@@ -16,6 +16,7 @@ router.get('/current', requireAuth, async (req, res) => {
     })
 
     console.log(getBookings)
+    res.json(getBookings)
 })
 
 /*
@@ -31,26 +32,32 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     const endDateTime = new Date(endDate).getTime()
     const today = new Date().getTime()
 
-    if (getBooking.length === 0) {
+    if (!getBooking) {
         res.statusCode = 404;
         return res.json({
             message: `Booking couldn't be found`
         })
     }
 
-    if (user.id !== getBooking.ownerId) {
+    if (user.id !== getBooking.userId) {
         res.statusCode = 404;
         return res.json({
             message: 'Authentication Error'
         })
     }
-
-    if (today > startDateTime || today > endDateTime) {
+    if (today > startDateTime) {
         res.statusCode = 403;
         return res.json({
             message: `Past bookings can't be modified`
         })
     }
+    if (today > endDateTime) {
+        res.statusCode = 403;
+        return res.json({
+            message: `Can't set your end date in the past`
+        })
+    }
+
 
     if (endDateTime < startDateTime) {
         res.statusCode = 400;
@@ -58,10 +65,6 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             message: "endDate cannot come before startDate"
         })
     }
-    let newArr = []
-    getBooking.forEach(booking => {
-        newArr.push(booking.toJSON())
-    })
 
     let bookedStartDate
     let bookedStartDateTime
@@ -70,10 +73,9 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 
     let errorObjConflicts = {}
 
-    newArr.forEach(ele => {
-        bookedStartDate = new Date(ele.startDate)
+        bookedStartDate = new Date(getBooking.startDate)
         bookedStartDateTime = bookedStartDate.getTime()
-        bookedEndDate = new Date(ele.endDate)
+        bookedEndDate = new Date(getBooking.endDate)
         bookedEndDateTime = bookedEndDate.getTime()
 
         if (startDateTime < bookedStartDateTime && endDateTime > bookedStartDateTime) {
@@ -90,14 +92,16 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
         }
-    })
-
     if (Object.keys(errorObjConflicts).length > 0) {
         res.statusCode = 403;
         return res.json(errorObjConflicts)
     }
 
-    res.json(getBooking)
+    const newBooking = await getBooking.update({
+        startDate: startDate,
+        endDate: endDate
+    })
+    res.json(newBooking)
 })
 
 /*
@@ -113,7 +117,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
     let bookingStart = getBooking.startDate.getTime()
     let bookingEnd = getBooking.endDate.getTime()
 
-    if (user.id !== getSpot.userId || getBooking.ownerId !== user.id) {
+    if (user.id !== getSpot.ownerId || getBooking.userId !== user.id) {
         res.statusCode = 404;
         return res.json({
             message: `Authentication required`

@@ -253,7 +253,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { url, preview } = req.body
     const getSpot = await Spot.findByPk(getSpotId)
 
-    if(!getSpot){
+    if (!getSpot) {
         res.statusCode = 404;
         return res.json({
             message: `Spot couldn't be found`
@@ -299,8 +299,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     const { user } = req
 
     const errorObj = { errors: {} }
-//edit a spot couldnt find a spot with id
-    if(!getSpot){
+    //edit a spot couldnt find a spot with id
+    if (!getSpot) {
         res.statusCode = 404;
         return res.json({
             message: `Spot couldn't be found`
@@ -345,10 +345,6 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     await getSpot.save()
 
     const newGetSpot = getSpot.toJSON()
-    delete newGetSpot.createdAt
-    delete newGetSpot.updatedAt
-    delete newGetSpot.id
-    delete newGetSpot.ownerId
 
     res.statusCode = 200;
     res.json(newGetSpot)
@@ -393,7 +389,7 @@ Get all reviews by Spot Id
 
 router.get('/:spotId/reviews', async (req, res) => {
     const getSpotId = req.params.spotId;
-    const getReview = await Review.findAll({
+    const Reviews = await Review.findAll({
         where: {
             spotId: getSpotId
         }, include: [
@@ -412,13 +408,13 @@ router.get('/:spotId/reviews', async (req, res) => {
         ]
     })
 
-    if (getReview.length === 0) {
+    if (Reviews.length === 0) {
         res.statusCode = 404;
         res.json({
             message: `Spot couldn't be found`
         })
     }
-    res.json({ getReview })
+    res.json({ Reviews })
 })
 
 /*
@@ -454,10 +450,11 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
         }
     })
 
-    if (Object.keys(errorObj).length > 0) {
+    if ((errorObj.message)) {
         res.statusCode = 403;
         errorObj.statusCode = res.statusCode
         return res.json(errorObj)
+
     } else {
         let newErrorObj = { errors: {} }
         if (!review) newErrorObj.errors.review = 'Review text is required.'
@@ -469,7 +466,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             errorObj.statusCode = res.statusCode;
             return res.json(errorObj)
         }
-        if (Object.keys(newErrorObj).length > 0) {
+        if (Object.keys(newErrorObj.errors).length > 0) {
             res.statusCode = 400;
             res.json(newErrorObj)
         }
@@ -498,12 +495,12 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     })
     let getBooking
 
-    if (!getSpot) {
+    if (getSpot.length === 0) {
         let errorObj = {}
         res.statusCode = 404;
         errorObj.statusCode = 404;
         errorObj.message = `Spot couldn't be found`
-        return errorObj;
+        return res.json(errorObj);
     }
 
     const newArr = []
@@ -554,12 +551,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const today = new Date()
     const todayTime = today.getTime()
 
-    if (user.id === getSpot.ownerId) {
-        res.statusCode = 404;
-        res.json({
-            message: "Owner cannot create a booking for their own spot"
-        })
-    }
+    const theUserId = user.id
+
 
     const findBooking = await Booking.findAll({
         where: {
@@ -586,6 +579,30 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     let errorObjConflicts = { errors: {} }
 
     //spot must not belong to the current user
+    if (endDateTime <= startDateTime) {
+        res.statusCode = 400;
+        return res.json({
+            message: `Bad Request`,
+            errors: {
+                endDate: "endDate cannot be on or before startDate"
+            }
+        }
+        )
+    }
+    console.log(findSpot)
+    if (findSpot.length === 0) {
+        res.statusCode = 404;
+        return res.json({
+            message : `Spot couldn't be found`
+        })
+    }
+    if (user.id === getSpot.ownerId) {
+        res.statusCode = 404;
+        res.json({
+            message: "Owner cannot create a booking for their own spot"
+        })
+    }
+
 
     newArr.forEach(ele => {
         bookedStartDate = new Date(ele.startDate)
@@ -609,25 +626,33 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         }
 
     })
-
-    if (Object.keys(errorObjConflicts).length > 0) {
+    if (Object.keys(errorObjConflicts.errors).length > 0) {
         res.statusCode = 403;
         return res.json(errorObjConflicts)
     }
+    const newBooking = await Booking.create({
+        startDate: startDate,
+        endDate: endDate,
+        spotId: getSpotId,
+        userId: theUserId
+    })
 
-    if (endDateTime <= bookedStartDateTime) {
-        res.statusCode = 400;
-        errorObj.message = `Bad Request`
-        errorObj.errors = {
-            endDate: "endDate cannot be on or before startDate"
-        }
-    }
-    if (findSpot.length === 0) {
-        errorObj.message = `Spot couldn't be found`
-        res.statusCode = 404;
-    }
+
+
+    const newBooking2 = {}
+    newBooking2.id = newBooking.id
+    newBooking2.spotId = newBooking.spotId
+    newBooking2.userId = newBooking.userId
+    newBooking2.startDate = startDate
+    newBooking2.endDate = endDate
+    newBooking2.createdAt = today;
+    newBooking2.updatedAt = today;
+
+    res.statusCode = 200;
+    res.json(newBooking2)
+
+
 })
-
 
 
 

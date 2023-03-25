@@ -39,6 +39,8 @@ router.get('/current', requireAuth, async (req, res) => {
         ]
     })
 
+
+
     const getSpot = await Spot.findAll({
         where: {
             ownerId: user.id
@@ -49,14 +51,18 @@ router.get('/current', requireAuth, async (req, res) => {
     getReviews.forEach(ele => {
         newArr.push(ele.toJSON())
     })
+
     newArr.forEach(ele => {
         ele.Spot.SpotImages.forEach(spot => {
-            if (spot.preview) {
+            if (spot.preview === true) {
                 ele.Spot.previewImage = spot.url
             }
         })
         if (!ele.Spot.previewImage) {
-            newArr.Spot.previewImage = 'No preview image'
+            ele.Spot.previewImage = 'No preview image'
+        }
+        if(Object.values(ele.ReviewImages).length === 0){
+            ele.ReviewImages = "No Images Found"
         }
         delete ele.Spot.SpotImages
     })
@@ -72,7 +78,7 @@ router.get('/current', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    res.json({ review: newArr })
+    res.json({ Reviews: newArr })
 })
 
 /*
@@ -89,6 +95,13 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     })
 
     const getReview = await Review.findByPk(getId)
+
+    if(!getReview){
+        res.statusCode = 404;
+        return res.json({
+            message: `Review doesn't exist`
+        })
+    }
 
     if (getReview.userId !== user.id) {
         res.statusCode = 404;
@@ -120,8 +133,14 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
             url,
             reviewId: getId
         })
+
+        newImgContainer = {
+            id: newImg.id,
+            url: newImg.url
+        }
+
         res.statusCode = 200;
-        res.json(newImg)
+        res.json(newImgContainer)
     }
 })
 
@@ -130,13 +149,25 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 
 /*
 Edit a review
-broken on render
 */
 router.put('/:reviewId', requireAuth, async (req, res) => {
     const getId = req.params.reviewId;
     const { user } = req;
     const { review, stars } = req.body
-    const getReview = await Review.findByPk(getId);
+    const getReview = await Review.findByPk(getId)
+
+    if (!getReview) {
+        res.statusCode = 404;
+        return res.json({
+            message: `Review couldn't be found`
+        })
+    }
+
+    // const newArr = []
+    // getReview.forEach(review => {
+    //     newArr.push(review.toJSON())
+    // })
+
 
     if (user.id !== getReview.userId) {
         res.statusCode = 404;
@@ -144,6 +175,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
             message: "Authentication required"
         })
     }
+
 
     let errorObj = { error: {} }
     let newErrorObj = {}
@@ -168,17 +200,15 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
         return res.json(errorObj)
     }
 
-    if (!getReview.length) {
-        res.statusCode = 404;
-        return res.json({
-            message: `Review couldn't be found`
-        })
-    }
     getReview.review = review;
     getReview.stars = stars;
-    await getReview.save()
 
-    res.json(getReview)
+    const savedReview = await getReview.update({
+        review,
+        stars
+    })
+
+    res.json(savedReview)
 })
 
 /*
