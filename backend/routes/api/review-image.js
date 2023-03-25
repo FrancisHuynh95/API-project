@@ -12,14 +12,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     const { user } = req;
     const getImageId = req.params.imageId
     const getImage = await ReviewImage.findByPk(getImageId)
-    const getReview = await Review.findByPk(getImage.reviewId)
 
-    if (!getReview || getReview.userId !== user.id) {
-        res.statusCode = 404;
-        return res.json({
-            message: `Authentication required`
-        })
-    }
     if (!getImage) {
         res.statusCode = 404;
         return res.json({
@@ -27,6 +20,16 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
         })
     }
 
+    const getReview = await Review.findByPk(getImageId)
+
+
+    if (!getReview || getReview.userId !== user.id) {
+        res.statusCode = 404;
+        return res.json({
+            message: `Authentication required`
+        })
+    }
+ 
     await getImage.destroy()
     res.statusCode = 200;
     res.json({

@@ -495,6 +495,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     })
     let getBooking
 
+
     if (getSpot.length === 0) {
         let errorObj = {}
         res.statusCode = 404;
@@ -507,15 +508,17 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     getSpot.forEach(spot => {
         newArr.push(spot.toJSON())
     })
+    console.log(user.id)
+    console.log(newArr[0].ownerId)
     const id = parseInt(getId)
-    if (newArr[0].ownerId !== id) {
+    if (newArr[0].ownerId !== user.id) {
         getBooking = await Booking.findAll({
             where: {
                 spotId: id,
-                attributes: {
-                    exclude: ['id', 'userId', 'createdAt', 'updatedAt']
-                }
-            }
+            },
+            attributes: {
+                exclude: ['id', 'userId', 'createdAt', 'updatedAt']
+                        }
         })
     }
     else {

@@ -112,41 +112,53 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
     const { user } = req;
     const today = new Date().getTime()
     const getBooking = await Booking.findByPk(getBookingId)
-    const getSpot = await Spot.findByPk(user.id)
+    const getSpot = await Spot.findAll({where:{ownerId:user.id},include: {model: Booking, where: {id: getBookingId}}})
 
-    let bookingStart = getBooking.startDate.getTime()
-    let bookingEnd = getBooking.endDate.getTime()
 
-    if (user.id !== getSpot.ownerId || getBooking.userId !== user.id) {
-        res.statusCode = 404;
-        return res.json({
-            message: `Authentication required`
-        })
-    }
-
-    if (getBooking.length === 0) {
+    if (!getBooking) {
         res.statusCode = 404;
         return res.json({
             message: `Booking can't be found`
         })
     }
 
-    if (bookingStart <= today) {
-        res.statusCode = 403;
+
+    if(getSpot.length === 0){
+        res.statusCode = 404;
         return res.json({
-            message: `Bookings that have been started can't be deleted`
+            message: `Booking doesn't exist`
+        })
+    }
+    const newArr = []
+    getSpot.forEach(spot => {
+        newArr.push(spot.toJSON())
+  })
+
+  if(user.id !== newArr[0].ownerId || user.id !== newArr[0].Bookings[0].userId){
+      res.statusCode = 404;
+      return res.json({
+          message: "Unauthorized"
         })
     }
 
-    await getBooking.destroy()
-    res.statusCode = 200;
-    res.json({
-        message: `Successfully deleted`
+    let bookingStart = newArr[0].Bookings[0].startDate.getTime()
+    let bookingEnd = newArr[0].Bookings[0].endDate.getTime()
+
+  if(today >= bookingStart || today > bookingEnd){
+    res.statusCode = 403;
+    return res.json({
+        message: `Bookings that have been started can't be deleted`
     })
+  }
+
+//   console.log(newArr[0].Bookings)
+
+res.json({
+    message: "Need to fix"
+})
 
 
 })
-
 
 
 
