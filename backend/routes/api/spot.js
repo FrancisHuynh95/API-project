@@ -219,14 +219,14 @@ router.post('/', requireAuth, async (req, res, next) => {
     const errorObj = { errors: {} }
 
     if (!address) errorObj.errors.address = `Street address is required`
-    if (!city) errorObj.errors.City = `City is required`
+    if (!city) errorObj.errors.city = `City is required`
     if (!state) errorObj.errors.state = 'State is required'
     if (!country) errorObj.errors.country = `Country is required`
     if (!lat) errorObj.errors.lat = `Latitude is not valid`
     if (!lng) errorObj.errors.lng = `Longitude is not valid`
     if (name.length >= 50) errorObj.errors.name = `Name must be less than 50 characters`
     if (!description) errorObj.errors.description = `Description is required`
-    if (!price) errorObj.errors.price = `Pricce per day is required`
+    if (!price) errorObj.errors.price = `Price per day is required`
 
     if (Object.keys(errorObj.errors).length > 0) {
         errorObj.message = "Bad Request"
