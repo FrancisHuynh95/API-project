@@ -95,6 +95,14 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const { url } = req.body;
     const { user } = req;
 
+    if(Object.keys(req.body).length === 0){
+        res.statusCode = 400;
+        res.json({
+            title: "Bad Request",
+            message: "No input has been added"
+        })
+    }
+
     const getReviewImg = await ReviewImage.findAll({
         where: { reviewId: getId }
     })
@@ -109,9 +117,9 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     }
 
     if (getReview.userId !== user.id) {
-        res.statusCode = 404;
+        res.statusCode = 403;
         return res.json({
-            message: "Authentication required"
+            message: "Forbidden"
         })
     }
 
@@ -125,7 +133,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
             message: `Review couldn't be found.`
         })
     }
-    if (newArr.length > 10) {
+    if (newArr.length > 9) {
         res.statusCode = 403;
         return res.json({
             message: "Maximum number of images for this resource was reached."
@@ -168,14 +176,14 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     }
 
     if (user.id !== getReview.userId) {
-        res.statusCode = 404;
+        res.statusCode = 403;
         return res.json({
-            message: "Authentication required"
+            message: "Forbidden"
         })
     }
 
     let newErrorObj = {errors: {}}
-    if (stars < 1 || stars > 5) {
+    if (stars < 1 || stars > 5 || !stars) {
         newErrorObj.errors.stars = "Stars must be an integer from 1 to 5"
     }
 
@@ -217,9 +225,9 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     }
 
     if (user.id !== getReview.userId) {
-        res.statusCode = 404;
+        res.statusCode = 403;
         return res.json({
-            message: "Authentication required"
+            message: "Forbidden"
         })
     }
     await getReview.destroy()

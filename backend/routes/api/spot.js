@@ -24,49 +24,49 @@ router.get('/', async (req, res) => {
     maxPrice = +maxPrice
 
 
-    if (page < 1 && isNaN(page)) {
+    if (page < 1 || isNaN(page)) {
         queryErrors.errors.page = "Page must be greater than or equal to 1"
     }
-    if (size < 1 && isNaN(size)) {
+    if (size < 1 || isNaN(size)) {
         queryErrors.errors.size = "Size must be greater than or equal to 1"
     }
     if (minLat) {
-        if (minLat < -90 && isNaN(minLat)) {
+        if (minLat < -90 || isNaN(minLat)) {
             queryErrors.errors.minLat = "Minimum latitude is invalid"
         } else {
             where.lat = { [Op.gte]: minLat }
         }
     }
     if (maxLat) {
-        if (maxLat > 90 && maxLat && isNaN(maxLat)) {
+        if (maxLat > 90 || maxLat || isNaN(maxLat)) {
             queryErrors.errors.maxLat = "Maximum latitude is invalid"
         } else {
             where.lat = { [Op.lte]: +maxLat }
         }
     }
     if (minLng) {
-        if (minLng < -180 && isNaN(minLng)) {
+        if (minLng < -180 || isNaN(minLng)) {
             queryErrors.errors.minLng = "Minimum longitude is invalid"
         } else {
             where.lng = { [Op.gte]: +minLng }
         }
     }
     if (maxLng) {
-        if (maxLng > 180 && maxLng && isNaN(maxLng)) {
+        if (maxLng > 180 || maxLng || isNaN(maxLng)) {
             queryErrors.errors.maxLng = "Maximum longitude is invalid"
         } else {
             where.lng = { [Op.lte]: +maxLng }
         }
     }
     if (minPrice) {
-        if (minPrice < 0 && minPrice && isNaN(minPrice)) {
+        if (minPrice < 0 || minPrice || isNaN(minPrice)) {
             queryErrors.errors.minPrice = "Minimum price must be greater than or equal to 0"
         } else {
             where.price = { [Op.gte]: +minPrice }
         }
     }
     if (maxPrice) {
-        if (maxPrice < 0 && maxPrice && isNaN(maxPrice)) {
+        if (maxPrice < 0 || maxPrice || isNaN(maxPrice)) {
             queryErrors.errors.maxPrice = "Maximum price must be greater than or equal to 0"
         } else {
             where.price = { [Op.lte]: maxPrice }
@@ -181,24 +181,24 @@ router.get('/current', requireAuth, async (req, res) => {
         delete spot.SpotImages
     })
 
-    newArr.forEach(spot => {
-        const count = spot.Reviews.length
+    newArr.forEach(spot1 => {
+        const count = spot1.Reviews.length
         let sum = 0;
-        spot.Reviews.forEach(review => {
+        spot1.Reviews.forEach(review => {
             sum += review.stars
             if (count) {
-                spot.avgRating = (sum / count).toFixed(1)
+                spot1.avgRating = (sum / count).toFixed(1)
             }
         })
-        if (!spot.avgRating) {
-            spot.avgRating = 'No rating recorded'
+        if (!spot1.avgRating) {
+            spot1.avgRating = 'No rating recorded'
         }
-        delete spot.Reviews
+        delete spot1.Reviews
     })
-    const Spot = newArr
+    let newSpot = {Spot: newArr}
 
     res.statusCode = 200;
-    res.json({ Spot })
+    res.json(newSpot)
 
 })
 
@@ -295,7 +295,7 @@ router.post('/', requireAuth, async (req, res, next) => {
         price
     } = req.body
 
-    if(!req.body){
+    if(Object.keys(req.body).length === 0){
         res.statusCode = 400;
         return res.json({
             title: "Bad Request",
@@ -350,6 +350,14 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { user } = req;
     const getSpot = await Spot.findByPk(getSpotId)
 
+    if(Object.keys(req.body).length === 0){
+        res.statusCode = 400;
+        res.json({
+            title: "Bad Request",
+            message: "No input has been added"
+        })
+    }
+
     if (!getSpot) {
         res.statusCode = 404;
         return res.json({
@@ -371,7 +379,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     let newImage2 = {}
     newImage2.url = newImage.url;
     newImage2.preview = newImage.preview;
-    newImage2.spotId = newImage.spotId
+    newImage2.id = newImage.id
 
 
     res.statusCode = 200;
@@ -397,6 +405,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         description,
         price,
     } = req.body
+    console.log('test')
 
     const { user } = req
     const errorObj = { errors: {} }
@@ -409,22 +418,21 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         })
     }
 
-
-    if (!address) errorObj.errors.address = 'Street address is required'
-    if (!city) errorObj.errors.city = 'City is required'
-    if (!state) errorObj.errors.state = 'State is required'
-    if (!country) errorObj.errors.country = 'Country is required'
-    if (!lat) errorObj.errors.lat = 'Latitude is not valid'
-    if (!lng) errorObj.errors.lng = 'Longitude is not valid'
-    if (name.length >= 50) errorObj.errors.name = 'Name must be less than 50 characters'
-    if (!description) errorObj.errors.description = 'Description is required'
-    if (!price) errorObj.errors.price = 'Price per day is required'
-
     if (getSpot.ownerId !== user.id) {
         res.statusCode = 403;
         errorObj.message = `Forbidden`
         return res.json(errorObj2)
     }
+    if (!address) errorObj.errors.address = 'Street address is required'
+    if (!city) errorObj.errors.city = 'City is required'
+    if (!state) errorObj.errors.state = 'State is required'
+    if (!country) errorObj.errors.country = 'Country is required'
+    if (!lat || +lat > 90 || +lat < -90 ) errorObj.errors.lat = 'Latitude is not valid'
+    if (!lng || +lng > 180 || +lng < -180) errorObj.errors.lng = 'Longitude is not valid'
+    if (name.length >= 50) errorObj.errors.name = 'Name must be less than 50 characters'
+    if (!description) errorObj.errors.description = 'Description is required'
+    if (!price) errorObj.errors.price = 'Price per day is required'
+
 
     if (Object.keys(errorObj.errors).length) {
         res.statusCode = 400;
@@ -547,6 +555,13 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     const getSpotIdInt = +getSpotId
     const { user } = req;
     const { review, stars } = req.body;
+    if(Object.keys(req.body).length === 0){
+        res.statusCode = 400;
+        return res.json({
+            title: "Bad request",
+            message: "Must have an input for review and stars"
+        })
+    }
     const getReview = await Review.findAll({
         where:
             { userId: user.id }
@@ -669,6 +684,13 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req;
     const getSpotId = req.params.spotId;
     const { startDate, endDate } = req.body
+    if(Object.keys(req.body).length === 0){
+        res.statusCode = 400;
+        return res.json( {
+            title: "Bad Request",
+            message : "Must have an input for startDate and endDate"
+        })
+    }
     const newStartDate = new Date(startDate)
     const newEndDate = new Date(endDate)
     const startDateTime = newStartDate.getTime()
