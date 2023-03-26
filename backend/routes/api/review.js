@@ -10,6 +10,12 @@ broken on render might be bugged.. new user doesn't work, seeder user works
 */
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req;
+    if(!user){
+        res.statusCode = 401;
+        return res.json({
+            message: `Authentication required`
+        })
+    }
     const getReviews = await Review.findAll({
         where: {
             userId: user.id
@@ -38,8 +44,6 @@ router.get('/current', requireAuth, async (req, res) => {
 
         ]
     })
-
-
 
     const getSpot = await Spot.findAll({
         where: {
@@ -71,11 +75,12 @@ router.get('/current', requireAuth, async (req, res) => {
     const reviewObj = {}
     reviewObj.Reviews = getReviews
 
+
     if (getReviews.length === 0) {
-        res.statusCode = 404
-        errorObj.message = `Authentication required`
-        errorObj.statusCode = res.statusCode
-        return res.json(errorObj)
+        res.statusCode = 200
+        return res.json({
+            message: "User has no reviews"
+        })
     }
 
     res.json({ Reviews: newArr })
@@ -99,7 +104,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     if(!getReview){
         res.statusCode = 404;
         return res.json({
-            message: `Review doesn't exist`
+            message: `Review couldn't be found.`
         })
     }
 
@@ -120,8 +125,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
             message: `Review couldn't be found.`
         })
     }
-
-    console.log(newArr)
     if (newArr.length > 10) {
         res.statusCode = 403;
         return res.json({
@@ -156,18 +159,13 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     const { review, stars } = req.body
     const getReview = await Review.findByPk(getId)
 
+
     if (!getReview) {
         res.statusCode = 404;
         return res.json({
             message: `Review couldn't be found`
         })
     }
-
-    // const newArr = []
-    // getReview.forEach(review => {
-    //     newArr.push(review.toJSON())
-    // })
-
 
     if (user.id !== getReview.userId) {
         res.statusCode = 404;
@@ -176,9 +174,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
         })
     }
 
-
-    let errorObj = { error: {} }
-    let newErrorObj = {}
+    let newErrorObj = {errors: {}}
     if (stars < 1 || stars > 5) {
         newErrorObj.errors.stars = "Stars must be an integer from 1 to 5"
     }
@@ -187,17 +183,10 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
         newErrorObj.errors.review = "Review text is required"
     }
 
-    if (Object.keys(newErrorObj).length > 0) {
+    if (Object.keys(newErrorObj.errors).length > 0) {
         res.statusCode = 400;
-        res.newErrorObj.message = "Bad Request"
+        newErrorObj.message = "Bad Request"
         return res.json(newErrorObj)
-    }
-
-
-    if (Object.keys(errorObj) > 0) {
-        res.statusCode = 404;
-        errorObj.statusCode = res.statusCode;
-        return res.json(errorObj)
     }
 
     getReview.review = review;
