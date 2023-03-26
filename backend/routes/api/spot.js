@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
         spot.Reviews.forEach(review => {
             sum += review.stars
             if (count) {
-                spot.avgRating = sum / count
+                spot.avgRating = (sum / count).toFixed(1)
             }
         })
         if (!spot.avgRating) {
@@ -110,7 +110,7 @@ router.get('/current', requireAuth, async (req, res) => {
         spot.Reviews.forEach(review => {
             sum += review.stars
             if (count) {
-                spot.avgRating = sum / count
+                spot.avgRating = (sum / count).toFixed(1)
             }
         })
         if (!spot.avgRating) {
@@ -159,7 +159,7 @@ router.get('/:spotId', async (req, res, next) => {
         spot.Reviews.forEach(review => {
             sum += review.stars
             if (count) {
-                spot.avgStarRating = sum / count
+                spot.avgStarRating = (sum / count).toFixed(1)
                 spot.numReviews = count
             }
         })
@@ -499,7 +499,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req
     const getSpot = await Spot.findAll({
         where: {
-            Id: getId
+            id: getId
         }
     })
     let getBooking
@@ -628,6 +628,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         bookedStartDateTime = bookedStartDate.getTime()
         bookedEndDate = new Date(ele.endDate)
         bookedEndDateTime = bookedEndDate.getTime()
+
 
         if (startDateTime < bookedStartDateTime && endDateTime > bookedStartDateTime) {
             errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`
