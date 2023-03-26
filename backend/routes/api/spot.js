@@ -2,16 +2,93 @@ const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
+const { Op } = require('sequelize')
 /*
 Get all spots
 ------------------------------------------------------------------------------------------------------------
 */
 router.get('/', async (req, res) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+    let where = {}
+    let queryErrors = { errors: {} }
+    if (!page) page = 1
+    if (!size) size = 20
+
+    page = +page
+    size = +size
+    minLat = +minLat
+    maxLat = +maxLat
+    minLng = +minLng
+    maxLng = +maxLng
+    minPrice = +minPrice
+    maxPrice = +maxPrice
+
+
+    if (page < 1 && isNaN(page)) {
+        queryErrors.errors.page = "Page must be greater than or equal to 1"
+    }
+    if (size < 1 && isNaN(size)) {
+        queryErrors.errors.size = "Size must be greater than or equal to 1"
+    }
+    if (minLat) {
+        if (minLat < -90 && isNaN(minLat)) {
+            queryErrors.errors.minLat = "Minimum latitude is invalid"
+        } else {
+            where.lat = { [Op.gte]: minLat }
+        }
+    }
+    if (maxLat) {
+        if (maxLat > 90 && maxLat && isNaN(maxLat)) {
+            queryErrors.errors.maxLat = "Maximum latitude is invalid"
+        } else {
+            where.lat = { [Op.lte]: +maxLat }
+        }
+    }
+    if (minLng) {
+        if (minLng < -180 && isNaN(minLng)) {
+            queryErrors.errors.minLng = "Minimum longitude is invalid"
+        } else {
+            where.lng = { [Op.gte]: +minLng }
+        }
+    }
+    if (maxLng) {
+        if (maxLng > 180 && maxLng && isNaN(maxLng)) {
+            queryErrors.errors.maxLng = "Maximum longitude is invalid"
+        } else {
+            where.lng = { [Op.lte]: +maxLng }
+        }
+    }
+    if (minPrice) {
+        if (minPrice < 0 && minPrice && isNaN(minPrice)) {
+            queryErrors.errors.minPrice = "Minimum price must be greater than or equal to 0"
+        } else {
+            where.price = { [Op.gte]: +minPrice }
+        }
+    }
+    if (maxPrice) {
+        if (maxPrice < 0 && maxPrice && isNaN(maxPrice)) {
+            queryErrors.errors.maxPrice = "Maximum price must be greater than or equal to 0"
+        } else {
+            where.price = { [Op.lte]: maxPrice }
+        }
+    }
+    if (Object.keys(queryErrors.errors).length > 0) {
+        res.statusCode = 400;
+        queryErrors.message = `Bad Request`;
+        return res.json(queryErrors)
+    }
+    let limit = size
+    let offset = size * (page - 1)
+    console.log('SDFGKJFDKSJFSDKLJ', limit, offset, size)
+
     const getAll = await Spot.findAll({
+        where,
         include: [
             { model: Review },
             { model: SpotImage }
-        ]
+        ],
+        limit: limit,
+        offset: offset
     })
     let newArr = []
     getAll.forEach(spot => {
@@ -57,7 +134,7 @@ router.get('/', async (req, res) => {
     })
 
     res.statusCode = 200;
-    res.json({ spots: newArr })
+    res.json({ spots: newArr, page, size })
 })
 
 
@@ -79,7 +156,7 @@ router.get('/current', requireAuth, async (req, res) => {
             ]
     })
 
-    if(userSpot.length === 0 ){
+    if (userSpot.length === 0) {
         res.statusCode = 200;
         res.json({
             message: `User doesn't have spots.`
@@ -178,7 +255,7 @@ router.get('/:spotId', async (req, res, next) => {
                     preview: image.preview
                 })
             })
-            if(newArr2.length === 0){
+            if (newArr2.length === 0) {
                 spot.SpotImages = `Spot doesn't have any images`
             } else {
                 spot.SpotImages = newArr2
@@ -191,7 +268,6 @@ router.get('/:spotId', async (req, res, next) => {
             }
             delete (spot.User)
         }
-
 
     })
     res.statusCode = 200;
@@ -273,7 +349,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             message: `Spot couldn't be found`
         })
     }
-    if(getSpot.ownerId !== user.id){
+    if (getSpot.ownerId !== user.id) {
         res.statusCode = 403;
         res.json({
             message: "Forbidden"
@@ -401,43 +477,46 @@ Get all reviews by Spot Id
 
 router.get('/:spotId/reviews', async (req, res) => {
     const getSpotId = req.params.spotId;
-    const getSpot = await Spot.findOne({where: {
-        id: getSpotId
-    },
-    include: [
-        {model:Review, include: [
-            {model: ReviewImage},
-            {model: User}
-        ]}
-    ]
-})
-    if(!getSpot){
+    const getSpot = await Spot.findOne({
+        where: {
+            id: getSpotId
+        },
+        include: [
+            {
+                model: Review, include: [
+                    { model: ReviewImage },
+                    { model: User }
+                ]
+            }
+        ]
+    })
+    if (!getSpot) {
         res.statusCode = 404;
         return res.json({
             message: `Spot couldn't be found`
         })
     }
-    if(!getSpot.Reviews.length){
+    if (!getSpot.Reviews.length) {
         res.statusCode = 200;
         return res.json({
             message: `Spot doesn't have any reviews`
         })
     }
 
-    if(getSpot.Reviews.ReviewImages){
+    if (getSpot.Reviews.ReviewImages) {
         getSpot.Reviews.ReviewImages = `Spot doesn't have any review images`
     }
     let newSpot = getSpot.toJSON()
     let reviews = []
-    for(let review of newSpot.Reviews){
-        if(review.ReviewImages){
+    for (let review of newSpot.Reviews) {
+        if (review.ReviewImages) {
             review.ReviewImages.forEach(image => {
                 delete image.createdAt
                 delete image.updatedAt
                 delete image.reviewId
             })
         }
-        if(review.ReviewImages.length === 0){
+        if (review.ReviewImages.length === 0) {
             review.ReviewImages = `Review doesn't have images`
         }
         delete review.User.username
@@ -545,7 +624,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
             },
             attributes: {
                 exclude: ['id', 'userId', 'createdAt', 'updatedAt']
-                        }
+            }
         })
     }
     else {
@@ -560,7 +639,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
             }
         })
     }
-    if(getBooking.length === 0){
+    if (getBooking.length === 0) {
         res.json({
             message: `No bookings found`
         })
@@ -632,7 +711,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     if (findSpot.length === 0) {
         res.statusCode = 404;
         return res.json({
-            message : `Spot couldn't be found`
+            message: `Spot couldn't be found`
         })
     }
     if (user.id === getSpot.ownerId) {
