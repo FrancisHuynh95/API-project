@@ -470,8 +470,8 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     }
 
     if (user.id !== getSpot.ownerId) {
-        res.statusCode = 404
-        errorObj.message = `Authentication required`
+        res.statusCode = 403
+        errorObj.message = `Forbidden`
         return res.json(errorObj)
     }
     res.statusCode = 200;
