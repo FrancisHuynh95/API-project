@@ -218,7 +218,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     const errorObj = { errors: {} }
 
-    if (!address) errorObj.errors = `Street address is required`
+    if (!address) errorObj.errors.address = `Street address is required`
     if (!city) errorObj.errors.City = `City is required`
     if (!state) errorObj.errors.state = 'State is required'
     if (!country) errorObj.errors.country = `Country is required`
