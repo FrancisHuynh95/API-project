@@ -178,7 +178,11 @@ router.get('/:spotId', async (req, res, next) => {
                     preview: image.preview
                 })
             })
-            spot.SpotImages = newArr2
+            if(newArr2.length === 0){
+                spot.SpotImages = `Spot doesn't have any images`
+            } else {
+                spot.SpotImages = newArr2
+            }
 
             spot.Owner = {
                 id: spot.User.id,
@@ -260,6 +264,7 @@ Add an Image to a Spot based on the Spot's Id
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const getSpotId = req.params.spotId
     const { url, preview } = req.body
+    const { user } = req;
     const getSpot = await Spot.findByPk(getSpotId)
 
     if (!getSpot) {
@@ -268,13 +273,19 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
             message: `Spot couldn't be found`
         })
     }
+    if(getSpot.ownerId !== user.id){
+        res.statusCode = 403;
+        res.json({
+            message: "Forbidden"
+        })
+    }
     const newImage = await SpotImage.create({
         url,
         preview,
         spotId: getSpotId
     })
 
-    console.log(req.body)
+
     res.statusCode = 200;
     res.json(newImage)
 })
@@ -300,8 +311,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     } = req.body
 
     const { user } = req
-
     const errorObj = { errors: {} }
+    const errorObj2 = {}
     //edit a spot couldnt find a spot with id
     if (!getSpot) {
         res.statusCode = 404;
@@ -330,8 +341,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     if (Object.keys(errorObj.errors).length) {
         res.statusCode = 400;
-        errorObj.message = 'Bad Request'
-        res.json(errorObj)
+        errorObj2.message = 'Bad Request'
+        res.json(errorObj2)
     }
 
     getSpot.address = address;
@@ -412,14 +423,23 @@ router.get('/:spotId/reviews', async (req, res) => {
             message: `Spot doesn't have any reviews`
         })
     }
+
+    if(getSpot.Reviews.ReviewImages){
+        getSpot.Reviews.ReviewImages = `Spot doesn't have any review images`
+    }
     let newSpot = getSpot.toJSON()
     let reviews = []
     for(let review of newSpot.Reviews){
-        review.ReviewImages.forEach(image => {
-            delete image.createdAt
-            delete image.updatedAt
-            delete image.reviewId
-        })
+        if(review.ReviewImages){
+            review.ReviewImages.forEach(image => {
+                delete image.createdAt
+                delete image.updatedAt
+                delete image.reviewId
+            })
+        }
+        if(review.ReviewImages.length === 0){
+            review.ReviewImages = `Review doesn't have images`
+        }
         delete review.User.username
         reviews.push(review)
     }
@@ -649,7 +669,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
         }
-        if (bookedStartDateTime < todayTime || todayTime > bookedEndDateTime) {
+        if (startDateTime < todayTime || todayTime > endDateTime) {
             errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
         }
 

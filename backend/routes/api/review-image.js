@@ -29,7 +29,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
             message: `Authentication required`
         })
     }
- 
+
     await getImage.destroy()
     res.statusCode = 200;
     res.json({
