@@ -428,7 +428,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     if (Object.keys(errorObj.errors).length) {
         res.statusCode = 400;
-        errorObj.message = 'Bad Request'
+        errorObj.title = 'Bad Request'
+        errorObj.message = "Nothing has been inputted"
         return res.json(errorObj)
     }
 
