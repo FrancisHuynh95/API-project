@@ -12,15 +12,37 @@ router.get('/current', requireAuth, async (req, res) => {
     const getBookings = await Booking.findAll({
         where: {
             userId: user.id
-        }
+        }, include: [
+            {model: Spot, include: {model: SpotImage},attributes: {
+                exclude: ['createdAt', 'updatedAt', 'description']
+            }},
+        ]
     })
+
+    let newArr = []
+    getBookings.forEach(booking => {
+        newArr.push(booking.toJSON())
+    })
+
+    newArr.forEach(ele => {
+       ele.Spot.SpotImages.forEach(image => {
+            if(image.preview === true){
+                ele.Spot.previewImage = image.url
+            }
+       })
+       if(!ele.Spot.previewImage){
+        ele.Spot.previewImage = `No images found`
+    }
+    delete ele.Spot.SpotImages
+    })
+
     if (getBookings.length === 0) {
         res.statusCode = 200;
         res.json({
             message: `There are no bookings`
         })
     }
-    res.json(getBookings)
+    res.json({Bookings: newArr})
 })
 
 /*

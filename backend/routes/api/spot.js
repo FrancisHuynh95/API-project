@@ -134,7 +134,7 @@ router.get('/', async (req, res) => {
     })
 
     res.statusCode = 200;
-    res.json({ spots: newArr, page, size })
+    res.json({ Spots: newArr, page, size })
 })
 
 
@@ -271,8 +271,7 @@ router.get('/:spotId', async (req, res, next) => {
 
     })
     res.statusCode = 200;
-    res.json({ spots: newArr })
-
+    res.json(...newArr)
 
 })
 
@@ -361,9 +360,14 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         spotId: getSpotId
     })
 
+    let newImage2 = {}
+    newImage2.url = newImage.url;
+    newImage2.preview = newImage.preview;
+    newImage2.spotId = newImage.spotId
+
 
     res.statusCode = 200;
-    res.json(newImage)
+    res.json(newImage2)
 })
 
 /*
@@ -523,7 +527,7 @@ router.get('/:spotId/reviews', async (req, res) => {
         reviews.push(review)
     }
 
-    return res.json(reviews)
+    return res.json({Reviews: reviews})
 })
 
 /*
