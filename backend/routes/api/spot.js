@@ -195,10 +195,10 @@ router.get('/current', requireAuth, async (req, res) => {
         }
         delete spot.Reviews
     })
-    const Reviews = newArr
+    const Spot = newArr
 
     res.statusCode = 200;
-    res.json({ Reviews })
+    res.json({ Spot })
 
 })
 
@@ -294,6 +294,14 @@ router.post('/', requireAuth, async (req, res, next) => {
         description,
         price
     } = req.body
+
+    if(!req.body){
+        res.statusCode = 400;
+        return res.json({
+            title: "Bad Request",
+            message: "Nothing has been inputted"
+        })
+    }
 
     const errorObj = { errors: {} }
 
@@ -415,14 +423,13 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     if (getSpot.ownerId !== user.id) {
         res.statusCode = 403;
         errorObj.message = `Forbidden`
-
-        return res.json(errorObj)
+        return res.json(errorObj2)
     }
 
     if (Object.keys(errorObj.errors).length) {
         res.statusCode = 400;
-        errorObj2.message = 'Bad Request'
-        res.json(errorObj2)
+        errorObj.message = 'Bad Request'
+        return res.json(errorObj)
     }
 
     getSpot.address = address;
