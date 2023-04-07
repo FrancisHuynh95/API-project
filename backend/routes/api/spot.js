@@ -79,7 +79,7 @@ router.get('/', async (req, res) => {
     }
     let limit = size
     let offset = size * (page - 1)
-    console.log('SDFGKJFDKSJFSDKLJ', limit, offset, size)
+
 
     const getAll = await Spot.findAll({
         where,
@@ -118,7 +118,7 @@ router.get('/', async (req, res) => {
     For Reviews
     */
     newArr.forEach(spot => {
-        // console.log(spot)
+   
         const count = spot.Reviews.length
         let sum = 0;
         spot.Reviews.forEach(review => {
@@ -405,7 +405,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         description,
         price,
     } = req.body
-    console.log('test')
+
 
     const { user } = req
     const errorObj = { errors: {} }
