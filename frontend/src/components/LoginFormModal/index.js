@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/modal";
+import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -23,6 +23,13 @@ function LoginFormModal() {
         }
       });
   };
+
+  const demoUser = (e) => {
+    const credential = 'FakeUser2'
+    const password = 'password3'
+    return dispatch(sessionActions.login({ credential, password}))
+      .then(closeModal)
+  }
 
   return (
     <>
@@ -50,6 +57,7 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <button onClick={demoUser}>Demo User</button>
       </form>
     </>
   );

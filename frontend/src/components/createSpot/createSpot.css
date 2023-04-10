@@ -1,0 +1,39 @@
+.section1{
+    border-bottom: 1px solid red;
+}
+.section2{
+    border-bottom: 1px solid red;
+}
+.section3{
+    border-bottom: 1px solid red;
+}
+.section4{
+    border-bottom: 1px solid red;
+}
+.section5{
+    border-bottom: 1px solid red;
+    display: flex;
+    flex-direction: column
+}
+
+.userInput {
+    background-color: rgb(184, 211, 250);
+}
+
+.lat-lng {
+    display: flex;
+    gap: 5px
+}
+
+.city-state {
+    display: flex;
+    gap: 5px
+}
+.errors {
+    color:red
+}
+
+.text {
+    display: flex;
+    gap: 10px;
+}
