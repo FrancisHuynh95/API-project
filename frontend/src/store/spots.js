@@ -57,8 +57,8 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
     }
 }
 
-const initialState = { allSpots: {},  }
-singleSpot: {}
+const initialState = { allSpots: {}, singleSpot: {} }
+
 const spotReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
@@ -68,7 +68,7 @@ const spotReducer = (state = initialState, action) => {
                 newState[spot.id] = spot
             })
             return newState
-            
+
         } case CREATESPOTS: {
             if (!state[action.Spot.id]) {
                 newState = { ...state, }
@@ -78,7 +78,6 @@ const spotReducer = (state = initialState, action) => {
         } case GETONESPOT: {
             newState = Object.assign({}, state.singleSpot)
             newState[action.payload.id] = action.payload
-
             return newState
         } default:
             return state;

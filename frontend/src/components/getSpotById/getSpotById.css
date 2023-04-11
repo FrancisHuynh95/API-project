@@ -1,0 +1,52 @@
+
+.getOnePreviewImage {
+    width: 50%;
+}
+
+.Host-Info{
+    width: 50%
+}
+
+#top {
+    width:fit-content;
+    display:flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.topSpanDiv{
+    display:flex;
+    justify-content: end;
+
+}
+
+.bottomSpanDiv {
+    display:flex;
+    justify-content: flex-start;
+}
+
+#bottom {
+    text-align: start;
+}
+
+.bottomshit{
+    display:flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.textInTheBox{
+    display: flex;
+    align-items: center;
+    gap:3px;
+}
+
+.smallBox {
+    width: 100%;
+}
+
+.bigAssDiv{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+}
