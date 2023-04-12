@@ -1,7 +1,10 @@
+import { csrfFetch } from "./csrf"
+import { restoreUser } from "./session"
 
 const GETALLSPOTS = 'GETALL'
 const CREATESPOTS = 'CREATESPOTS'
 const GETONESPOT = 'GETONESPOT'
+const ADDIMAGE = 'ADDIMAGE'
 
 const getSpot = (spots) => {
     return {
@@ -34,8 +37,9 @@ export const getSpotThunk = () => async (dispatch) => {
     }
 }
 
-export const createSpotThunk = (payload) => async (dispatch) => {
-    const response = await fetch('/api/spots', {
+export const createSpotThunk = (payload, imageInfo) => async (dispatch) => {
+    console.log('IMAGE INFOOOOOOOOOOOO', imageInfo)
+    const response = await csrfFetch('/api/spots', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -44,7 +48,15 @@ export const createSpotThunk = (payload) => async (dispatch) => {
     })
     if (response.ok) {
         const spot = await response.json()
-        dispatch(createSpot(spot))
+        for (let i = 0; i < imageInfo.length; i++) {
+           await csrfFetch(`/api/spots/${spot.id}/images`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(imageInfo[i])
+            })
+        }
     }
 }
 
@@ -53,6 +65,7 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
 
     if (response.ok) {
         let newRes = await response.json()
+
         dispatch(getOneSpot(newRes))
     }
 }
@@ -63,16 +76,18 @@ const spotReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
         case GETALLSPOTS: {
-            newState = Object.assign({}, state.allSpots)
+            newState = Object.assign({}, state.allSpots, state.singleSpot)
             action.payload.Spots.forEach(spot => {
                 newState[spot.id] = spot
             })
             return newState
 
         } case CREATESPOTS: {
-            if (!state[action.Spot.id]) {
-                newState = { ...state, }
-            }
+            newState = Object.assign({}, state.singleSpot)
+            console.log(action.payload)
+            // if (!state[action.Spot?.id]) {
+            //     newState = { ...state, }
+            // }
             return newState;
 
         } case GETONESPOT: {

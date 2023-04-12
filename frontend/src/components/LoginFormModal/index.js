@@ -27,38 +27,49 @@ function LoginFormModal() {
   const demoUser = (e) => {
     const credential = 'FakeUser2'
     const password = 'password3'
-    return dispatch(sessionActions.login({ credential, password}))
+    return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
   }
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
-        <button type="submit">Log In</button>
-        <button onClick={demoUser}>Demo User</button>
-      </form>
+        <h1 className="LoginH1">Log In</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="userNameOrEmail">
+            <label>
+
+              <input
+                className="loginModal"
+                type="text"
+                value={credential}
+                placeholder="Username or Email"
+                onChange={(e) => setCredential(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+          <div className="password">
+            <label>
+
+              <input
+                className="loginModal"
+                type="password"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+          {errors.credential && (
+            <p>{errors.credential}</p>
+          )}
+          <div className="submitDemoUserButtons">
+            <button className="loginButton" type="submit">Log In</button>
+            <button className="DemoUserButton" onClick={demoUser}>Demo User</button>
+          </div>
+        </form>
+
     </>
   );
 }

@@ -10,11 +10,13 @@
     border: 1px solid black;
     width: 22%;
     gap: 5px;
+    height:319.19px;
 }
 
 .previewImage {
     width: 100%;
     border-radius: 7%;
+    height: 195.2px;
 }
 
 .spotInfo{
@@ -36,5 +38,36 @@ span {
     display:flex;
     width: 100%;
     gap: 5px;
+    justify-content: end;
+}
+/*
+.NavLink{
+    display:flex;
+    justify-content: end;
+} */
+
+.userButton {
+    display:flex;
+    justify-content: end;
+}
+
+ul {
+    list-style-type: none;
+    text-align: end;
+}
+
+li {
+
+}
+
+.userButtonLi{
+    width: fit-content
+}
+
+
+
+
+.upperBarDiv {
+    display:flex;
     justify-content: end;
 }

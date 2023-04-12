@@ -5,6 +5,7 @@ import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -23,7 +24,7 @@ function ProfileButton({ user }) {
     const closeMenu = (e) => {
       if (!ulRef.current.contains(e.target)) {
         setShowMenu(false);
-       
+
       }
     };
 
@@ -50,9 +51,9 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
+            <li className="userInfoLi">Hello, {user.username}</li>
+            <li className="userInfoLi">{user.email}</li>
+            <li className="userInfoLi">Manage Spots</li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>

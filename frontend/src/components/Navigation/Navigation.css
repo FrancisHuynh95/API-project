@@ -2,4 +2,13 @@
     visibility: hidden;
 }
 
+.Nav-Link-Stuff{
+    display: flex;
+    justify-content: flex-end;
+}
 
+
+
+.profile-dropdown {
+    padding: 0 0 0 0  ;
+}

@@ -2,8 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getSpotThunk } from "../../store/spots";
 import './home.css'
+import { Link, NavLink, useHistory } from "react-router-dom";
 
 function Home() {
+    const history = useHistory()
     const dispatch = useDispatch()
     const getAllSpots = useSelector(state => state.spots)
     const spotsArray = Object.values(getAllSpots)
@@ -12,6 +14,7 @@ function Home() {
         dispatch(getSpotThunk())
     }, [dispatch])
 
+
     const newReview = 'New'
 
     return (
@@ -19,9 +22,9 @@ function Home() {
             <h2>Home</h2>
             <div className="cardHolder">
                 {spotsArray.map(spot =>
-                    <div className="spotCard">
+                    <Link className="spotCard" to={`/spots/${spot?.id}`}>
                         <div className="spotPic">
-                            <img className="previewImage" src={spot.previewImage}></img>
+                            <img className="previewImage" src={spot?.previewImage}></img>
                         </div>
                         <div className="spotInfo">
                             <div className="leftSide">
@@ -41,7 +44,7 @@ function Home() {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 )}
             </div>
         </>

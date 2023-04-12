@@ -2,12 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getSpotThunk } from "../../store/spots";
-import './createSpot.css'
 import { createSpotThunk } from "../../store/spots";
-import { addImageToSpotThunk } from "../../store/spots";
 
 
-function CreateSpot() {
+function UpdateSpot() {
 const [country, setCountry] = useState('')
 const [address, setAddress] = useState('')
 const [city, setCity] = useState('')
@@ -25,9 +23,7 @@ const [url4, setURL4] = useState('')
 const [errors, setErrors] = useState({})
 const dispatch = useDispatch()
 
-
-function formSubmit(e) {
-    e.preventDefault()
+function onSubmit(e) {
     const errorObj = {}
     if(country.length === 0) errorObj.country = "Country is required"
     if(address.length === 0) errorObj.address = "Address is required"
@@ -39,7 +35,6 @@ function formSubmit(e) {
     if(title.length === 0) errorObj.title = "Name is required"
     if(price.length === 0) errorObj.price = "Price is required"
     if(previewURL.length === 0) errorObj.previewURL = "Preview URL is required"
-    if(previewURL && previewURL.slice(previewURL.length -4, previewURL.length) !== '.png' && previewURL.slice(previewURL.length -4, previewURL.length) !== '.jpg' && previewURL.slice(previewURL.length -5, previewURL.length) !== '.jpeg') errorObj.previewURLPNG = 'Image must end in .png, .jpg, or .jpeg'
 
     if(url && url.slice(url.length -4, url.length) !== '.png' && url.slice(url.length -4, url.length) !== '.jpg' && url.slice(url.length -5, url.length) !== '.jpeg') errorObj.urlPNG = 'Image URL must end in .png, .jpg, or .jpeg'
     if(url2 && url2.slice(url2.length -4, url2.length) !== '.png' && url2.slice(url2.length -4, url2.length) !== '.jpg' && url2.slice(url2.length -5, url2.length) !== '.jpeg') errorObj.urlPNG2 = 'Image URL must end in .png, .jpg, or .jpeg'
@@ -47,42 +42,25 @@ function formSubmit(e) {
     if(url4 && url4.slice(url4.length -4, url4.length) !== '.png' && url4.slice(url4.length -4, url4.length) !== '.jpg' && url4.slice(url4.length -5, url4.length) !== '.jpeg') errorObj.urlPNG4 = 'Image URL must end in .png, .jpg, or .jpeg'
 
     setErrors(errorObj)
-    const newArr = [];
-    if(previewURL){
-        newArr.push({url: previewURL, preview: true})
-    }
-
-    if(url){
-        newArr.push({url: url, preview: false})
-    }
-    if(url2){
-        newArr.push({url: url, preview: false})
-    }
-    if(url3){
-        newArr.push({url: url, preview: false})
-    }
-    if(url4){
-        newArr.push({url: url, preview: false})
-    }
-
-
-    if(Object.keys(errors).length === 0){
-        dispatch(createSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, newArr))
-    }
 }
 
+function formSubmit(e) {
+    e.preventDefault()
+}
 
-    const user = useSelector(state => state.session.user)
+    const createdSpot = useSelector(state => state.spots)
+    const user = useSelector(state => state.session)
 
-    // useEffect(() => {
-    // },[dispatch])
+    useEffect(() => {
+        dispatch(createSpotThunk({country, address, city, state, lng, lat, description, title, price, previewURL}))
+    },[dispatch])
 
     return (
         <>
             <form onSubmit={formSubmit}>
                 <div className="section1">
                     <div className="topMsg">
-                        <h2>Create a new Spot</h2>
+                        <h2>Update your Spot</h2>
                         <h3>Where's your place located?</h3>
                         <p>Guests will only get your exact address once they booked a reservation.</p>
                     </div>
@@ -169,10 +147,10 @@ function formSubmit(e) {
                      <input value={url4} onChange={e => setURL4(e.target.value)}  className="userInput" id="imageURL4" type="text" placeholder="Image URL"></input>
                      {errors.urlPNG4 && <p className="errors">{errors.urlPNG4}</p>}
                 </div>
-                <button type="submit">Create Spot</button>
+                <button onClick={() => onSubmit()}>Create Spot</button>
             </form>
         </>
     )
 }
 
-export default CreateSpot;
+export default UpdateSpot;

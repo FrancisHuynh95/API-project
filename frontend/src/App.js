@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Home from "./components/home";
 import CreateSpot from "./components/createSpot/"
 import GetSpotById from "./components/getSpotById/";
+import UpdateSpot from "./components/updateASpot";
 
 
 
@@ -29,9 +30,14 @@ function App() {
             <CreateSpot />
           </Route>
 
+          <Route path='/spots/:spotId/edit'>
+            <UpdateSpot />
+          </Route>
+          
           <Route path='/spots/:spotId'>
             <GetSpotById />
           </Route>
+
 
         </Switch>
       }

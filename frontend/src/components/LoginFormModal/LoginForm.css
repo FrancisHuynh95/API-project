@@ -1,7 +1,37 @@
-h1 {
-    color: red
+label {
+    color: blue;
 }
 
-label {
-    color: red
+.submitDemoUserButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.loginButton {
+    margin-top: 5px;
+    width: 300px;
+    background-color: rgb(246, 68, 68);
+    color: white;
+    height: 30px;
+    box-shadow: 5% 20% 20% 5%;
+}
+
+.demoUser {
+    border: none;
+    text-decoration: underline;
+}
+
+.loginmodal {
+    width: 90%;
+}
+
+.usernameoremail{
+    display: flex;
+    justify-content: center;
+    width: 100%
+}
+
+.loginH1 {
+    text-align: center;
 }
