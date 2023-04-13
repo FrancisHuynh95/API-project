@@ -7,6 +7,9 @@ import Home from "./components/home";
 import CreateSpot from "./components/createSpot/"
 import GetSpotById from "./components/getSpotById/";
 import UpdateSpot from "./components/updateASpot";
+import ManageSpot from "./components/manageSpot";
+
+
 
 
 
@@ -22,20 +25,24 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
         <Switch>
-          <Route exact path='/'>
-            <Home />
+          <Route exact path='/spots/:spotId/edit'>
+            <UpdateSpot />
           </Route>
 
-          <Route path='/spots/new'>
+          <Route exact path='/spots/current'>
+            <ManageSpot />
+          </Route>
+
+          <Route exact path='/spots/new'>
             <CreateSpot />
           </Route>
 
-          <Route path='/spots/:spotId/edit'>
-            <UpdateSpot />
-          </Route>
-          
-          <Route path='/spots/:spotId'>
+          <Route exact path='/spots/:spotId'>
             <GetSpotById />
+          </Route>
+
+          <Route exact path='/'>
+            <Home />
           </Route>
 
 

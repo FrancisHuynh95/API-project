@@ -4,6 +4,7 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { Link } from "react-router-dom";
 
 
 function ProfileButton({ user }) {
@@ -53,7 +54,7 @@ function ProfileButton({ user }) {
           <>
             <li className="userInfoLi">Hello, {user.username}</li>
             <li className="userInfoLi">{user.email}</li>
-            <li className="userInfoLi">Manage Spots</li>
+            <li className="userInfoLi"><Link to="/spots/current">Manage Spots</Link></li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>

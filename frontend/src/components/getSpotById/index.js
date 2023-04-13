@@ -38,10 +38,16 @@ function GetSpotById() {
     const hostInfo = spot?.Owner
     const noReview = "New"
 
-    if (spot.SpotImages !== `Spot doesn't have any images`) {
-        previewImage = spot?.SpotImages?.filter(spot => spot.preview === true)
-        otherImages = spot?.SpotImages?.filter(spot => spot.preview !== true)
+    if (spot === undefined) {
+        <p>{`Spot doesn't have any images`}</p>
+    } else {
+        if (spot.SpotImages && spot.SpotImages !== `Spot doesn't have any images`) {
+            previewImage = spot?.SpotImages?.filter(spot => spot.preview === true)
+            otherImages = spot?.SpotImages?.filter(spot => spot.preview !== true)
+        }
     }
+
+    console.log(spot)
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
@@ -84,7 +90,7 @@ function GetSpotById() {
 
                     <div className="Host-Info">
                         <h2>Hosted by {hostInfo?.firstName} {hostInfo?.lastName}</h2>
-                        <p>Aliquam erat volutpat. Etiam odio massa, vehicula a placerat quis, maximus sed lacus. Sed in tincidunt libero. Maecenas mollis congue leo. Cras posuere egestas lobortis. Curabitur sit amet faucibus ipsum, quis hendrerit purus. Praesent volutpat, diam id eleifend scelerisque, magna sapien lobortis elit, ut pulvinar quam enim a tellus. Aenean ultrices ipsum porta elit commodo suscipit. Morbi viverra vulputate augue et posuere. Ut mi nulla, convallis ac convallis at, vestibulum in lacus. Proin ut nisl congue diam laoreet tristique. In a tellus quis urna pulvinar egestas at vitae purus. Proin id lobortis nulla. In feugiat eu lectus eget luctus. Aenean quis nulla nec sem pharetra iaculis. Proin vitae lectus nec libero molestie sagittis.</p>
+                        {spot && <p>{spot.description}</p>}
                         <div className="smallBox">
                             <div className="reviewInfo">
                                 <div className="topSpanDiv">

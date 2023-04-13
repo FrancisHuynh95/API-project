@@ -1,10 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { useEffect } from "react";
-import { getSpotThunk } from "../../store/spots";
-import './createSpot.css'
 import { createSpotThunk } from "../../store/spots";
-import { addImageToSpotThunk } from "../../store/spots";
+import './createSpot.css'
+import { useHistory } from "react-router-dom";
+
 
 
 function CreateSpot() {
@@ -24,9 +23,10 @@ const [url3, setURL3] = useState('')
 const [url4, setURL4] = useState('')
 const [errors, setErrors] = useState({})
 const dispatch = useDispatch()
+const history = useHistory()
 
 
-function formSubmit(e) {
+async function formSubmit(e) {
     e.preventDefault()
     const errorObj = {}
     if(country.length === 0) errorObj.country = "Country is required"
@@ -67,15 +67,13 @@ function formSubmit(e) {
 
 
     if(Object.keys(errors).length === 0){
-        dispatch(createSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, newArr))
+        let spot = await dispatch(createSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, newArr))
+        history.push(`/spots/${spot.id}`)
     }
 }
 
-
     const user = useSelector(state => state.session.user)
 
-    // useEffect(() => {
-    // },[dispatch])
 
     return (
         <>
