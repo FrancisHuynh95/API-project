@@ -1,6 +1,24 @@
 
+.pictures {
+    display: flex;
+    gap: 5px;
+}
+
 .getOnePreviewImage {
     width: 50%;
+    height: 50%;
+}
+
+.nonPreviewPics {
+    display: block;
+    width: 48%;
+    height: 50%;
+    gap: 2px;
+}
+
+.otherImages {
+    width: 50%;
+    height: 50%;
 }
 
 .Host-Info{

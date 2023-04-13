@@ -7,14 +7,21 @@ import './manageSpot.css'
 import OpenModalButton from "../OpenModalButton";
 import { useModal } from "../../context/Modal";
 import { deleteSpotThunk } from "../../store/spots";
+import { useHistory } from "react-router-dom";
 
 function ManageSpot() {
     const spot = useSelector(state => state.spots)
     const user = useSelector(state => state.session)
     const dispatch = useDispatch()
+    const history = useHistory()
 
+    if(!spot){
+        <p>test</p>
+    }
     const spotArray = Object.values(spot)
     const filteredSpots = spotArray.filter(spot => spot.ownerId === user.user.id)
+
+
 
     useEffect(() => {
         dispatch(getSpotThunk())
@@ -26,18 +33,18 @@ function ManageSpot() {
         const dispatch = useDispatch();
         const { closeModal } = useModal();
 
-        const spot = useSelector(state => state.spots)
-
         const handleSubmit = (e) => {
             e.preventDefault();
             dispatch(deleteSpotThunk(spotId))
+            dispatch(getSpotThunk())
+            closeModal()
         };
         return (
             <>
                 <h1>Confirm Delete</h1>
                 <p>Are you sure you want to remove this spot from the listings?</p>
                 <form onSubmit={handleSubmit}>
-                    <button type="submit">Yes (Delete Spot)</button>
+                    <button>Yes (Delete Spot)</button>
                     <button onClick={closeModal}> No (Keep Spot)</button>
                 </form>
             </>
@@ -50,7 +57,6 @@ function ManageSpot() {
                 <div key={spot.id}>
                     <div className="cardHolder">
                         <div className="cardHolderWithButtons">
-
                             <Link className="spotCard" to={`/spots/${spot?.id}`}>
                                 <div className="spotPic">
                                     <img className="previewImage" src={spot?.previewImage}></img>
@@ -75,9 +81,7 @@ function ManageSpot() {
                                 </div>
                             </Link>
                             <div className="update-delete-buttons">
-                                <Link to={`/spots/${spot?.id}/update`}>Update</Link>
-                                <Link to={`/spots/${spot?.id}/delete`}>Delete</Link>
-                                <li>
+                                <li className="manageSpotButtons">
                                     <OpenModalButton
                                         buttonText="Delete Spot"
                                         modalComponent={<DeleteSpotModal spotId={spot.id} />}

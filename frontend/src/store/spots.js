@@ -8,10 +8,11 @@ const GETONESPOT = 'GETONESPOT'
 const DELETESPOT = 'DELETESPOT'
 const UPDATESPOT = 'UPDATESPOT'
 
-const deleteSpot = (spot) => {
+const deleteSpot = (spot, spotId) => {
     return {
         type: DELETESPOT,
-        payload: spot
+        payload: spot,
+        spotId: spotId
     }
 }
 
@@ -55,7 +56,8 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
     })
     if (response.ok) {
         let res = await response.json()
-        dispatch(getSpot(res))
+        dispatch(deleteSpot(res, spotId))
+        // return res;
     }
 }
 
@@ -90,7 +92,6 @@ export const updateSpotThunk = (payload, spotId) => async (dispatch) => {
         },
         body: JSON.stringify(payload)
     })
-    console.log('response ==========>',response)
     if (response.ok) {
         const spot = await response.json()
         return spot;
@@ -113,24 +114,22 @@ const spotReducer = (state = initialState, action) => {
     switch (action.type) {
         case GETALLSPOTS: {
             newState = Object.assign({}, state.allSpots, state.singleSpot)
+            console.log('GETALLSPOTS', newState)
             action.payload.Spots.forEach(spot => {
                 newState[spot.id] = spot
             })
             return newState
-
-        } case CREATESPOTS: {
-            newState = Object.assign({}, state.singleSpot)
-            console.log(action.payload)
-            // if (!state[action.Spot?.id]) {
-            //     newState = { ...state, }
-            // }
-            return newState;
-
         } case GETONESPOT: {
             newState = Object.assign({}, state.singleSpot)
             newState[action.payload.id] = action.payload
             return newState
-        } default:
+        }
+        case DELETESPOT: {
+            newState = Object.assign({}, state)
+            delete newState[action.spotId]
+            return newState;
+        }
+        default:
             return state;
     }
 }

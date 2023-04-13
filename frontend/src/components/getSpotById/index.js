@@ -47,7 +47,10 @@ function GetSpotById() {
         }
     }
 
-    console.log(spot)
+    let newArr = [];
+    if (otherImages?.length > 0) {
+        otherImages.map(image => newArr.push(image.url))
+    }
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
@@ -57,21 +60,6 @@ function GetSpotById() {
     function reserveButton() {
         alert("Feature Coming Soon...")
     }
-
-
-    function buttonCreate() {
-
-        // if(currentUser){
-        //     if(spot?.Owner.id === currentUser?.id){
-        //         if()
-        //     }
-        // }
-    }
-
-    // console.log(user.user ? user.user?.id ? user.user.id === hostInfo.id ? <p>test no</p> : <p>test button</p> : null : null)
-
-    //{currentUser ? spot?.Owner.id === currentUser?.id ? null :  : null}
-
 
     return (
         <>
@@ -83,7 +71,7 @@ function GetSpotById() {
                 <div className="pictures">
                     {previewImage && <img className="getOnePreviewImage" src={previewImage[0]['url']}></img>}
                     <div className="nonPreviewPics">
-                        {otherImages && otherImages.forEach(image => <img className="getOneOtherImage" src={image['url']}></img>)}
+                        {newArr?.map(image => <img className="otherImages" src={`${image}`}></img>)}
                     </div>
                 </div>
                 <div className="bigAssDiv">

@@ -47,6 +47,7 @@ async function formSubmit(e) {
     if(url4 && url4.slice(url4.length -4, url4.length) !== '.png' && url4.slice(url4.length -4, url4.length) !== '.jpg' && url4.slice(url4.length -5, url4.length) !== '.jpeg') errorObj.urlPNG4 = 'Image URL must end in .png, .jpg, or .jpeg'
 
     setErrors(errorObj)
+    if(Object.keys(errors).length === 0){
     const newArr = [];
     if(previewURL){
         newArr.push({url: previewURL, preview: true})
@@ -56,17 +57,16 @@ async function formSubmit(e) {
         newArr.push({url: url, preview: false})
     }
     if(url2){
-        newArr.push({url: url, preview: false})
+        newArr.push({url: url2, preview: false})
     }
     if(url3){
-        newArr.push({url: url, preview: false})
+        newArr.push({url: url3, preview: false})
     }
     if(url4){
-        newArr.push({url: url, preview: false})
+        newArr.push({url: url4, preview: false})
     }
 
 
-    if(Object.keys(errors).length === 0){
         let spot = await dispatch(createSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, newArr))
         history.push(`/spots/${spot.id}`)
     }
