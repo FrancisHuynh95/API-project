@@ -3,9 +3,13 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getOneSpotThunk } from "../../store/spots";
+import CreateReviewModal from "../createReviewModal";
+import OpenModalButton from "../OpenModalButton";
 
 import './getSpotById.css'
 import { getReviewForSpotThunk } from "../../store/review";
+
+
 
 
 function GetSpotById() {
@@ -38,6 +42,7 @@ function GetSpotById() {
     const hostInfo = spot?.Owner
     const noReview = "New"
 
+    const filteredReviewsByCurrentUser = reviewArray.filter(array => array.ownerId === currentUser?.id)
     if (spot === undefined) {
         <p>{`Spot doesn't have any images`}</p>
     } else {
@@ -55,6 +60,7 @@ function GetSpotById() {
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
         dispatch(getReviewForSpotThunk(spotId))
+
     }, [dispatch])
 
     function reserveButton() {
@@ -102,9 +108,22 @@ function GetSpotById() {
                     <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : spot?.avgStarRating} · </p>
                     <p className="starReviewCount">{spot?.numReviews} reviews</p>
                 </div>
-                {currentUser ? spot?.Owner?.id === currentUser?.id ? null : <button onClick={reserveButton}>Post Your Review</button> : null}
+                {currentUser
+                    ? spot?.Owner?.id
+                        === currentUser?.id
+                        ? null
+                        : filteredReviewsByCurrentUser.length > 0
+                            ? null
+                            : <div className="addReviewModal">
+                                <OpenModalButton
+                                    buttonText="Post Your Review"
+                                    modalComponent={<CreateReviewModal spotId={spot?.id} />}
+                                />
+                            </div>
+                    : null}
             </div>
             {generateReview()}
+
         </>
     )
 }

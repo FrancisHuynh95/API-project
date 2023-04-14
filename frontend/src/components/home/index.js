@@ -22,7 +22,7 @@ function Home() {
             <h2>Home</h2>
             <div className="cardHolder">
                 {spotsArray.map(spot =>
-                    <Link className="spotCard" to={`/spots/${spot?.id}`}>
+                    <Link title={spot?.name} className="spotCard" to={`/spots/${spot?.id}`}>
                         <div className="spotPic">
                             <img className="previewImage" src={spot?.previewImage}></img>
                         </div>

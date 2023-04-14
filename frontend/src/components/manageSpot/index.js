@@ -36,7 +36,6 @@ function ManageSpot() {
         const handleSubmit = (e) => {
             e.preventDefault();
             dispatch(deleteSpotThunk(spotId))
-            dispatch(getSpotThunk())
             closeModal()
         };
         return (

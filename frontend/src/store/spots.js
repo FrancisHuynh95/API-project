@@ -120,7 +120,9 @@ const spotReducer = (state = initialState, action) => {
             })
             return newState
         } case GETONESPOT: {
+            console.log('STATE ===========>',state)
             newState = Object.assign({}, state.singleSpot)
+            console.log('STATE.payload ===========>',action.payload)
             newState[action.payload.id] = action.payload
             return newState
         }

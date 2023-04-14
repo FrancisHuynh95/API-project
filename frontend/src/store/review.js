@@ -1,5 +1,8 @@
+import { csrfFetch } from "./csrf";
+
 const getReviewByUser = 'GETREVIEWSBYUSER'
 const getCurrentSpotReview = 'GETCURRENTSPOTREVIEW'
+const createReview = 'CREATEREVIEW'
 
 const getReviewByTheUser = (user) => {
     return {
@@ -12,6 +15,27 @@ const getTheCurrentSpotReview = (payload) => {
     return {
         type: getCurrentSpotReview,
         payload: payload
+    }
+}
+
+const createReviews = (payload, spotId) => {
+    return {
+        type: createReview,
+        payload: payload,
+        spotId: spotId
+    }
+}
+
+export const createReviewThunk = (payload, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ review: payload.review, stars: parseInt(payload.stars) })
+    })
+    if (response.ok) {
+        let res = await response.json()
+        dispatch(createReviews(res))
+        return res;
     }
 }
 
@@ -42,28 +66,29 @@ const reviewReducer = (state = initialState, action) => {
         case getReviewByUser: {
             newState = Object.assign({}, state.user)
             if (action.payload.Reviews) {
-                console.log('getReviewByUser in if')
                 action.payload.Reviews.forEach(review => {
                     newState[review.id] = review
                 })
             } else {
-                console.log('getReviewByUser in else')
                 newState = { ...action.payload }
             }
             return newState
         } case getCurrentSpotReview: {
             newState = Object.assign({}, state.spot)
             if (action.payload.Reviews) {
-                console.log('getCurrentSpotReview in if')
                 action.payload.Reviews.forEach(review => {
                     newState[review.id] = review
                 })
             } else {
-                console.log('getCurrentSpotReview in else')
                 newState = { ...action.payload }
             }
             return newState
+        } case createReview: {
+            newState = Object.assign({}, state)
+            newState[action.payload.id]= action.payload
+            return newState;
         }
+
         default:
             return state;
     }

@@ -9,24 +9,25 @@ function UpdateSpot() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
     const allSpots = useSelector(state => state.spots)
-    useEffect(() => {
-        dispatch(getSpotThunk())
-    }, [dispatch])
 
     const spotArray = Object.values(allSpots)
 
-    const filteredSpot = spotArray.filter(spot => spot.id === +spotId)
+    const filteredSpot = spotArray.find(spot => spot.id === +spotId)
 
 
-    const [country, setCountry] = useState(filteredSpot[0].country)
-    const [address, setAddress] = useState(filteredSpot[0]?.address)
-    const [city, setCity] = useState(`${filteredSpot[0]?.city}`)
-    const [state, setState] = useState(`${filteredSpot[0]?.state}`)
-    const [lng, setLng] = useState(`${filteredSpot[0]?.lng}`)
-    const [lat, setLat] = useState(`${filteredSpot[0]?.lat}`)
-    const [description, setDescription] = useState(`${filteredSpot[0]?.description}`)
-    const [title, setTitle] = useState(`${filteredSpot[0]?.name}`)
-    const [price, setPrice] = useState(`${filteredSpot[0]?.price}`)
+    useEffect(() => {
+        dispatch(getSpotThunk())
+    },[dispatch])
+
+    const [country, setCountry] = useState(`${filteredSpot?.country}`)
+    const [address, setAddress] = useState(`${filteredSpot?.address}`)
+    const [city, setCity] = useState(`${filteredSpot?.city}`)
+    const [state, setState] = useState(`${filteredSpot?.state}`)
+    const [lng, setLng] = useState(`${filteredSpot?.lng}`)
+    const [lat, setLat] = useState(`${filteredSpot?.lat}`)
+    const [description, setDescription] = useState(`${filteredSpot?.description}`)
+    const [title, setTitle] = useState(`${filteredSpot?.name}`)
+    const [price, setPrice] = useState(`${filteredSpot?.price}`)
     const [errors, setErrors] = useState({})
     const history = useHistory()
 
@@ -46,7 +47,6 @@ function UpdateSpot() {
 
         setErrors(errorObj)
 
-        console.log('IN THE OBJECT.VALUES')
         if(Object.values(errors).length === 0){
             dispatch(updateSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, +spotId))
             history.push(`/spots/${spotId}`)
@@ -70,7 +70,7 @@ function UpdateSpot() {
                             <p>Country</p>
                             {errors.country && <p className="errors">{errors.country}</p>}
                         </div>
-                        <input className="userInput" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}></input>
+                        <input className="userInput" type="text" placeholder="country" value={country} onChange={e => setCountry(e.target.value)}></input>
                     </div>
                     <div className="street">
                         <div className="text">

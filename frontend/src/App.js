@@ -13,6 +13,7 @@ import ManageSpot from "./components/manageSpot";
 
 
 
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -44,6 +45,8 @@ function App() {
           <Route exact path='/'>
             <Home />
           </Route>
+
+
 
 
         </Switch>
