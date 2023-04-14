@@ -3,33 +3,36 @@ import { useEffect, useState } from "react";
 import { getSpotThunk, updateSpotThunk } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { getOneSpotThunk } from "../../store/spots";
 
 
 function UpdateSpot() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
-    const allSpots = useSelector(state => state.spots)
+    const getSpot = useSelector(state => state.spots)
 
-    const spotArray = Object.values(allSpots)
-
-    const filteredSpot = spotArray.find(spot => spot.id === +spotId)
-
-
-    useEffect(() => {
-        dispatch(getSpotThunk())
-    },[dispatch])
-
-    const [country, setCountry] = useState(`${filteredSpot?.country}`)
-    const [address, setAddress] = useState(`${filteredSpot?.address}`)
-    const [city, setCity] = useState(`${filteredSpot?.city}`)
-    const [state, setState] = useState(`${filteredSpot?.state}`)
-    const [lng, setLng] = useState(`${filteredSpot?.lng}`)
-    const [lat, setLat] = useState(`${filteredSpot?.lat}`)
-    const [description, setDescription] = useState(`${filteredSpot?.description}`)
-    const [title, setTitle] = useState(`${filteredSpot?.name}`)
-    const [price, setPrice] = useState(`${filteredSpot?.price}`)
+    const [country, setCountry] = useState(`${getSpot[spotId]?.country}`)
+    const [address, setAddress] = useState(`${getSpot[spotId]?.address}`)
+    const [city, setCity] = useState(`${getSpot[spotId]?.city}`)
+    const [state, setState] = useState(`${getSpot[spotId]?.state}`)
+    const [lng, setLng] = useState(`${getSpot[spotId]?.lng}`)
+    const [lat, setLat] = useState(`${getSpot[spotId]?.lat}`)
+    const [description, setDescription] = useState(`${getSpot[spotId]?.description}`)
+    const [title, setTitle] = useState(`${getSpot[spotId]?.title}`)
+    const [price, setPrice] = useState(`${getSpot[spotId]?.price}`)
     const [errors, setErrors] = useState({})
     const history = useHistory()
+    const user = useSelector(state => state.session.user)
+
+    useEffect(() => {
+        dispatch(getOneSpotThunk(spotId))
+    },[dispatch])
+
+    if(!getSpot) return null
+    console.log('getSpot =========>',getSpot)
+    const spotArray = Object.values(getSpot)
+    console.log('SpotArray',spotArray)
+
 
 
     async function formSubmit(e) {
@@ -52,9 +55,6 @@ function UpdateSpot() {
             history.push(`/spots/${spotId}`)
         }
     }
-
-    const user = useSelector(state => state.session.user)
-
 
     return (
         <>

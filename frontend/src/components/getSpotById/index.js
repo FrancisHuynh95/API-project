@@ -5,11 +5,10 @@ import { useEffect } from "react";
 import { getOneSpotThunk } from "../../store/spots";
 import CreateReviewModal from "../createReviewModal";
 import OpenModalButton from "../OpenModalButton";
-
 import './getSpotById.css'
 import { getReviewForSpotThunk } from "../../store/review";
-
-
+import { useModal } from "../../context/Modal";
+import { deleteReviewThunk } from "../../store/review";
 
 
 function GetSpotById() {
@@ -20,6 +19,7 @@ function GetSpotById() {
     const spotReviews = useSelector(state => state.reviews)
 
     const reviewArray = Object.values(spotReviews)
+    const theUser = users['user']
 
     function generateReview() {
         return reviewArray.map(review =>
@@ -28,9 +28,46 @@ function GetSpotById() {
                     <p>{review.User?.firstName}</p>
                     <p>{review.createdAt}</p>
                     <p>{review.review}</p>
+                    {theUser.id === review.userId
+                        ? generateDeleteModal(review.id, review.userId)
+                        : null}
                 </div>
             </>
         )
+    }
+
+    function DeleteReviewModal({reviewId}){
+        const { closeModal } = useModal();
+        const dispatch = useDispatch();
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            dispatch(deleteReviewThunk(reviewId))
+            dispatch(getOneSpotThunk(spotId))
+            closeModal()
+        };
+        return (
+            <>
+                <h1>Confirm Delete</h1>
+                <p>Are you sure you want to delete this review?</p>
+                <form onSubmit={handleSubmit}>
+                    <button type="submit">Yes (Delete Review)</button>
+                    <button onClick={closeModal}> No (Keep Spot)</button>
+                </form>
+            </>
+        );
+    }
+
+    function generateDeleteModal(reviewId, reviewUserId){
+
+        if(theUser.id === reviewUserId){
+            return <div className="deleteReviewModal">
+            <OpenModalButton
+                buttonText="Delete"
+                modalComponent={<DeleteReviewModal reviewId={reviewId} />}
+            />
+        </div>
+        }
     }
 
     const spot = spots[spotId]
@@ -42,7 +79,7 @@ function GetSpotById() {
     const hostInfo = spot?.Owner
     const noReview = "New"
 
-    const filteredReviewsByCurrentUser = reviewArray.filter(array => array.ownerId === currentUser?.id)
+    const filteredReviewsByCurrentUser = reviewArray.filter(array => array.userId === currentUser?.id)
     if (spot === undefined) {
         <p>{`Spot doesn't have any images`}</p>
     } else {
@@ -66,6 +103,22 @@ function GetSpotById() {
     function reserveButton() {
         alert("Feature Coming Soon...")
     }
+
+    function generateModal() {
+        if (currentUser) {
+            if (currentUser?.id !== spot?.Owner?.id) {
+                if (filteredReviewsByCurrentUser?.length === 0) {
+                    return <div className="addReviewModal">
+                        <OpenModalButton
+                            buttonText="Post Your Review"
+                            modalComponent={<CreateReviewModal spotId={spot?.id} />}
+                        />
+                    </div>
+                }
+            }
+        }
+    }
+
 
     return (
         <>
@@ -108,22 +161,9 @@ function GetSpotById() {
                     <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : spot?.avgStarRating} · </p>
                     <p className="starReviewCount">{spot?.numReviews} reviews</p>
                 </div>
-                {currentUser
-                    ? spot?.Owner?.id
-                        === currentUser?.id
-                        ? null
-                        : filteredReviewsByCurrentUser.length > 0
-                            ? null
-                            : <div className="addReviewModal">
-                                <OpenModalButton
-                                    buttonText="Post Your Review"
-                                    modalComponent={<CreateReviewModal spotId={spot?.id} />}
-                                />
-                            </div>
-                    : null}
+                {generateModal()}
             </div>
             {generateReview()}
-
         </>
     )
 }

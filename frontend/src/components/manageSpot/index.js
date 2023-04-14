@@ -18,15 +18,14 @@ function ManageSpot() {
     if(!spot){
         <p>test</p>
     }
-    const spotArray = Object.values(spot)
-    const filteredSpots = spotArray.filter(spot => spot.ownerId === user.user.id)
-
-
 
     useEffect(() => {
         dispatch(getSpotThunk())
     }, [dispatch])
 
+    if(!spot) return null
+    const spotArray = Object.values(spot)
+    const filteredSpots = spotArray.filter(spot => spot.ownerId === user.user.id)
     const newReview = 'New'
 
     function DeleteSpotModal({ spotId }) {
