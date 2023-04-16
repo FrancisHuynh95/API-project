@@ -1,0 +1,37 @@
+#updateCountry {
+    width: 100%;
+}
+
+#updateAddress {
+    width: 100%;
+}
+
+#updateCity {
+    width: 97%;
+}
+#updateState {
+    width: 100%;
+}
+
+#updateLat {
+    width: 97%;
+}
+
+#updateLng {
+    width: 100%;
+}
+
+#updateTitle {
+    width: 100%;
+}
+
+#updatePrice {
+    width: 100%;
+}
+
+#updateSpotButton{
+    padding: 4px 30px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 2px 2px black;
+}

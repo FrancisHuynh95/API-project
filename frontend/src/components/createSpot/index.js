@@ -74,108 +74,112 @@ function CreateSpot() {
         <>
             <div className="everythingWrapper">
                 <div className="createEditSpot">
-
-                <form onSubmit={formSubmit}>
-                    <div className="section1">
-                        <div className="topMsg">
-                            <h2>Create a new Spot</h2>
-                            <h3>Where's your place located?</h3>
-                            <p>Guests will only get your exact address once they booked a reservation.</p>
-                        </div>
-                        <div className="country">
-                            <label>Country {errors.country && <p className="errors">{errors.country}</p>}
-                                <div className="text">
-                                </div>
-                                <input className="userInput" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}></input>
-                            </label>
-                        </div>
-                        <div className="street">
-                            <label>
-                                Street Address
-                                <div className="text">
-                                    {errors.address && <p className="errors">{errors.address}</p>}
-                                </div>
-                                <input className="userInput" type="text" placeholder="Street Address" value={address} onChange={e => setAddress(e.target.value)}></input>
-                            </label>
-                        </div>
-                        <div className="city-state">
-                            <div className="city">
+                    <form onSubmit={formSubmit}>
+                        <div className="section1">
+                            <div className="topMsg">
+                                <h2>Create a new Spot</h2>
+                                <h3>Where's your place located?</h3>
+                                <p>Guests will only get your exact address once they booked a reservation.</p>
+                            </div>
+                            <div className="country">
+                                <label>Country {errors.country && <p className="errors">{errors.country}</p>}
+                                    <div className="text">
+                                    </div>
+                                    <input id="country" className="userInput" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}></input>
+                                </label>
+                            </div>
+                            <div className="street">
                                 <label>
-                                    City
+                                    Street Address
                                     <div className="text">
-                                        {errors.city && <p className="errors">{errors.city}</p>}
+                                        {errors.address && <p className="errors">{errors.address}</p>}
                                     </div>
-                                    <input className="userInput" type="text" placeholder="City" value={city} onChange={e => setCity(e.target.value)}></input> ,
+                                    <input id="address" className="userInput" type="text" placeholder="Street Address" value={address} onChange={e => setAddress(e.target.value)}></input>
                                 </label>
                             </div>
-                            <div className="state">
-                                <label>State
-                                    <div className="text">
-                                        {errors.state && <p className="errors">{errors.state}</p>}
-                                    </div>
-                                    <input className="userInput" type="text" placeholder="State" value={state} onChange={e => setState(e.target.value)}></input>
-                                </label>
+                            <div className="city-state">
+                                <div className="city">
+                                    <label>
+                                        City
+                                        <div className="text">
+                                            {errors.city && <p className="errors">{errors.city}</p>}
+                                        </div>
+                                        <input id="city" className="userInput" type="text" placeholder="City" value={city} onChange={e => setCity(e.target.value)}></input> ,
+                                    </label>
+                                </div>
+                                <div className="state">
+                                    <label>State
+                                        <div className="text">
+                                            {errors.state && <p className="errors">{errors.state}</p>}
+                                        </div>
+                                        <input id="state" className="userInput" type="text" placeholder="State" value={state} onChange={e => setState(e.target.value)}></input>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="lat-lng">
-                            <label>Latitude
-
+                            <div className="lat-lng">
                                 <div className="lat">
-                                    <div className="text">
-                                        {errors.lat && <p className="errors">{errors.lat}</p>}
-                                    </div>
-                                    <input className="userInput" type="text" placeholder="Latitude" value={lat} onChange={e => setLat(e.target.value)}></input> ,
+                                    <label>Latitude
+                                        <div className="text">
+                                            {errors.lat && <p className="errors">{errors.lat}</p>}
+                                        </div>
+                                        <input id="lat" className="userInput" type="text" placeholder="Latitude" value={lat} onChange={e => setLat(e.target.value)}></input> ,
+                                    </label>
                                 </div>
-                            </label>
-                            <label> Longitude
-
                                 <div className="lng">
-                                    <div className="text">
-                                        {errors.lng && <p className="errors">{errors.lng}</p>}
-                                    </div>
-                                    <input className="userInput" type="text" placeholder="Longitude" value={lng} onChange={e => setLng(e.target.value)}></input>
+                                    <label> Longitude
+                                        <div className="text">
+                                            {errors.lng && <p className="errors">{errors.lng}</p>}
+                                        </div>
+                                        <input id="lng" className="userInput" type="text" placeholder="Longitude" value={lng} onChange={e => setLng(e.target.value)}></input>
+                                    </label>
                                 </div>
-                            </label>
+                            </div>
                         </div>
-                    </div>
-                    <div className="section2">
-                        <h3>Describe your place to guests</h3>
-                        <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-                        <textarea id="textArea" className="userInput" placeholder="Please write at least 30 characters" value={description} onChange={e => setDescription(e.target.value)}></textarea>
-                        {errors.description && <p className="errors">{errors.description}</p>}
-                    </div>
-                    <div className="section3">
-                        <h3>Create a title for your spot</h3>
-                        <p>Catch guests' attention with a spot title that highlights what makes
-                            your place special.</p>
-                        <input className="userInput" type="text" placeholder="Name of your spot" value={title} onChange={e => setTitle(e.target.value)}></input>
-                        {errors.title && <p className="errors">{errors.title}</p>}
-                    </div>
-                    <div className="section4">
-                        <div className="text"></div>
-                        <h3>Set a base price for your spot</h3>
-                        <p>Competitive pricing can help your listing stand out and rank higher
-                            in search results</p>
-                        $ <input type="text" placeholder="Price per night (USD)" value={price} onChange={e => setPrice(e.target.value)}></input>
-                        {errors.price && <p className="errors">{errors.price}</p>}
-                    </div>
-                    <div className="section5">
-                        <h3>Liven up your spot with photos</h3>
-                        <p>Submit a link to at least one photo to publish your spot.</p>
-                        <input value={previewURL} onChange={e => setPreviewURL(e.target.value)} className="userInput" id="previewImage" type="text" placeholder="Preview Image URL"></input>
-                        {errors.previewURL && <p className="errors">{errors.previewURL}</p>}
-                        <input value={url} onChange={e => setURL(e.target.value)} className="userInput" id="imageURL1" type="text" placeholder="Image URL"></input>
-                        {errors.urlPNG && <p className="errors">{errors.urlPNG}</p>}
-                        <input value={url2} onChange={e => setURL2(e.target.value)} className="userInput" id="imageURL2" type="text" placeholder="Image URL"></input>
-                        {errors.urlPNG2 && <p className="errors">{errors.urlPNG2}</p>}
-                        <input value={url3} onChange={e => setURL3(e.target.value)} className="userInput" id="imageURL3" type="text" placeholder="Image URL"></input>
-                        {errors.urlPNG3 && <p className="errors">{errors.urlPNG3}</p>}
-                        <input value={url4} onChange={e => setURL4(e.target.value)} className="userInput" id="imageURL4" type="text" placeholder="Image URL"></input>
-                        {errors.urlPNG4 && <p className="errors">{errors.urlPNG4}</p>}
-                    </div>
-                    <button type="submit">Create Spot</button>
-                </form>
+                        <div className="section2">
+                            <h3>Describe your place to guests</h3>
+                            <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                            <textarea id="textArea" className="userInput" placeholder="Please write at least 30 characters" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            {errors.description && <p className="errors">{errors.description}</p>}
+                        </div>
+                        <div className="section3">
+                            <h3>Create a title for your spot</h3>
+                            <p>Catch guests' attention with a spot title that highlights what makes
+                                your place special.</p>
+                            <input id="createTitle" className="userInput" type="text" placeholder="Name of your spot" value={title} onChange={e => setTitle(e.target.value)}></input>
+                            {errors.title && <p className="errors">{errors.title}</p>}
+                        </div>
+                        <div className="section4">
+                            <h3>Set a base price for your spot</h3>
+                            <p>Competitive pricing can help your listing stand out and rank higher
+                                in search results</p>
+                            <div class="priceWithSymbol">$
+                                <input id="pricepernight" className="userInput" type="text" placeholder="Price per night (USD)" value={price} onChange={e => setPrice(e.target.value)}></input>
+                            </div>
+                            {errors.price && <p className="errors">{errors.price}</p>}
+                        </div>
+                        <div className="section5">
+                            <h3>Liven up your spot with photos</h3>
+                            <p>Submit a link to at least one photo to publish your spot.</p>
+                            <div id="urlDiv">
+                                <div id="previewURLDIV">
+                                    <input value={previewURL} onChange={e => setPreviewURL(e.target.value)} className="userInput" id="previewImage" type="text" placeholder="Preview Image URL"></input>
+                                    {errors.previewURL && <p className="errors">{errors.previewURL}</p>}
+                                </div>
+                                <input value={url} onChange={e => setURL(e.target.value)} className="userInput" id="imageURL1" type="text" placeholder="Image URL"></input>
+                                {errors.urlPNG && <p className="errors">{errors.urlPNG}</p>}
+                                <input value={url2} onChange={e => setURL2(e.target.value)} className="userInput" id="imageURL2" type="text" placeholder="Image URL"></input>
+                                {errors.urlPNG2 && <p className="errors">{errors.urlPNG2}</p>}
+                                <input value={url3} onChange={e => setURL3(e.target.value)} className="userInput" id="imageURL3" type="text" placeholder="Image URL"></input>
+                                {errors.urlPNG3 && <p className="errors">{errors.urlPNG3}</p>}
+                                <input value={url4} onChange={e => setURL4(e.target.value)} className="userInput" id="imageURL4" type="text" placeholder="Image URL"></input>
+                                {errors.urlPNG4 && <p className="errors">{errors.urlPNG4}</p>}
+                            </div>
+                        </div>
+                        <div className="section6">
+                            <button id="createSpotButton" type="submit">Create Spot</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

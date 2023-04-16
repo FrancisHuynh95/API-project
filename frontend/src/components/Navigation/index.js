@@ -8,8 +8,6 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  let demoUser;
-
   return (
     <>
       <div id="navPanel">
@@ -18,14 +16,14 @@ function Navigation({ isLoaded }) {
           {isLoaded && (
             <>
               <div id='button-createspot'>
-                {sessionUser && <NavLink exact to={`/spots/new`}>Create A New Spot</NavLink>}
+                {sessionUser && <NavLink id='createANewSpot' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+              </div>
                 <div className='upperBarDiv'>
-                  <li className='userButtonLi'>
+                  <div className='userButtonLi'>
                     <i class="fa-solid fa-bars"></i>
                     <ProfileButton className='userButton' user={sessionUser} />
-                  </li>
+                  </div>
                 </div>
-              </div>
             </>
           )}
         </ul>

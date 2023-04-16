@@ -2,17 +2,12 @@
     visibility: hidden;
 }
 
-.Nav-Link-Stuff{
-    display: flex;
-    justify-content: flex-end;
-}
-
 #logo {
     height: 75px;
 }
 
 .profile-dropdown {
-    padding: 0 0 0 0  ;
+    padding: 0 5 0 0  ;
 }
 
 #navPanel{
@@ -25,8 +20,18 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border: 1px solid black;
+    z-index: 3;
 }
 
 #button-createspot{
     display: flex;
+    flex-direction: row;
+    text-align: start;
+    margin-right: 30px;
+    width: 140px;
+}
+
+#createANewSpot{
+    justify-content: start;
 }

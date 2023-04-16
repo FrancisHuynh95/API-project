@@ -1,23 +1,41 @@
+.createEditSpot{
+    display: flex;
+    justify-content: center;
+    padding: 0 200px;
+}
+
 .section1{
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
 }
 .section2{
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
 }
 .section3{
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
 }
 .section4{
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
 }
 .section5{
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column
 }
 
+.section6 {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
 .userInput {
     background-color: rgb(184, 211, 250);
+
 }
 
 .lat-lng {
@@ -36,4 +54,95 @@
 .text {
     display: flex;
     gap: 10px;
+}
+
+#textArea {
+    width: 550px;
+    height: 145px;
+}
+#country {
+    width: 100%
+}
+
+#address {
+    width: 100%;
+}
+
+#city {
+    width: 97%
+}
+.city {
+    width: 69%
+}
+
+.state {
+    width: 30%;
+}
+#state {
+    width: 100%;
+}
+
+.lat-lng {
+    width: 100%;
+}
+
+.lat {
+    width: 50%;
+}
+
+.lng {
+    width: 50%;
+}
+#lat {
+    width: 95%;
+}
+
+#lng {
+    width: 100%;
+}
+
+#createTitle {
+    width: 100%;
+}
+
+#pricepernight{
+    flex: 1;
+}
+
+.priceWithSymbol {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+}
+
+#urlDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+#previewImage{
+    flex: 1;
+    width: 100%;
+}
+
+#previewURLDIV {
+    display: flex;
+    width: 100%;
+}
+
+.createEditSpot
+h2,
+h3,
+p
+{
+    margin: 10px 0px;
+}
+
+#createSpotButton {
+    padding: 4px 30px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 2px 2px black;
 }
