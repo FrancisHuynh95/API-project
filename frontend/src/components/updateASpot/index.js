@@ -9,30 +9,40 @@ import { getOneSpotThunk } from "../../store/spots";
 function UpdateSpot() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
-    const getSpot = useSelector(state => state.spots)
 
-    const [country, setCountry] = useState(`${getSpot[spotId]?.country}`)
-    const [address, setAddress] = useState(`${getSpot[spotId]?.address}`)
-    const [city, setCity] = useState(`${getSpot[spotId]?.city}`)
-    const [state, setState] = useState(`${getSpot[spotId]?.state}`)
-    const [lng, setLng] = useState(`${getSpot[spotId]?.lng}`)
-    const [lat, setLat] = useState(`${getSpot[spotId]?.lat}`)
-    const [description, setDescription] = useState(`${getSpot[spotId]?.description}`)
-    const [title, setTitle] = useState(`${getSpot[spotId]?.title}`)
-    const [price, setPrice] = useState(`${getSpot[spotId]?.price}`)
+    const [country, setCountry] = useState(``)
+    const [address, setAddress] = useState(``)
+    const [city, setCity] = useState(``)
+    const [state, setState] = useState(``)
+    const [lng, setLng] = useState(``)
+    const [lat, setLat] = useState(``)
+    const [description, setDescription] = useState(``)
+    const [title, setTitle] = useState(``)
+    const [price, setPrice] = useState(``)
     const [errors, setErrors] = useState({})
     const history = useHistory()
+    const getSpot = useSelector(state => state.spots)
     const user = useSelector(state => state.session.user)
 
     useEffect(() => {
-        dispatch(getOneSpotThunk(spotId))
-    },[dispatch])
+        dispatch(getOneSpotThunk(spotId)).then(spot => {
+            setCountry(spot.country)
+            setAddress(spot.address)
+            setCity(spot.city)
+            setState(spot.state)
+            setLng(spot.lng)
+            setLat(spot.lat)
+            setDescription(spot.description)
+            setTitle(spot.name)
+            setPrice(spot.price)
+        }
+        )
 
-    if(!getSpot) return null
-    console.log('getSpot =========>',getSpot)
+    }, [dispatch])
+
+
+    if (!getSpot) return null
     const spotArray = Object.values(getSpot)
-    console.log('SpotArray',spotArray)
-
 
 
     async function formSubmit(e) {
@@ -50,8 +60,8 @@ function UpdateSpot() {
 
         setErrors(errorObj)
 
-        if(Object.values(errors).length === 0){
-            dispatch(updateSpotThunk({country, address, city, state, lng, lat, description, name: title, price}, +spotId))
+        if (Object.values(errors).length === 0) {
+            dispatch(updateSpotThunk({ country, address, city, state, lng, lat, description, name: title, price }, +spotId))
             history.push(`/spots/${spotId}`)
         }
     }

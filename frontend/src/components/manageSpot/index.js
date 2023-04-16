@@ -15,15 +15,11 @@ function ManageSpot() {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    if(!spot){
-        <p>test</p>
-    }
-
     useEffect(() => {
         dispatch(getSpotThunk())
     }, [dispatch])
 
-    if(!spot) return null
+    if (!spot) return null
     const spotArray = Object.values(spot)
     const filteredSpots = spotArray.filter(spot => spot.ownerId === user.user.id)
     const newReview = 'New'
@@ -53,39 +49,37 @@ function ManageSpot() {
         return filteredSpots.map(spot =>
             <>
                 <div key={spot.id}>
-                    <div className="cardHolder">
-                        <div className="cardHolderWithButtons">
-                            <Link className="spotCard" to={`/spots/${spot?.id}`}>
-                                <div className="spotPic">
-                                    <img className="previewImage" src={spot?.previewImage}></img>
-                                </div>
-                                <div className="spotInfo">
-                                    <div className="leftSide">
-                                        <div className="location">
-                                            <div className="cityState">
-                                                <p>{`${spot.city}, ${spot.state}`}</p>
-                                            </div>
-                                            <div className="price">
-                                                ${spot.price} night
-                                            </div>
+                    <div className="cardHolderWithButtons">
+                        <Link className="spotCardManageSpot" to={`/spots/${spot?.id}`}>
+                            <div className="spotPic">
+                                <img className="previewImage" src={spot?.previewImage}></img>
+                            </div>
+                            <div className="spotInfo">
+                                <div className="leftSide">
+                                    <div className="location">
+                                        <div className="cityState">
+                                            <p>{`${spot.city}, ${spot.state}`}</p>
+                                        </div>
+                                        <div className="price">
+                                            ${spot.price} night
                                         </div>
                                     </div>
-                                    <div className="rightSide">
-                                        <span>
-                                            <p>Star icon</p>
-                                            <p>{spot.avgRating === 'No rating recorded' ? newReview : spot.avgRating} </p>
-                                        </span>
-                                    </div>
                                 </div>
-                            </Link>
-                            <div className="update-delete-buttons">
-                                <li className="manageSpotButtons">
-                                    <OpenModalButton
-                                        buttonText="Delete Spot"
-                                        modalComponent={<DeleteSpotModal spotId={spot.id} />}
-                                    />
-                                    <NavLink to={`/spots/${spot.id}/edit`}> <button>Update A Spot</button></NavLink>
-                                </li>
+                                <div className="rightSide">
+                                    <span id="manageSpotReview">
+                                        <i class="fa-solid fa-star"></i>
+                                        <p>{spot.avgRating === 'No rating recorded' ? newReview : spot.avgRating} </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </Link>
+                        <div className="updateDeleteButtons">
+                            <div className="manageSpotButtons">
+                                <NavLink to={`/spots/${spot.id}/edit`}><button className="updateASpotButton">Update A Spot</button></NavLink>
+                                <OpenModalButton
+                                    buttonText="Delete Spot"
+                                    modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                                />
                             </div>
                         </div>
                     </div>
@@ -96,12 +90,16 @@ function ManageSpot() {
 
     return (
         <>
-            <div className="above-blocks">
-                <h2>Manage Your Spots</h2>
-                <NavLink to="/spots/new">Create A New Spot</NavLink>
-            </div>
-            <div className="spots-container">
-                {manageSpotBlockCreator()}
+            <div className="everythingWrapper">
+                <div className="manageSpots">
+                    <div className="above-blocks">
+                        <h2>Manage Your Spots</h2>
+                        {filteredSpots.length === 0 ? <NavLink to="/spots/new">Create A New Spot</NavLink> : null}
+                    </div>
+                    <div id="spotsContainerManageSpot">
+                        {manageSpotBlockCreator()}
+                    </div>
+                </div>
             </div>
         </>
     )

@@ -1,0 +1,57 @@
+#spotsContainerManageSpot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.cardHolderManageSpot{
+    width: 100%;
+}
+
+.cardHolderWithButtons {
+    display:flex;
+    align-items: start;
+    flex-direction: column ;
+    width: 210px;
+    height: 321.19px;
+
+}
+
+#manageSpotReview {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.manageSpotButtons{
+    list-style-type: none;
+    display: flex;
+    gap: 7px;
+    margin-top: 25px;
+}
+
+.DeleteSpotButton{
+    color: red
+}
+
+.manageSpotButtons > button {
+    color: white;
+    background-color: darkgray;
+    box-shadow: 4px 3px 2px black;
+}
+
+.updateDeleteButtons {
+    width: 100%;
+    gap: 1px;
+}
+
+.updateASpotButton {
+    color: white;
+    background-color: darkgray;
+    box-shadow: 4px 3px 2px black;
+
+}

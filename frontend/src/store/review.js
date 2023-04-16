@@ -5,10 +5,11 @@ const getCurrentSpotReview = 'GETCURRENTSPOTREVIEW'
 const createReview = 'CREATEREVIEW'
 const deleteReview = 'DELETEREVIEW'
 
-const deleteReviewById = (review) => {
+const deleteReviewById = (review, reviewId) => {
     return {
         type: deleteReview,
-        payload: review
+        payload: review,
+        reviewId: reviewId
     }
 }
 
@@ -34,7 +35,7 @@ const createReviews = (payload, spotId) => {
     }
 }
 
-export const deleteReviewThunk = (reviewId) => async(dispatch) => {
+export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     console.log(reviewId)
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: "DELETE",
@@ -43,8 +44,7 @@ export const deleteReviewThunk = (reviewId) => async(dispatch) => {
         }
     })
     console.log(response)
-    if(response.ok){
-        console.log('response ok')
+    if (response.ok) {
         let res = await response.json()
         dispatch(deleteReviewById(res, reviewId))
     }
@@ -62,7 +62,6 @@ export const createReviewThunk = (payload, spotId) => async (dispatch) => {
         return res;
     }
 }
-
 
 export const getReviewByTheUserThunk = () => async (dispatch) => {
     const response = await fetch(`/api/reviews/current`)
@@ -109,11 +108,10 @@ const reviewReducer = (state = initialState, action) => {
             return newState
         } case createReview: {
             newState = Object.assign({}, state)
-            newState[action.payload.id]= action.payload
+            newState[action.payload.id] = action.payload
             return newState;
         } case deleteReview: {
             newState = Object.assign({}, state)
-            console.log('NEW STATE =========>',newState)
             delete newState[action.reviewId]
             return newState
         }

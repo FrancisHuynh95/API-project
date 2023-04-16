@@ -1,0 +1,36 @@
+.filled{
+    color: rgb(255, 238, 0)
+}
+
+.empty{
+    color: rgb(185, 185, 185)
+}
+
+.rating-input {
+    display: flex;
+    gap: 3px;
+}
+#homeStar{
+    display: flex;
+    align-items: center;
+}
+
+#star1:hover {
+    color: rgb(255, 238, 0)
+}
+#star2:hover {
+    color: rgb(255, 238, 0)
+}
+#star3:hover {
+    color: rgb(255, 238, 0)
+}
+#star4:hover {
+    color: rgb(255, 238, 0)
+}
+#star5:hover {
+    color: rgb(255, 238, 0)
+}
+
+#changed {
+    color:  rgb(255, 238, 0)
+}

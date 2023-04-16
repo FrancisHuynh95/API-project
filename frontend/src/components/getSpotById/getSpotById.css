@@ -5,20 +5,27 @@
 }
 
 .getOnePreviewImage {
+    width: 100%;
+    height: 334.33px;
+    object-fit: cover;
+}
+#previewImage {
     width: 50%;
-    height: 50%;
 }
 
 .nonPreviewPics {
-    display: block;
-    width: 48%;
-    height: 50%;
-    gap: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    gap: 5px;
 }
 
 .otherImages {
-    width: 50%;
-    height: 50%;
+    width: 49%;
+    height: 163.81px;
+    object-fit: cover;
 }
 
 .Host-Info{
@@ -47,7 +54,7 @@
     text-align: start;
 }
 
-.bottomshit{
+.bottomstuff{
     display:flex;
     align-items: center;
     gap: 3px;
@@ -63,8 +70,98 @@
     width: 100%;
 }
 
-.bigAssDiv{
+.bigolDiv{
     width:100%;
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 10px;
+}
+
+
+#deleteReviewButton {
+    background-color: red;
+    color: white;
+}
+
+#keepReviewButton {
+    background-color: darkgray;
+    color: white;
+}
+
+.user-reviews{
+    border: 1px solid black;
+}
+
+.topSpanDiv {
+    border: 1px solid red;
+}
+
+.reviewInfo{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    width: 35%;
+    border: 2px solid black;
+    margin-top: 15px;
+    height: fit-content;
+    border-radius: 13px;
+}
+
+.Host-Info{
+    width: 60%;
+}
+
+.smallReviewInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 20%;
+    width:100%;
+}
+
+.reserveButton{
+    padding: 8px 90px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 2px 2px black;
+}
+
+label {
+    text-decoration: none;
+    color: black;
+}
+
+
+#pricePerNight{
+    width: 50%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 80px;
+    gap: 4px;
+}
+
+#reviewInfo {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.reserveButtonContainer{
+    padding-bottom: 15px;
+}
+
+#spotDescription {
+    width: 95%;
+}
+
+.topHalf {
+    border-bottom: 1px solid black;
+}
+
+.everythingWrapper {
+    padding: 0 30px;
 }

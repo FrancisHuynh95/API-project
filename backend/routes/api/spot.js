@@ -79,7 +79,6 @@ router.get('/', async (req, res) => {
     }
     let limit = size
     let offset = size * (page - 1)
-    console.log('SDFGKJFDKSJFSDKLJ', limit, offset, size)
 
     const getAll = await Spot.findAll({
         where,
@@ -405,7 +404,6 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         description,
         price,
     } = req.body
-    console.log('test')
 
     const { user } = req
     const errorObj = { errors: {} }

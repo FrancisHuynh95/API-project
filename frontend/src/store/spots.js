@@ -104,6 +104,8 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
     if (response.ok) {
         let newRes = await response.json()
         dispatch(getOneSpot(newRes))
+        console.log('newRes =============>',newRes)
+        return newRes;
     }
 }
 
@@ -114,15 +116,12 @@ const spotReducer = (state = initialState, action) => {
     switch (action.type) {
         case GETALLSPOTS: {
             newState = Object.assign({}, state.allSpots, state.singleSpot)
-            console.log('GETALLSPOTS', newState)
             action.payload.Spots.forEach(spot => {
                 newState[spot.id] = spot
             })
             return newState
         } case GETONESPOT: {
-            console.log('STATE ===========>',state)
             newState = Object.assign({}, state.singleSpot)
-            console.log('STATE.payload ===========>',action.payload)
             newState[action.payload.id] = action.payload
             return newState
         }

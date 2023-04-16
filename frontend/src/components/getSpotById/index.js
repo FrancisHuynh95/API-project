@@ -9,6 +9,7 @@ import './getSpotById.css'
 import { getReviewForSpotThunk } from "../../store/review";
 import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/review";
+import { useHistory } from "react-router-dom";
 
 
 function GetSpotById() {
@@ -17,32 +18,58 @@ function GetSpotById() {
     const spots = useSelector(state => state.spots)
     const users = useSelector(state => state.session)
     const spotReviews = useSelector(state => state.reviews)
+    const spot = spots[spotId]
+    const noImage = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
 
     const reviewArray = Object.values(spotReviews)
     const theUser = users['user']
 
+    useEffect(() => {
+        dispatch(getOneSpotThunk(spotId))
+        dispatch(getReviewForSpotThunk(spotId))
+
+    }, [dispatch, reviewArray.length])
+
     function generateReview() {
-        return reviewArray.map(review =>
+        if (reviewArray[0] === `Spot doesn't have any reviews`) {
+            return <p>Be the first to post a review!</p>
+        }
+        return reviewArray.toReversed().map(review =>
             <>
                 <div className="user-reviews">
-                    <p>{review.User?.firstName}</p>
-                    <p>{review.createdAt}</p>
+                    {<p id="username">{review.User?.firstName}</p>}
+                    {dateFormat(review)}
                     <p>{review.review}</p>
-                    {theUser.id === review.userId
-                        ? generateDeleteModal(review.id, review.userId)
+                    {theUser?.id === review.userId
+                        ? generateDeleteModal(review.id, review.userId, review)
                         : null}
                 </div>
             </>
         )
     }
 
-    function DeleteReviewModal({reviewId}){
+    function dateFormat(review) {
+        let newReviewFormat = new Date(review.createdAt).toLocaleDateString('en-US', {
+            month: "long",
+            year: "numeric"
+        })
+        return (
+            <>
+                <p>{newReviewFormat}</p>
+            </>
+        )
+    }
+
+    function DeleteReviewModal({ reviewId }) {
+        const spot = useSelector(state => state.spots)
         const { closeModal } = useModal();
         const dispatch = useDispatch();
+        const history = useHistory()
 
         const handleSubmit = (e) => {
             e.preventDefault();
             dispatch(deleteReviewThunk(reviewId))
+                .then(() => dispatch(getReviewForSpotThunk(spotId)))
             dispatch(getOneSpotThunk(spotId))
             closeModal()
         };
@@ -51,26 +78,23 @@ function GetSpotById() {
                 <h1>Confirm Delete</h1>
                 <p>Are you sure you want to delete this review?</p>
                 <form onSubmit={handleSubmit}>
-                    <button type="submit">Yes (Delete Review)</button>
-                    <button onClick={closeModal}> No (Keep Spot)</button>
+                    <button id="deleteReviewButton" type="submit">Yes (Delete Review)</button>
+                    <button id="keepReviewButton" onClick={closeModal}> No (Keep Spot)</button>
                 </form>
             </>
         );
     }
 
-    function generateDeleteModal(reviewId, reviewUserId){
-
-        if(theUser.id === reviewUserId){
+    function generateDeleteModal(reviewId, reviewUserId, review) {
+        if (theUser && theUser?.id === reviewUserId) {
             return <div className="deleteReviewModal">
-            <OpenModalButton
-                buttonText="Delete"
-                modalComponent={<DeleteReviewModal reviewId={reviewId} />}
-            />
-        </div>
+                <OpenModalButton
+                    buttonText="Delete"
+                    modalComponent={<DeleteReviewModal reviewId={reviewId} />}
+                />
+            </div>
         }
     }
-
-    const spot = spots[spotId]
     const currentUser = users.user
 
     let previewImage
@@ -92,14 +116,12 @@ function GetSpotById() {
     let newArr = [];
     if (otherImages?.length > 0) {
         otherImages.map(image => newArr.push(image.url))
+    } else {
+        newArr.push(noImage)
+        newArr.push(noImage)
+        newArr.push(noImage)
+        newArr.push(noImage)
     }
-
-    useEffect(() => {
-        dispatch(getOneSpotThunk(spotId))
-        dispatch(getReviewForSpotThunk(spotId))
-
-    }, [dispatch])
-
     function reserveButton() {
         alert("Feature Coming Soon...")
     }
@@ -118,52 +140,58 @@ function GetSpotById() {
             }
         }
     }
-
-
     return (
         <>
-            <div className="topHalf">
-                <div className="name-location">
-                    <h2>{spot?.name}</h2>
-                    <p>{spot?.city}, {spot?.state}, {spot?.country}</p>
-                </div>
-                <div className="pictures">
-                    {previewImage && <img className="getOnePreviewImage" src={previewImage[0]['url']}></img>}
-                    <div className="nonPreviewPics">
-                        {newArr?.map(image => <img className="otherImages" src={`${image}`}></img>)}
+            <div className="everythingWrapper">
+                <div className="topHalf">
+                    <div className="name-location">
+                        <h2>{spot?.name}</h2>
+                        <p>{spot?.city}, {spot?.state}, {spot?.country}</p>
                     </div>
-                </div>
-                <div className="bigAssDiv">
-
-                    <div className="Host-Info">
-                        <h2>Hosted by {hostInfo?.firstName} {hostInfo?.lastName}</h2>
-                        {spot && <p>{spot.description}</p>}
-                        <div className="smallBox">
-                            <div className="reviewInfo">
-                                <div className="topSpanDiv">
-                                    <div className="textInTheBox">
-                                        <p className="price">${spot?.price} night</p>
-                                        <i className="fas fa-user-circle"></i>
-                                        <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : spot?.avgStarRating} · </p>
-                                        {spot?.avgStarRating !== 'No rating recorded' && <p className="starReviewCount">{spot?.numReviews} </p>}
-                                        {spot?.avgStarRating !== 'No rating recorded' && <p>{spot?.numReviews === 1 ? "Review" : "Reviews"}</p>}
-                                    </div>
-                                    <button className="reserveButton" onClick={reserveButton}>Reserve</button>
+                    <div className="pictures">
+                        <div id="previewImage">
+                            {previewImage && <img className="getOnePreviewImage" src={previewImage[0]['url']}></img>}
+                        </div>
+                        <div className="nonPreviewPics">
+                            {newArr?.map((image, index) => <img className="otherImages" id={index + 1} src={`${image}`}></img>)}
+                        </div>
+                    </div>
+                    <div className="bigOlDiv">
+                        <div className="Host-Info">
+                            <h2>Hosted by {hostInfo?.firstName} {hostInfo?.lastName}</h2>
+                            {spot && <p id="spotDescription">{spot.description}</p>}
+                            <div className="smallBox">
+                            </div>
+                        </div>
+                        <div className="reviewInfo">
+                            <div className="smallReviewInfoContainer">
+                                <div id="pricePerNight">
+                                    <p className="price">${spot?.price}</p>
+                                    <label> night</label>
                                 </div>
+                                <div id="reviewInfo">
+                                    <i class="fa-solid fa-star"></i>
+                                    <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : `${spot?.avgStarRating} · `}</p>
+                                    {spot?.avgStarRating !== 'No rating recorded' && <p className="starReviewCount">{spot?.numReviews} </p>}
+                                    {spot?.avgStarRating !== 'No rating recorded' && <p>{spot?.numReviews === 1 ? "Review" : "Reviews"}</p>}
+                                </div>
+                            </div>
+                            <div className="reserveButtonContainer">
+                                <button className="reserveButton" onClick={reserveButton}>Reserve</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="bottom-half">
-                <div className="bottomshit">
-                    <i className="fas fa-user-circle"></i>
-                    <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : spot?.avgStarRating} · </p>
-                    <p className="starReviewCount">{spot?.numReviews} reviews</p>
+                <div className="bottom-half">
+                    <div className="bottomstuff">
+                        <i class="fa-solid fa-star"></i>
+                        <p className="avgStarRating">{spot?.avgStarRating === 'No rating recorded' ? noReview : spot?.avgStarRating}</p>
+                        <p className="starReviewCount">{spot?.numReviews ? spot?.numReviews >= 2 ? ` · ${spot?.numReviews} Reviews` : spot?.numReviews === 1 ? " · 1 Review" : null : null} </p>
+                    </div>
+                    {generateModal()}
                 </div>
-                {generateModal()}
+                {generateReview()}
             </div>
-            {generateReview()}
         </>
     )
 }

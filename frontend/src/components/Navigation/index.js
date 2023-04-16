@@ -12,19 +12,24 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-          <NavLink className='NavLink' exact to="/">Home</NavLink>
-      <ul>
-        {isLoaded && (
-          <>
-          <div className='upperBarDiv'>
-          {sessionUser && <NavLink exact to={`/spots/new`}>Create A Spot</NavLink> }
-            <li className='userButtonLi'>
-              <ProfileButton className='userButton' user={sessionUser} />
-            </li>
-          </div>
-          </>
-        )}
-      </ul>
+      <div id="navPanel">
+        <NavLink className='NavLink' exact to="/"><img id='logo' src='/heir-cnc-logo.png'></img></NavLink>
+        <ul id="navUl">
+          {isLoaded && (
+            <>
+              <div id='button-createspot'>
+                {sessionUser && <NavLink exact to={`/spots/new`}>Create A New Spot</NavLink>}
+                <div className='upperBarDiv'>
+                  <li className='userButtonLi'>
+                    <i class="fa-solid fa-bars"></i>
+                    <ProfileButton className='userButton' user={sessionUser} />
+                  </li>
+                </div>
+              </div>
+            </>
+          )}
+        </ul>
+      </div>
     </>
   );
 }
