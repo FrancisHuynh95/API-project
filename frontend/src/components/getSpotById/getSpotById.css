@@ -1,0 +1,179 @@
+
+.pictures {
+    display: flex;
+    gap: 5px;
+}
+
+.getOnePreviewImage {
+    width: 100%;
+    height: 334.33px;
+    object-fit: cover;
+}
+#previewImage {
+    width: 50%;
+}
+
+.nonPreviewPics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    gap: 5px;
+}
+
+.otherImages {
+    width: 49%;
+    height: 163.81px;
+    object-fit: cover;
+}
+
+.Host-Info{
+    display: flex;
+    flex-direction: column;
+    width: 50%
+}
+
+#top {
+    width:fit-content;
+    display:flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.topSpanDiv{
+    display:flex;
+    justify-content: end;
+
+}
+
+.bottomSpanDiv {
+    display:flex;
+    justify-content: flex-start;
+}
+
+#bottom {
+    text-align: start;
+}
+
+.bottomstuff{
+    display:flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.textInTheBox{
+    display: flex;
+    align-items: center;
+    gap:3px;
+}
+
+.smallBox {
+    width: 100%;
+}
+
+.bigolDiv{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+}
+
+
+#deleteReviewButton {
+    background-color: red;
+    color: white;
+}
+
+#keepReviewButton {
+    background-color: darkgray;
+    color: white;
+}
+
+.user-reviews{
+    border: 1px solid black;
+}
+
+.topSpanDiv {
+    border: 1px solid red;
+}
+
+.reviewInfo{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    width: 35%;
+    border: 2px solid black;
+    margin-top: 15px;
+    height: fit-content;
+    border-radius: 13px;
+}
+
+.Host-Info{
+    width: 60%;
+}
+
+.smallReviewInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 20%;
+    width:100%;
+}
+
+.reserveButton{
+    padding: 8px 90px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 2px 2px black;
+}
+
+label {
+    text-decoration: none;
+    color: black;
+}
+
+
+#pricePerNight{
+    width: 50%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 80px;
+    gap: 4px;
+}
+
+#reviewInfo {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.reserveButtonContainer{
+    padding-bottom: 15px;
+}
+
+#spotDescription {
+    width: 95%;
+    word-break: break-all;
+}
+
+.topHalf {
+    border-bottom: 1px solid black;
+}
+
+.everythingWrapper {
+    padding: 0 30px;
+}
+
+#username{
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+#formattedDate {
+    font-style: italic;
+}
