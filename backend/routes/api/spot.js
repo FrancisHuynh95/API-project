@@ -79,10 +79,6 @@ router.get('/', async (req, res) => {
     }
     let limit = size
     let offset = size * (page - 1)
-<<<<<<< HEAD
-
-=======
->>>>>>> frontend
 
     const getAll = await Spot.findAll({
         where,
