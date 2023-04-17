@@ -39,7 +39,7 @@ function GetSpotById() {
                 <div className="user-reviews">
                     {<p id="username">{review.User?.firstName}</p>}
                     {dateFormat(review)}
-                    <p>{review.review}</p>
+                    <p id="userReview">{review.review}</p>
                     {theUser?.id === review.userId
                         ? generateDeleteModal(review.id, review.userId, review)
                         : null}
@@ -55,7 +55,7 @@ function GetSpotById() {
         })
         return (
             <>
-                <p>{newReviewFormat}</p>
+                <p id="formattedDate">{newReviewFormat}</p>
             </>
         )
     }
@@ -75,12 +75,16 @@ function GetSpotById() {
         };
         return (
             <>
-                <h1>Confirm Delete</h1>
-                <p>Are you sure you want to delete this review?</p>
-                <form onSubmit={handleSubmit}>
-                    <button id="deleteReviewButton" type="submit">Yes (Delete Review)</button>
-                    <button id="keepReviewButton" onClick={closeModal}> No (Keep Spot)</button>
-                </form>
+                <div id="deleteSpotDiv">
+                    <h1 id="deleteSpotTitle">Confirm Delete</h1>
+                    <p>Are you sure you want to remove this spot from the listings?</p>
+                    <form onSubmit={handleSubmit}>
+                        <div id="deleteOrKeep">
+                            <button id="deleteReviewButton" type="submit">Yes (Delete Review)</button>
+                            <button id="keepReviewButton" onClick={closeModal}> No (Keep Spot)</button>
+                        </div>
+                    </form>
+                </div>
             </>
         );
     }

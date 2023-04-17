@@ -1,7 +1,30 @@
-.signupH1 {
-    color: blue
+#signContainer {
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    width: 400px;
+    padding: 10px 10px;
 }
 
-.signupForm {
-    color: blue
+#signupTitle {
+    text-align: center;
+    margin: 5px 0px;
+}
+
+.SignupLabel {
+    display: flex;
+    flex-direction: column;
+}
+
+#signupButtonDiv {
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+#signContainer {
+    border: 1px solid red;
+}
+#signupButton {
+    display: inline-block
 }

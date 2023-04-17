@@ -168,3 +168,12 @@ label {
 .everythingWrapper {
     padding: 0 30px;
 }
+
+#username{
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+#formattedDate {
+    font-style: italic;
+}

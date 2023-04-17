@@ -35,3 +35,12 @@
     background-color: red;
     box-shadow: 3px 2px 2px black;
 }
+
+#updateTextArea{
+    width: 100%;
+    height: 20%;
+}
+
+.userInput {
+    border: 2px solid black;
+}

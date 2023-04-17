@@ -104,7 +104,7 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
     if (response.ok) {
         let newRes = await response.json()
         dispatch(getOneSpot(newRes))
-        console.log('newRes =============>',newRes)
+
         return newRes;
     }
 }

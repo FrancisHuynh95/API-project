@@ -33,42 +33,47 @@ function LoginFormModal() {
 
   return (
     <>
-        <h1 className="LoginH1">Log In</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="userNameOrEmail">
-            <label>
+    <div id="loginLoginErrors">
+      <h1 className="LoginH1">Log In</h1>
+      {errors.credential && (<p className="errors">{errors.credential}</p>)}
+    </div>
+      <form onSubmit={handleSubmit}>
+        <div id="loginContent">
+          <div id="usernameOrPassword">
+            <div className="userNameOrEmail">
+              <label>
+                <input
+                  className="userInput"
+                  id="loginUsername"
+                  type="text"
+                  value={credential}
+                  placeholder="Username or Email"
+                  onChange={(e) => setCredential(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <div className="password">
+              <label>
 
-              <input
-                className="loginModal"
-                type="text"
-                value={credential}
-                placeholder="Username or Email"
-                onChange={(e) => setCredential(e.target.value)}
-                required
-              />
-            </label>
+                <input
+                  className="userInput"
+                  id="loginPassword"
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
           </div>
-          <div className="password">
-            <label>
-
-              <input
-                className="loginModal"
-                type="password"
-                value={password}
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </label>
-          </div>
-          {errors.credential && (
-            <p>{errors.credential}</p>
-          )}
           <div className="submitDemoUserButtons">
             <button disabled={credential.length < 4 || password.length < 6 ? true : false} className="loginButton">Log In</button>
             <button className="DemoUserButton" onClick={demoUser}>Demo User</button>
           </div>
-        </form>
+        </div>
+      </form>
 
     </>
   );

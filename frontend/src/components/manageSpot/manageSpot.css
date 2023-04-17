@@ -25,7 +25,14 @@
     align-items: center;
 }
 
+#deleteSpotDiv {
+    width: 100%;
+    padding: 0px 5px;
+}
 
+#deleteSpotTitle {
+    text-align: center;
+}
 
 .manageSpotButtons{
     list-style-type: none;
@@ -35,7 +42,7 @@
 }
 
 .DeleteSpotButton{
-    color: red
+    color: red;
 }
 
 .manageSpotButtons > button {
@@ -53,5 +60,35 @@
     color: white;
     background-color: darkgray;
     box-shadow: 4px 3px 2px black;
-
 }
+
+#deleteSpotTitle{
+    text-align: center;
+    margin: 7px 0px 15px 0px;
+}
+
+#deleteSpotDiv {
+    width: 300px;
+    height: 200px;
+    padding: 0px 10px;
+}
+
+#deleteOrKeep{
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+#deleteReviewButton {
+    height: 30px;
+    margin: 0px 5px;
+    box-shadow: 3px 3px 2px black;
+}
+
+#keepReviewButton {
+    height: 30px;
+    margin: 0px 5px;
+    box-shadow: 3px 3px 2px black;
+}
+
+

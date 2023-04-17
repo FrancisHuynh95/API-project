@@ -129,7 +129,7 @@ function UpdateSpot() {
                         <div className="section2">
                             <h3>Describe your place to guests</h3>
                             <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-                            <textarea id="textArea" className="userInput" placeholder="Please write at least 30 characters" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                            <textarea id="updateTextArea" className="userInput" placeholder="Please write at least 30 characters" value={description} onChange={e => setDescription(e.target.value)}></textarea>
                             {errors.description && <p className="errors">{errors.description}</p>}
                         </div>
                         <div className="section3">
