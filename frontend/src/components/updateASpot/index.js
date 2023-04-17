@@ -19,7 +19,7 @@ function UpdateSpot() {
     const [lat, setLat] = useState(``)
     const [description, setDescription] = useState(``)
     const [title, setTitle] = useState(``)
-    const [price, setPrice] = useState(``)
+    const [price, setPrice] = useState(0)
     const [errors, setErrors] = useState({})
     const history = useHistory()
     const getSpot = useSelector(state => state.spots)
@@ -43,10 +43,8 @@ function UpdateSpot() {
 
 
     if (!getSpot) return null
-    const spotArray = Object.values(getSpot)
 
-
-    async function formSubmit(e) {
+     function formSubmit(e) {
         e.preventDefault()
         const errorObj = {}
         if (country.length === 0) errorObj.country = "Country is required"
@@ -57,11 +55,12 @@ function UpdateSpot() {
         if (lat.length === 0) errorObj.lat = "Lat is required"
         if (description.length < 30) errorObj.description = "Description needs a minimum of 30 characters"
         if (title.length === 0) errorObj.title = "Name is required"
+        if (title.length > 50) errorObj.title = "Name must be less than 50 characters"
         if (price.length === 0) errorObj.price = "Price is required"
-
+        if (isNaN(+price)) errorObj.price = "Price must be a number"
         setErrors(errorObj)
 
-        if (Object.values(errors).length === 0) {
+        if (Object.values(errorObj).length === 0) {
             dispatch(updateSpotThunk({ country, address, city, state, lng, lat, description, name: title, price }, +spotId))
             history.push(`/spots/${spotId}`)
         }
@@ -146,8 +145,8 @@ function UpdateSpot() {
                                 in search results</p>
                             <div className="priceWithSymbol">
                                 $ <input id="updatePrice" className="userInput" type="text" placeholder="Price per night (USD)" value={price} onChange={e => setPrice(e.target.value)}></input>
-                                {errors.price && <p className="errors">{errors.price}</p>}
                             </div>
+                                {errors.price && <p className="errors">{errors.price}</p>}
                         </div>
                         <div className="section6">
                         <button id="updateSpotButton" type="submit">Update your Spot</button>

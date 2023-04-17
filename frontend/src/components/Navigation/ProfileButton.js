@@ -49,34 +49,37 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li className="userInfoLi">Hello, {user.username}</li>
-            <li className="userInfoLi">{user.email}</li>
-            <li className="userInfoLi"><Link onClick={closeMenu} to="/spots/current">Manage Spots</Link></li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-          </>
-        )}
-      </ul>
+      <div className="topuserbuttonandbar">
+        <button id="navButton" onClick={openMenu}>
+        <i className="fa-solid fa-bars"></i>
+          <i className="fas fa-user-circle" />
+        </button>
+          </div>
+        <ul className={ulClassName} ref={ulRef}>
+          {user ? (
+            <>
+              <li className="userInfoLi">Hello, {user.username}</li>
+              <li id="helloUser" className="userInfoLi">{user.email}</li>
+              <li id="helloUserSpots" className="userInfoLi"><Link id="helloButton" onClick={closeMenu} to="/spots/current">Manage Spots</Link></li>
+              <li>
+                <button onClick={logout}>Log Out</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </>
+          )}
+        </ul>
     </>
   );
 }

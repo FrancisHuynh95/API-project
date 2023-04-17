@@ -6,34 +6,48 @@
     height: 75px;
 }
 
-.profile-dropdown {
-    padding: 0 5 0 0  ;
+#navButton {
+    display: flex;
+    gap: 8px;
+    padding: 5px 13px;
+    border-radius: 5px;
+    background-color: white;
 }
 
-#navPanel{
+#navUl {
     display: flex;
+    gap: 15px;
     align-items: center;
-    gap: 66%;
+}
+
+#createANewSpotNav{
+    text-decoration: none;
+    color: teal;
+    font-weight: bold;
+
+}
+
+#helloButton {
+    text-decoration: none;
+    color: black;
+}
+
+#navPanel {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 2px solid lightgray;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-#navUl{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+.profile-dropdown {
     border: 1px solid black;
-    z-index: 3;
+    position:absolute;
+    right: 1%;
+    padding: 0px;
 }
 
-#button-createspot{
-    display: flex;
-    flex-direction: row;
-    text-align: start;
-    margin-right: 30px;
-    width: 140px;
-}
-
-#createANewSpot{
-    justify-content: start;
+#helloUser {
+    border-bottom: 1px solid black;
+    margin: 2px 0px;
 }

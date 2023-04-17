@@ -1,11 +1,13 @@
+body {
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
 .cardHolder{
     display:flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 10px
-
 }
-
 .spotCard {
     width: 22%;
     gap: 5px;

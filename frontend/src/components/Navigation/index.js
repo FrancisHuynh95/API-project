@@ -16,12 +16,14 @@ function Navigation({ isLoaded }) {
           {isLoaded && (
             <>
               <div id='button-createspot'>
-                {sessionUser && <NavLink id='createANewSpot' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+                {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
               </div>
                 <div className='upperBarDiv'>
                   <div className='userButtonLi'>
-                    <i class="fa-solid fa-bars"></i>
-                    <ProfileButton className='userButton' user={sessionUser} />
+                    <div id='profileUserButton'>
+
+                    <ProfileButton className='userButton' user={sessionUser}  />
+                    </div>
                   </div>
                 </div>
             </>
