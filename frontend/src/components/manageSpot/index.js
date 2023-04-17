@@ -38,8 +38,8 @@ function ManageSpot() {
                 <h1>Confirm Delete</h1>
                 <p>Are you sure you want to remove this spot from the listings?</p>
                 <form onSubmit={handleSubmit}>
-                    <button>Yes (Delete Spot)</button>
-                    <button onClick={closeModal}> No (Keep Spot)</button>
+                    <button id="yesDelete">Yes (Delete Spot)</button>
+                    <button id="noDelete" onClick={closeModal}> No (Keep Spot)</button>
                 </form>
             </>
         );
@@ -75,7 +75,8 @@ function ManageSpot() {
                         </Link>
                         <div className="updateDeleteButtons">
                             <div className="manageSpotButtons">
-                                <NavLink to={`/spots/${spot.id}/edit`}><button className="updateASpotButton">Update A Spot</button></NavLink>
+                                <NavLink to={`/spots/${spot.id}/edit`}>
+                                    <button className="updateASpotButton">Update A Spot</button></NavLink>
                                 <OpenModalButton
                                     buttonText="Delete Spot"
                                     modalComponent={<DeleteSpotModal spotId={spot.id} />}

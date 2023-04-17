@@ -16,7 +16,8 @@
 }
 
 #star1:hover {
-    color: rgb(255, 238, 0)
+    color: rgb(255, 238, 0);
+    cursor: pointer;
 }
 #star2:hover {
     color: rgb(255, 238, 0)

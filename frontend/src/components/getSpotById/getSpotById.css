@@ -125,6 +125,10 @@
     box-shadow: 3px 2px 2px black;
 }
 
+.reserveButton:hover {
+    cursor: pointer;
+}
+
 label {
     text-decoration: none;
     color: black;
@@ -172,4 +176,24 @@ label {
 
 #formattedDate {
     font-style: italic;
+}
+
+.addReviewModal > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
+
+.addReviewModal > button:hover {
+    cursor: pointer;
+}
+
+.deleteReviewModal > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
+
+.deleteReviewModal > button:hover{
+    cursor: pointer;
 }

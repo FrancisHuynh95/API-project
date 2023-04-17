@@ -14,6 +14,10 @@
     background-color: white;
 }
 
+#navButton:hover {
+    cursor: pointer;
+}
+
 #navUl {
     display: flex;
     gap: 15px;
@@ -45,9 +49,38 @@
     position:absolute;
     right: 1%;
     padding: 0px;
+    background-color: white;
 }
 
 #helloUser {
     border-bottom: 1px solid black;
     margin: 2px 0px;
+}
+
+#helloUserSpots{
+    border-bottom: 1px solid black;
+
+}
+
+#logoutButton {
+    padding: 5px;
+    margin: 3px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: white;
+    background-color: gray;
+}
+
+#logoutButton:hover {
+    cursor: pointer;
+}
+
+#logoutButtonDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.userInfoLi {
+    text-align: center;
 }
