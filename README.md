@@ -2,7 +2,7 @@
       
 HeirBNB is a soft clone of Airbnb. Users will be able to list their spot. Users will also be able to book a spot, as well as create a review for a spot. 
 
-Check out [Remotebnb](https://remotebnb.herokuapp.com/) (Moving from Heroku soon)
+Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 
 ## Index
 
