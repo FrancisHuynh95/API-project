@@ -1,4 +1,5 @@
 # HeirBNB
+
       
 HeirBNB is a soft clone of Airbnb. Users will be able to list their spot. Users will also be able to book a spot, as well as create a review for a spot. 
 
@@ -13,6 +14,7 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 
 ## Technologies Used
 
+
 <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" /><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" /><img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" /><img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" /><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" /><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" /><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /><img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" /><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 
 ## Splash Page
@@ -22,7 +24,6 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 ![spots]
 
 ## One spot page and reviews
-![ezgif com-gif-maker]
 
 
 ## Getting started
@@ -57,10 +58,10 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 # Features 
 
 ## Spots
-* Users can create a Spot
-* Users can read/view other Spot
-* Users can update their Spot
-* Users can delete their Spot
+* Users can create a spot
+* Users can read/view other spot
+* Users can update their spot
+* Users can delete their spot
 
 ## Reviews
 * Users can create reviews on spots
@@ -77,4 +78,3 @@ Logged-in Users can
 ## AWS
 Logged-in Users can
 * Upload multiple images of their spot to AWS S3
-
