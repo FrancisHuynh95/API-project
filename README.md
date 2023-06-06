@@ -63,16 +63,16 @@ Check out [Remotebnb](https://remotebnb.herokuapp.com/) (Moving from Heroku soon
 * Users can delete their Spot
 
 ## Reviews
-* Users can create Reviews on Spots
-* users can read/view all of the Reviews on a Spot
-* Users can delete their Review(s) on a Spot
+* Users can create reviews on spots
+* users can read/view all of the reviews on a spot
+* Users can delete their review on a spot
 
 ## Bookings
 Logged-in Users can
 * Create a booking at a spot
 * Update their booking at a spot
 * Read all of their bookings
-* Delete/Cancel their booking
+* Delete their booking
 
 ## AWS
 Logged-in Users can
