@@ -23,6 +23,9 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 
 ## One spot page and reviews
 
+<img width="635" alt="singleSpot" src="https://github.com/FrancisHuynh95/HeirCNC/assets/116605438/09758f95-5a67-4a73-9bff-67953f47e3c5">
+<img width="489" alt="Reviews" src="https://github.com/FrancisHuynh95/HeirCNC/assets/116605438/4a422e65-6b45-4c56-ad5b-ac199aaf115c">
+
 
 ## Getting started
 1. Clone this repository:
