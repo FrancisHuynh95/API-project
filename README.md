@@ -10,7 +10,8 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 [MVP Feature List](https://github.com/FrancisHuynh95/HeirCNC/wiki/Features-List) |
 [Database Scheme](https://github.com/FrancisHuynh95/HeirCNC/wiki/Schema) | 
 [User Stories] |
-[Wire Frames] |
+[Wire Frames] ([AirBnB+MVP+Wireframes.pdf](https://github.com/FrancisHuynh95/HeirCNC/files/11681821/AirBnB%2BMVP%2BWireframes.pdf)
+)|
 
 ## Technologies Used
 
