@@ -7,10 +7,10 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 
 ## Index
 
-[MVP Feature List]|
-[Database Scheme]|
+[MVP Feature List] |
+[Database Scheme] |
 [User Stories] |
-[Wire Frames]|
+[Wire Frames] |
 
 ## Technologies Used
 
