@@ -7,7 +7,7 @@ Check out [HeirCNC](https://air-bnb-nsyh.onrender.com)
 
 ## Index
 
-[MVP Feature List] |
+[MVP Feature List](https://github.com/FrancisHuynh95/HeirCNC/wiki/Features-List) |
 [Database Scheme](https://github.com/FrancisHuynh95/HeirCNC/wiki/Schema) | 
 [User Stories] |
 [Wire Frames] |
