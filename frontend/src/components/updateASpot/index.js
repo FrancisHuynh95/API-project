@@ -23,7 +23,7 @@ function UpdateSpot() {
     const [errors, setErrors] = useState({})
     const history = useHistory()
     const getSpot = useSelector(state => state.spots)
-    const user = useSelector(state => state.session.user)
+    const user = useSelector(state => state.session.useddddr)
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId)).then(spot => {

@@ -8,8 +8,6 @@ function StarRating({ disabled, rating, onChange }) {
         setActiveRating(rating);
     }, [rating])
 
-
-    //<i id="star1" className="fa fa-star"></i>
     return (
         <>
             <div className="rating-input">

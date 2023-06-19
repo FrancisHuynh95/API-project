@@ -39,7 +39,6 @@ const getOneSpot = (spot) => {
 
 export const getSpotThunk = () => async (dispatch) => {
     let response = await fetch('/api/spots')
-
     if (response.ok) {
         let newRes = await response.json()
         await dispatch(getSpot(newRes))
@@ -85,6 +84,7 @@ export const createSpotThunk = (payload, imageInfo) => async (dispatch) => {
 }
 
 export const updateSpotThunk = (payload, spotId) => async (dispatch) => {
+
     const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: "PUT",
         headers: {
