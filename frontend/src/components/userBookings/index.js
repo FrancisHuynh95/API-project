@@ -19,8 +19,8 @@ function UserBookings() {
     function handleEdit(){
         console.log('edit booking')
     }
-    function handleDelete(){
-        console.log('delete booking modal')
+    function handleDelete(bookingId){
+        console.log('delete booking modal', bookingId)
     }
     if(!bookings) return <p>You don't have any bookings</p>
     return (
@@ -31,7 +31,7 @@ function UserBookings() {
                     <img src={`${booking.Spot.previewImage}`}></img>
                     <p>${`${booking.Spot.price}`}</p>
                     <button onClick={() => handleEdit()}>Edit Booking</button>
-                    <button onClick={() => handleDelete()}>Delete Booking</button>
+                    <button onClick={() => handleDelete(booking.id)}>Delete Booking</button>
                 </div>
                 )}
         </>
