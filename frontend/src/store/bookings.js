@@ -69,7 +69,7 @@ export const removeBookingThunk = (bookingId) => async(dispatch) => {
 }
 
 export const getUserBookingsThunk = () => async (dispatch) => {
-    const res = csrfFetch(`/api/bookings/current`)
+    const res = await csrfFetch(`/api/bookings/current`)
     if(res.ok){
         const response = await res.json()
         await dispatch(userBookings(response))
@@ -84,14 +84,14 @@ const bookingReducer = (state = initalState, action) => {
     switch(action.type){
         case GET_BOOKING:{
             newState = {}
-            action.booking.forEach(booking =>
+            action.booking.Bookings.forEach(booking =>
                 newState[booking.id] = booking
             )
             return newState;
         }
         case USER_BOOKINGS:{
             newState = {}
-            action.bookings.forEach(booking =>
+            action.bookings.Bookings.forEach(booking =>
                 newState[booking.id] = booking
             )
             return newState;
