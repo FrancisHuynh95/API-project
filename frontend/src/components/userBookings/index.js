@@ -16,8 +16,8 @@ function UserBookings() {
         dispatch(getUserBookingsThunk(user.id))
     }, [dispatch])
 
-    function handleEdit(){
-        console.log('edit booking')
+    function handleEdit(bookingId){
+        console.log('edit booking', bookingId)
     }
     function handleDelete(bookingId){
         console.log('delete booking modal', bookingId)
@@ -30,7 +30,7 @@ function UserBookings() {
                 <div className="bookingSpotCard" title={`${booking.Spot.name}`}>
                     <img src={`${booking.Spot.previewImage}`}></img>
                     <p>${`${booking.Spot.price}`}</p>
-                    <button onClick={() => handleEdit()}>Edit Booking</button>
+                    <button onClick={() => handleEdit(booking.id)}>Edit Booking</button>
                     <button onClick={() => handleDelete(booking.id)}>Delete Booking</button>
                 </div>
                 )}
