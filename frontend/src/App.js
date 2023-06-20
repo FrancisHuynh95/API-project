@@ -8,6 +8,7 @@ import CreateSpot from "./components/createSpot/"
 import GetSpotById from "./components/getSpotById/";
 import UpdateSpot from "./components/updateASpot";
 import ManageSpot from "./components/manageSpot";
+import UserBookings from "./components/userBookings";
 
 
 
@@ -42,9 +43,14 @@ function App() {
             <GetSpotById />
           </Route>
 
+          <Route path='/bookings/current'>
+            <UserBookings />
+          </Route>
+
           <Route exact path='/'>
             <Home />
           </Route>
+
 
 
 
