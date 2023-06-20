@@ -9,7 +9,7 @@ import GetSpotById from "./components/getSpotById/";
 import UpdateSpot from "./components/updateASpot";
 import ManageSpot from "./components/manageSpot";
 import UserBookings from "./components/userBookings";
-
+import UserReviews from "./components/userReviews";
 
 
 
@@ -45,6 +45,10 @@ function App() {
 
           <Route path='/bookings/current'>
             <UserBookings />
+          </Route>
+
+          <Route path='/reviews/current'>
+            <UserReviews />
           </Route>
 
           <Route exact path='/'>

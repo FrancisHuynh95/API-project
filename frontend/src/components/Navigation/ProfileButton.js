@@ -61,6 +61,7 @@ function ProfileButton({ user }) {
               <li className="userInfoLi">Hello, {user.username}</li>
               <li id="helloUser" className="userInfoLi">{user.email}</li>
               <li id="helloUserSpots" className="userInfoLi"><Link id="helloButton" onClick={closeMenu} to="/spots/current">Manage Spots</Link></li>
+              <li id="manageBookings"><Link onClick={closeMenu} to="/reviews/current">Manage Reviews</Link></li>
               <li id="manageBookings"><Link onClick={closeMenu} to="/bookings/current">Manage Bookings</Link></li>
               <li>
                 <div id="logoutButtonDiv">
