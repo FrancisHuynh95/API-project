@@ -35,14 +35,6 @@ const createReviews = (payload, spotId) => {
         spotId: spotId
     }
 }
-const updateReviews = (reviewId, review) => {
-    return {
-        type: updateReview,
-        reviewId,
-        review
-    }
-}
-
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: "DELETE",
