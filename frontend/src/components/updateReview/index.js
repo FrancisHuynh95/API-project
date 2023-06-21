@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react"
 import StarRating from "../starRating";
+import { useModal } from "../../context/Modal";
+import { useDispatch } from "react-redux";
+import { updateReviewThunk } from "../../store/review";
 
 
 function UpdateReview({ review }) {
+    const dispatch = useDispatch()
+    const {closeModal} = useModal()
     const [newReview, setNewReview] = useState("")
     const [stars, setStars] = useState(0)
-
-    const onChange = (number) => {
-        setStars(parseInt(number));
-    };
-
-    const handleSubmit = () => {
-        console.log(stars)
-        console.log(newReview)
-    }
-
+    const [errors, setErrors] = useState({})
     useEffect(() => {
         if(review){
             setStars(review.stars)
@@ -22,9 +18,32 @@ function UpdateReview({ review }) {
         }
     }, [])
 
+    const onChange = (number) => {
+        setStars(parseInt(number));
+    };
+
+    const handleSubmit = async () => {
+        let errorObj = {}
+        if(newReview.length > 200){
+            errorObj.review = "Review must be at most 200 characters long"
+        }
+        setErrors(errorObj)
+        if(Object.values(errorObj).length > 0){
+            return
+        } else {
+            let newReview2 = {}
+            newReview2.stars = stars
+            newReview2.review = newReview
+            dispatch(updateReviewThunk(review.id, {"review": newReview, stars}))
+            closeModal()
+        }
+    }
+
+
     return (
         <div className="UpdateReviewModal">
             <h1>Update Review</h1>
+            {errors.review && <p className="errors">{errors.review}</p>}
             <div className="UpdateReviewModalInputs">
             <textarea rows={8} cols={45} className="userInput" id="reviewInput" type="text" placeholder="Leave your review here..." value={newReview} onChange={e => setNewReview(e.target.value)}></textarea>
             </div>
@@ -38,7 +57,7 @@ function UpdateReview({ review }) {
                 </div>
                 <p>Stars</p>
             </div>
-            <button onClick={() => handleSubmit()}>Submit</button>
+            <button disabled={newReview.length < 10 || stars === 0 ? true : false} onClick={() => handleSubmit()}>Submit</button>
         </div>
     )
 }

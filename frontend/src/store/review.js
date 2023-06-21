@@ -4,6 +4,7 @@ const getReviewByUser = 'GETREVIEWSBYUSER'
 const getCurrentSpotReview = 'GETCURRENTSPOTREVIEW'
 const createReview = 'CREATEREVIEW'
 const deleteReview = 'DELETEREVIEW'
+const updateReview = 'UPDATEREVIEW'
 
 const deleteReviewById = (review, reviewId) => {
     return {
@@ -34,6 +35,13 @@ const createReviews = (payload, spotId) => {
         spotId: spotId
     }
 }
+const updateReviews = (reviewId, review) => {
+    return {
+        type: updateReview,
+        reviewId,
+        review
+    }
+}
 
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
@@ -59,6 +67,17 @@ export const createReviewThunk = (payload, spotId) => async (dispatch) => {
         let res = await response.json()
         dispatch(createReviews(res))
         return res;
+    }
+}
+
+export const updateReviewThunk = (reviewId, review) => async (dispatch) => {
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({review: review.review, stars: parseInt(review.stars)})
+    })
+    if(res.ok){
+        dispatch(getReviewByTheUserThunk(res))
     }
 }
 
