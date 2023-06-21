@@ -12,7 +12,7 @@ function UserReviews(){
 
     useEffect(() => {
         dispatch(getReviewByTheUserThunk())
-    },[dispatch])
+    },[dispatch, reviewsArray.length])
     if(!reviews) return <p>Loading</p>
     return(
         <>

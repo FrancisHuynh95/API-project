@@ -18,6 +18,15 @@
     cursor: pointer;
 }
 
+#manageBookings {
+    text-decoration: none;
+    color: black;
+}
+#manageBookingsLi {
+    border-bottom: 1px solid black;
+    padding: 5px 0px;
+}
+
 #navUl {
     display: flex;
     gap: 15px;
@@ -59,7 +68,7 @@
 
 #helloUserSpots{
     border-bottom: 1px solid black;
-
+    padding: 5px 0px;
 }
 
 #logoutButton {
