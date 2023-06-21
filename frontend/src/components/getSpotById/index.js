@@ -11,6 +11,7 @@ import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/review";
 import { useHistory } from "react-router-dom";
 import UpdateReview from "../updateReview";
+import BookSpot from "../bookSpotModal";
 
 
 function GetSpotById() {
@@ -189,7 +190,10 @@ function GetSpotById() {
                                 </div>
                             </div>
                             <div className="reserveButtonContainer">
-                                <button className="reserveButton" onClick={reserveButton}>Reserve</button>
+                                <OpenModalButton
+                                buttonText={"Reserve"}
+                                modalComponent={<BookSpot />}
+                                />
                             </div>
                         </div>
                     </div>

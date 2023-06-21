@@ -118,16 +118,16 @@
     width:100%;
 }
 
-.reserveButton{
+.reserveButtonContainer > button {
     padding: 8px 90px;
     color: white;
     background-color: red;
     box-shadow: 3px 2px 2px black;
 }
-
-.reserveButton:hover {
+.reserveButtonContainer > button:hover {
     cursor: pointer;
 }
+
 
 label {
     text-decoration: none;
