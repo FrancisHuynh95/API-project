@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import OpenModalButton from "../OpenModalButton"
 import UpdateReview from "../updateReview"
+import DeleteReview from "../deleteReviewModal"
 
 function ReviewComponent({ review }) {
 
@@ -16,24 +17,24 @@ function ReviewComponent({ review }) {
         )
     }
 
-    function handleDelete(reviewId) {
-        console.log('handle delete', reviewId)
-
-    }
-
     return (
-        <div>
-            <p className="manageReviewStuff">{`${review.Spot?.name}`}</p>
-            <p className="manageReviewStuff">{dateFormat(review)}</p>
-            <p className="manageReviewStuff">{`${review.review}`}</p>
-            <div className="manageReviewStuffButtons">
-                <OpenModalButton
-                    buttonText={"Update"}
-                    modalComponent={<UpdateReview review={review} />}
-                />
-                <button onClick={() => handleDelete(review.id)}>Delete</button>
-            </div>
-        </div>
+        <>
+            {review !== "User has no reviews" ? <div>
+                <p className="manageReviewStuff">{`${review.Spot?.name}`}</p>
+                <p className="manageReviewStuff">{dateFormat(review)}</p>
+                <p className="manageReviewStuff">{`${review.review}`}</p>
+                <div className="manageReviewStuffButtons">
+                    <OpenModalButton
+                        buttonText={"Update"}
+                        modalComponent={<UpdateReview review={review} />}
+                    />
+                    <OpenModalButton
+                        buttonText={"Delete"}
+                        modalComponent={<DeleteReview review={review} />}
+                    />
+                </div>
+            </div> : <p>You don't have any reviews</p>}
+        </>
     )
 }
 
