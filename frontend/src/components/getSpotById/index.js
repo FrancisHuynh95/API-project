@@ -10,6 +10,7 @@ import { getReviewForSpotThunk } from "../../store/review";
 import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/review";
 import { useHistory } from "react-router-dom";
+import UpdateReview from "../updateReview";
 
 
 function GetSpotById() {
@@ -43,6 +44,13 @@ function GetSpotById() {
                     {theUser?.id === review.userId
                         ? generateDeleteModal(review.id, review.userId, review)
                         : null}
+                    <div className="updateReviewButton">
+                        {theUser?.id === review.userId ?
+                            <OpenModalButton
+                                buttonText="Update"
+                                modalComponent={< UpdateReview review={review} />}
+                            /> : null}
+                    </div>
                 </div>
             </>
         )
