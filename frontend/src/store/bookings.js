@@ -25,7 +25,7 @@ const userBookings = (bookings) => {
 }
 
 export const getBookingThunk = (spotId) => async (dispatch) => {
-    const res = fetch(`/api/spots/${spotId}/bookings`)
+    const res = await csrfFetch(`/api/spots/${spotId}/bookings`)
     if(res.ok){
         const response = await res.json()
         dispatch(getBooking(response))
@@ -87,6 +87,7 @@ const bookingReducer = (state = initalState, action) => {
             action.booking.Bookings.forEach(booking =>
                 newState[booking.id] = booking
             )
+            console.log('newState',newState)
             return newState;
         }
         case USER_BOOKINGS:{

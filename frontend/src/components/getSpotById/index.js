@@ -12,6 +12,7 @@ import { deleteReviewThunk } from "../../store/review";
 import { useHistory } from "react-router-dom";
 import UpdateReview from "../updateReview";
 import BookSpot from "../bookSpotModal";
+import { getBookingThunk } from "../../store/bookings";
 
 
 function GetSpotById() {
@@ -22,14 +23,18 @@ function GetSpotById() {
     const spotReviews = useSelector(state => state.reviews)
     const spot = spots[spotId]
     const noImage = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
+    const bookings = useSelector(state => state.bookings)
 
     const reviewArray = Object.values(spotReviews)
     const theUser = users['user']
 
     useEffect(() => {
+        dispatch(getBookingThunk(spotId))
+    }, [dispatch])
+
+    useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
         dispatch(getReviewForSpotThunk(spotId))
-
     }, [dispatch, reviewArray.length])
 
     function generateReview() {
@@ -192,7 +197,7 @@ function GetSpotById() {
                             <div className="reserveButtonContainer">
                                 <OpenModalButton
                                 buttonText={"Reserve"}
-                                modalComponent={<BookSpot />}
+                                modalComponent={<BookSpot spot={spot}/>}
                                 />
                             </div>
                         </div>
