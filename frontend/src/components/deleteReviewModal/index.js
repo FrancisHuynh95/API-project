@@ -7,7 +7,6 @@ function DeleteReview({review}) {
     const {closeModal} = useModal()
 
     async function handleDelete(){
-        console.log('delete', review.id)
         if(review.review !== "User has no reviews"){
             await dispatch(deleteReviewThunk(review.id))
             closeModal()

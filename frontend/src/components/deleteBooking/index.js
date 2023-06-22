@@ -9,10 +9,7 @@ function DeleteBooking({ bookingId, endDate }) {
     const endDate2 = new Date(endDate)
     const endDateTime = endDate2.getTime()
     const todayTime = today.getTime()
-    console.log('today', today)
-    console.log('endDate', endDate)
-    console.log('end date time', endDateTime)
-    console.log('today date time', todayTime)
+
 
     async function handleDelete() {
         await dispatch(removeBookingThunk(bookingId))

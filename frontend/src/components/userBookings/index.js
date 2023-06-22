@@ -9,28 +9,20 @@ function UserBookings() {
     const dispatch = useDispatch()
     const history = useHistory()
     const user = useSelector(state => state.session.user)
-    const bookings = useSelector(state => state.bookings)
+    const bookings = useSelector(state => state.bookings.user)
     const bookingsArray = Object.values(bookings)
-    console.log(bookingsArray)
 
     useEffect(() => {
         dispatch(getUserBookingsThunk(user.id))
     }, [dispatch])
 
-    function handleEdit(bookingId){
-        console.log('edit booking', bookingId)
-    }
-    function handleDelete(bookingId){
-        console.log('delete booking modal', bookingId)
-    }
-    if(!bookings) return <p>You don't have any bookings</p>
+    if(Object.values(bookings).length === 0) return <p>You don't have any bookings</p>
     return (
         <>
             <h1>User Bookings</h1>
             {bookingsArray.toReversed().map(booking =>
             <div>
             < BookingCard booking={booking}/>
-
                 </div>
                 )}
         </>

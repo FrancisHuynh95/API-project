@@ -33,7 +33,6 @@ const createBooking = (booking) => {
 }
 
 export const getBookingThunk = (spotId) => async (dispatch) => {
-    console.log('spotId',spotId)
     const res = await csrfFetch(`/api/spots/${spotId}/bookings`)
     if(res.ok){
         const response = await res.json()
@@ -55,15 +54,15 @@ export const createBookingThunk = (spotId, booking) => async (dispatch) => {
     }
 }
 
-export const editBookingThunk = (booking, ) => async (dispatch) => {
-    const res = await csrfFetch(`/api/bookings/${booking.id}`, {
+export const updateBookingThunk = (bookingId, booking) => async (dispatch) => {
+    const res = await csrfFetch(`/api/bookings/${bookingId}`, {
         method: "PUT",
         headers: {'Content-Type': "application/json"},
         body: JSON.stringify(booking)
     })
     if(res.ok){
         const response = await res.json()
-        dispatch(getBooking(response))
+        dispatch(getUserBookingsThunk())
         return response
     }
 }
@@ -88,36 +87,33 @@ export const getUserBookingsThunk = () => async (dispatch) => {
 }
 
 
-const initalState = {}
+const initalState = {bookings: {}, user: {}}
 const bookingReducer = (state = initalState, action) => {
     let newState
     switch(action.type){
         case GET_BOOKING:{
-            // newState = {}
-            // // if(action.booking.message === 'No bookings found') return newState
-            // console.log(action.booking.Bookings)
-            // action.booking.Bookings.forEach(bookingg =>
-            //     newState[bookingg.id] = bookingg
-            // )
-            // return newState;
-            return action.booking.Bookings
+            newState = {...state, bookings: {}, user: {...state.user}}
+            newState.bookings = action.booking.Bookings
+            return newState
         }
         case USER_BOOKINGS:{
-            newState = {}
-            action.bookings.Bookings.forEach(booking =>
-                newState[booking.id] = booking
-            )
+            newState = {...state, user: {...state.user}}
+            if(action.bookings.message !== "There are no bookings"){
+                action.bookings.Bookings.forEach(booking =>
+                    newState.user[booking.id] = booking
+                    )
+                }
             return newState;
         } case CREATE_BOOKING: {
-            newState = {...state}
-            newState[action.booking.id] = action.booking
+            newState = {...state, bookings: {...state.bookings}, user: {...state.user}}
+            newState.user[action.booking.id] = action.booking
             return newState;
         }
         case DELETE_BOOKING: {
-            newState = {...state}
-            let newStateArray = Object.values(newState)
-            const res = newStateArray.filter(booking => booking.id !== action.booking)
-            return res;
+            newState = {...state, bookings: {...state.bookings}, user: {...state.user}}
+            delete newState.user[action.booking]
+            return newState
+
         }
             default:
             return state;

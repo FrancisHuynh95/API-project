@@ -20,32 +20,15 @@ function BookSpot({ spot }) {
         const newStart = new Date(startDate)
         const newEnd = new Date(endDate)
 
-
-        // console.log('booking start', bookingStart)
-        // console.log('booking end', bookingEnd)
-        // console.log('newStart', newStart)
-        // console.log('newEnd', newEnd)
         const bookingStartTime = bookingStart.getTime()
         const bookingEndTime = bookingEnd.getTime()
         const newStartTime = newStart.getTime()
         const newEndTime = newEnd.getTime()
 
-        // console.log('bookingStart', bookingStartTime)
-        // console.log('bookingEnd', bookingEndTime)
-        // console.log('newStart', newStartTime)
-        // console.log('newEnd', newEndTime)
-
         if (
-            // (newStartTime >= bookingStartTime && newStartTime <= bookingEndTime) ||
-            // (newEndTime >= bookingStartTime && newEndTime <= bookingEndTime) ||
-            // (newStartTime <= bookingStartTime && newEndTime >= bookingEndTime) ||
-            // (newStart >= bookingStart && newStart <= bookingEnd) ||
-            // (newEnd >= bookingEnd && newEnd <= bookingEnd) ||
-            // (newStart <= bookingStart && newEnd >= bookingEnd)
             (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
             (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
             (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
-
         ) return false;
         else {
             return true
@@ -77,7 +60,7 @@ function BookSpot({ spot }) {
                 <>
                     <h1>Book Your Spot</h1>
                     {Object.values(errors).map(error => {
-                        <p>{console.log(error)}</p>
+                        <p className="errors">{error}</p>
                     })}
                     <form onSubmit={handleSubmit}>
                         Start

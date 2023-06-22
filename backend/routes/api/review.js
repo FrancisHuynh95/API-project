@@ -162,7 +162,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 Edit a review
 */
 router.put('/:reviewId', requireAuth, async (req, res) => {
-    console.log('in the backend route')
     const getId = req.params.reviewId;
     const { user } = req;
     const { review, stars } = req.body
