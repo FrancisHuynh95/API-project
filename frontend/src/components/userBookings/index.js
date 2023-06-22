@@ -27,9 +27,9 @@ function UserBookings() {
         <>
             <h1>User Bookings</h1>
             {bookingsArray.map(booking =>
-                <div className="bookingSpotCard" title={`${booking.Spot.name}`}>
-                    <img src={`${booking.Spot.previewImage}`}></img>
-                    <p>${`${booking.Spot.price}`}</p>
+                <div className="bookingSpotCard" title={`${booking.Spot?.name}`}>
+                    <img src={`${booking.Spot?.previewImage}`}></img>
+                    <p>${`${booking.Spot?.price}`}</p>
                     <button onClick={() => handleEdit(booking.id)}>Edit Booking</button>
                     <button onClick={() => handleDelete(booking.id)}>Delete Booking</button>
                 </div>

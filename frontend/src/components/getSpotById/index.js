@@ -27,15 +27,17 @@ function GetSpotById() {
 
     const reviewArray = Object.values(spotReviews)
     const theUser = users['user']
-
-    useEffect(() => {
-        dispatch(getBookingThunk(spotId))
-    }, [dispatch])
-
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
         dispatch(getReviewForSpotThunk(spotId))
     }, [dispatch, reviewArray.length])
+
+    useEffect(() => {
+        if(spots){
+            dispatch(getBookingThunk(spotId))
+        }
+    }, [dispatch])
+
 
     function generateReview() {
         if (reviewArray[0] === `Spot doesn't have any reviews`) {
