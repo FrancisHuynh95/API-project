@@ -73,7 +73,8 @@ export const removeBookingThunk = (bookingId) => async(dispatch) => {
         method: 'DELETE'
     })
     if(res.ok){
-        const response = await dispatch(deleteBooking(bookingId))
+        await dispatch(deleteBooking(bookingId))
+        dispatch(getUserBookingsThunk())
     }
 }
 
@@ -114,7 +115,8 @@ const bookingReducer = (state = initalState, action) => {
         }
         case DELETE_BOOKING: {
             newState = {...state}
-            const res = newState.filter(booking => booking.id !== action.booking)
+            let newStateArray = Object.values(newState)
+            const res = newStateArray.filter(booking => booking.id !== action.booking)
             return res;
         }
             default:
