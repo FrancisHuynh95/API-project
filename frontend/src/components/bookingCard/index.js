@@ -8,7 +8,7 @@ function BookingCard({booking}){
         <p>${`${booking.Spot?.price}`}</p>
         < OpenModalButton
         buttonText={"Delete"}
-        modalComponent={<DeleteBooking bookingId={booking.id}/>}
+        modalComponent={<DeleteBooking bookingId={booking.id} endDate={booking.endDate}/>}
          />
         {/* <button onClick={() => handleEdit(booking.id)}>Edit Booking</button>
         <button onClick={() => handleDelete(booking.id)}>Delete Booking</button> */}

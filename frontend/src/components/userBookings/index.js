@@ -27,10 +27,10 @@ function UserBookings() {
     return (
         <>
             <h1>User Bookings</h1>
-            {bookingsArray.map(booking =>
+            {bookingsArray.toReversed().map(booking =>
             <div>
             < BookingCard booking={booking}/>
- 
+
                 </div>
                 )}
         </>
