@@ -12,14 +12,15 @@ function BookSpot({ spot }) {
     const bookingsArray = Object.values(bookings)
     const [errors, setErrors] = useState({})
     const errorObj = {}
+    const user = useSelector(state => state.session.user)
 
     const bookingsStuff = bookingsArray.forEach(booking => {
         const bookingStart = new Date(booking.startDate)
         const bookingEnd = new Date(booking.endDate)
         const newStart = new Date(startDate)
         const newEnd = new Date(endDate)
-        console.log('startDate', startDate)
-        console.log('endDate', endDate)
+
+
         // console.log('booking start', bookingStart)
         // console.log('booking end', bookingEnd)
         // console.log('newStart', newStart)
@@ -41,9 +42,9 @@ function BookSpot({ spot }) {
             // (newStart >= bookingStart && newStart <= bookingEnd) ||
             // (newEnd >= bookingEnd && newEnd <= bookingEnd) ||
             // (newStart <= bookingStart && newEnd >= bookingEnd)
-           (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
-           (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
-          (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
+            (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
+            (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
+            (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
 
         ) return false;
         else {
@@ -63,36 +64,40 @@ function BookSpot({ spot }) {
 
         if (Object.values(errors).length > 0) {
             return
-         } else {
-            const booking = {"startDate": startDate, "endDate": endDate, "spotId": spot.id}
+        } else {
+            const booking = { "startDate": startDate, "endDate": endDate, "spotId": spot.id }
             await dispatch(createBookingThunk(+spot.id, booking))
             closeModal()
-         }
+        }
     }
 
     return (
         <div className="BookSpotModal">
-            <h1>Book Your Spot</h1>
-            {Object.values(errors).map(error => {
-                <p>{console.log(error)}</p>
-            })}
-            <form onSubmit={handleSubmit}>
-                Start
-                <input
-                    type="date"
-                    onChange={(e) => setStartDate(e.target.value)}
-                    value={startDate}
-                    min={today}
-                ></input>
-                End
-                <input
-                    type="date"
-                    onChange={(e) => setEndDate(e.target.value)}
-                    value={endDate}
-                    min={today < startDate ? startDate : today}
-                ></input>
-                <button type="submit">Submit</button>
-            </form>
+            {user.id !== spot.ownerId ?
+                <>
+                    <h1>Book Your Spot</h1>
+                    {Object.values(errors).map(error => {
+                        <p>{console.log(error)}</p>
+                    })}
+                    <form onSubmit={handleSubmit}>
+                        Start
+                        <input
+                            type="date"
+                            onChange={(e) => setStartDate(e.target.value)}
+                            value={startDate}
+                            min={today}
+                        ></input>
+                        End
+                        <input
+                            type="date"
+                            onChange={(e) => setEndDate(e.target.value)}
+                            value={endDate}
+                            min={today < startDate ? startDate : today}
+                        ></input>
+                        <button type="submit">Submit</button>
+                    </form>
+                </>
+                : <h1>An owner cannot book their own spot</h1>}
         </div>
 
     )
