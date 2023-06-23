@@ -10,6 +10,7 @@ import UpdateSpot from "./components/updateASpot";
 import ManageSpot from "./components/manageSpot";
 import UserBookings from "./components/userBookings";
 import UserReviews from "./components/userReviews";
+import Search from "./components/search";
 
 
 
@@ -49,6 +50,10 @@ function App() {
 
           <Route path='/reviews/current'>
             <UserReviews />
+          </Route>
+
+          <Route path='/search'>
+            <Search />
           </Route>
 
           <Route exact path='/'>
