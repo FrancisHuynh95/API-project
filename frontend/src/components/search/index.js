@@ -16,18 +16,15 @@ function Search() {
     const filteredSpots = allSpotsArray.filter(spot => {
         for (let keyword of splitKeywords) {
             if (
-                spot.address === keyword ||
-                spot.city === keyword ||
-                spot.country === keyword ||
-                spot.name === keyword ||
-                spot.state === keyword ||
+                spot.city.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.country.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.name.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.state.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.description.toLowerCase().includes(keyword.toLowerCase()) ||
                 spot.price === +keyword
             ) return true
         }
     })
-
-    console.log(filteredSpots)
-
     useEffect(() => {
         dispatch(getSpotThunk())
     }, [dispatch])
