@@ -7,15 +7,22 @@ import './Navigation.css';
 import { useState } from 'react';
 import { getSpotThunk } from '../../store/spots';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Navigation({ isLoaded }) {
+  const history = useHistory()
+  const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user);
   const [search, setSearch] = useState("")
 
-  function handleSearchSubmit(){
+  async function handleSearchSubmit(){
     if(search.length === 0) return
 
-    
+    await dispatch(getSpotThunk())
+    const newSearch = search.split(" ").join("_")
+
+    history.push(`/search/${newSearch}`)
+    setSearch("")
   }
 
   return (
@@ -33,7 +40,7 @@ function Navigation({ isLoaded }) {
             onChange={(e) => setSearch(e.target.value)}
             >
             </input>
-            <button>S</button>
+            <button onClick={() => handleSearchSubmit()}>S</button>
             </div>
               <div id='button-createspot'>
                 {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}

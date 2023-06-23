@@ -52,7 +52,7 @@ function App() {
             <UserReviews />
           </Route>
 
-          <Route path='/search'>
+          <Route path='/search/:keywords'>
             <Search />
           </Route>
 
