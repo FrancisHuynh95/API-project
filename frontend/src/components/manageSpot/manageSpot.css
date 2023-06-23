@@ -20,6 +20,12 @@
 
 }
 
+.spotCardManageSpot{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
 #manageSpotReview {
     display: flex;
     align-items: center;
