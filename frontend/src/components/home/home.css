@@ -12,6 +12,9 @@ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
     width: 22%;
     gap: 5px;
     height:319.19px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
 }
 
 .previewImage {
