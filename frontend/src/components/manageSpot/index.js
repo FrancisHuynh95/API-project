@@ -34,14 +34,16 @@ function ManageSpot() {
             closeModal()
         };
         return (
-            <>
-                <h1>Confirm Delete</h1>
-                <p>Are you sure you want to remove this spot from the listings?</p>
+            <div className="deleteSpotModal">
+                <h1 className="deleteSpotH1">Confirm Delete</h1>
+                <p className="deleteSpotMessage">Are you sure you want to remove this spot from the listings?</p>
                 <form onSubmit={handleSubmit}>
-                    <button id="yesDelete">Yes (Delete Spot)</button>
+                    <div className="deleteSpotButtons">
                     <button id="noDelete" onClick={closeModal}> No (Keep Spot)</button>
+                    <button id="yesDelete">Yes (Delete Spot)</button>
+                    </div>
                 </form>
-            </>
+            </div>
         );
     }
 
@@ -52,7 +54,7 @@ function ManageSpot() {
                     <div className="cardHolderWithButtons">
                         <Link className="spotCardManageSpot" to={`/spots/${spot?.id}`}>
                             <div className="spotPic">
-                                <img className="previewImage" src={spot?.previewImage}></img>
+                                <img className="previewImage" id="manageSpotPreviewImage" src={spot?.previewImage}></img>
                             </div>
                             <div className="spotInfo">
                                 <div className="leftSide">
@@ -77,6 +79,8 @@ function ManageSpot() {
                             <div className="manageSpotButtons">
                                 <NavLink to={`/spots/${spot.id}/edit`}>
                                     <button className="updateASpotButton">Update A Spot</button></NavLink>
+                            </div>
+                            <div className="deleteSpotButton">
                                 <OpenModalButton
                                     buttonText="Delete Spot"
                                     modalComponent={<DeleteSpotModal spotId={spot.id} />}
