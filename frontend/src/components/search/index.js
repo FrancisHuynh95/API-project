@@ -12,22 +12,22 @@ function Search() {
     const allSpots = useSelector(state => state.spots)
     const allSpotsArray = Object.values(allSpots)
     const newReview = 'New'
+    useEffect(() => {
+        dispatch(getSpotThunk())
+    }, [dispatch])
 
     const filteredSpots = allSpotsArray.filter(spot => {
         for (let keyword of splitKeywords) {
             if (
-                spot.city.toLowerCase().includes(keyword.toLowerCase()) ||
-                spot.country.toLowerCase().includes(keyword.toLowerCase()) ||
-                spot.name.toLowerCase().includes(keyword.toLowerCase()) ||
-                spot.state.toLowerCase().includes(keyword.toLowerCase()) ||
-                spot.description.toLowerCase().includes(keyword.toLowerCase()) ||
-                spot.price === +keyword
+                spot.city?.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.country?.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.name?.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.state?.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.description?.toLowerCase().includes(keyword.toLowerCase()) ||
+                spot.price?.toString().includes(keyword)
             ) return true
         }
     })
-    useEffect(() => {
-        dispatch(getSpotThunk())
-    }, [dispatch])
     return (
 
         <div className="everythingWrapper">

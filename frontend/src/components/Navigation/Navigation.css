@@ -31,6 +31,7 @@
     display: flex;
     gap: 15px;
     align-items: center;
+    width: 100%;
 }
 
 #createANewSpotNav{
@@ -69,6 +70,44 @@
 #helloUserSpots{
     border-bottom: 1px solid black;
     padding: 5px 0px;
+}
+
+.searchbarcontainer{
+    display: flex;
+    justify-content: center;
+    width: 70%;
+
+}
+
+.searchBarStuff{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.createSpotAndUser{
+    display: flex;
+    justify-content: end;
+    width: 80%;
+    gap: 20px;
+}
+
+.searchBar{
+    width: 90%;
+    padding: 5px;
+    border:none;
+    position: relative;
+}
+.searchBar:focus{
+    outline: none;
+}
+.searchButton{
+    border:none;
+    background-color: white;
+    width: 8%;
+    cursor: pointer;
 }
 
 #logoutButton {

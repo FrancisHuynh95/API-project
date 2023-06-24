@@ -1,5 +1,5 @@
 // frontend/src/components/Navigation/index.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
@@ -15,8 +15,8 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const [search, setSearch] = useState("")
 
-  async function handleSearchSubmit(){
-    if(search.length === 0) return
+  async function handleSearchSubmit() {
+    if (search.length === 0) return
 
     await dispatch(getSpotThunk())
     const newSearch = search.split(" ").join("_")
@@ -25,6 +25,12 @@ function Navigation({ isLoaded }) {
     setSearch("")
   }
 
+  const handleEnter = (e) => {
+    if(e.key === 'Enter'){
+        handleSearchSubmit()
+    }
+}
+
   return (
     <>
       <div id="navPanel">
@@ -32,27 +38,33 @@ function Navigation({ isLoaded }) {
         <ul id="navUl">
           {isLoaded && (
             <>
-            <div className='searchbar'>
-            <input
-            type='text'
-            placeholder='Search'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            >
-            </input>
-            <button onClick={() => handleSearchSubmit()}>S</button>
-            </div>
-              <div id='button-createspot'>
-                {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+              <div className='searchbarcontainer'>
+                <div className='searchBarStuff'>
+                <input
+                  className="searchBar"
+                  type='text'
+                  placeholder='Search'
+                  onKeyPress={e => handleEnter(e)}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  >
+                </input>
+                <button className='searchButton' onClick={() => handleSearchSubmit()}><i class="fas fa-search"></i></button>
+                  </div>
               </div>
+              <div className='createSpotAndUser'>
+                <div id='button-createspot'>
+                  {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+                </div>
                 <div className='upperBarDiv'>
                   <div className='userButtonLi'>
                     <div id='profileUserButton'>
 
-                    <ProfileButton className='userButton' user={sessionUser}  />
+                      <ProfileButton className='userButton' user={sessionUser} />
                     </div>
                   </div>
                 </div>
+              </div>
             </>
           )}
         </ul>
