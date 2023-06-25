@@ -12,13 +12,13 @@ function ReviewComponent({ review }) {
         })
         return (
             <>
-                <p id="formattedDate">{newReviewFormat}</p>
+                <p id="formattedDateReview">{newReviewFormat}</p>
             </>
         )
     }
 
     return (
-        <>
+        <div className="reviewCard">
             {review !== "User has no reviews" ? <div>
                 <p className="manageReviewStuff">{`${review.Spot?.name}`}</p>
                 <p className="manageReviewStuff">{dateFormat(review)}</p>
@@ -34,7 +34,7 @@ function ReviewComponent({ review }) {
                     />
                 </div>
             </div> : <p>You don't have any reviews</p>}
-        </>
+        </div>
     )
 }
 

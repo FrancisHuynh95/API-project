@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { getReviewByTheUserThunk } from "../../store/review"
 import ReviewComponent from "./reviewComponent"
+import './manageReview.css'
 
 
 function UserReviews(){
@@ -18,9 +19,7 @@ function UserReviews(){
         <>
         <h1>Manage Reviews</h1>
         {reviewsArray.map(review =>
-        <div className="reviewCard">
             < ReviewComponent review={review}/>
-        </div>
             )}
         </>
 

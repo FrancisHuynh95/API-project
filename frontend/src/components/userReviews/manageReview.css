@@ -1,0 +1,26 @@
+.reviewCard {
+    justify-content: start;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.manageReviewStuff {
+    text-align: start;
+}
+
+#formattedDateReview {
+    text-align: start;
+}
+
+.manageReviewStuffButtons {
+    display: flex;
+    width: 100%;
+    gap: 5px;
+}
+
+.manageReviewStuffButtons > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    margin-bottom: 15px;
+}
