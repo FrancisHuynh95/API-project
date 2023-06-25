@@ -1,6 +1,7 @@
 import { removeBookingThunk } from "../../store/bookings"
 import { useDispatch } from "react-redux"
 import { useModal } from "../../context/Modal"
+import './deleteBooking.css'
 
 function DeleteBooking({ bookingId, endDate }) {
     const { closeModal } = useModal()
@@ -22,8 +23,9 @@ function DeleteBooking({ bookingId, endDate }) {
         <div className="deleteBookingModal">
             {endDateTime > todayTime ?
                 <>
-                    <h1>Are you sure you want to delete this booking?</h1>
-                    <div>
+                    <h1>Delete Booking</h1>
+                    <p>Are you sure you want to delete this booking?</p>
+                    <div className="deleteBookingButtons">
                         <button onClick={() => handleDelete()}>Yes</button>
                         <button onClick={() => handleCancel()}>Cancel</button>
                     </div>

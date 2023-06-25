@@ -1,0 +1,20 @@
+.deleteBookingModal {
+    margin: 5px
+}
+
+.deleteBookingModal > h1, p {
+    text-align: center;
+}
+
+.deleteBookingButtons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.deleteBookingButtons > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
