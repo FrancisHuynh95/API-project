@@ -1,0 +1,46 @@
+.bookingsContainer{
+    width: 100%;
+    display: flex;
+    border: 1px solid blue;
+}
+
+.bookingSpotCard {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.bookingSpotPrice {
+    height: fit-content;
+    text-align: center;
+}
+
+.updateBookingButton {
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid blue;
+}
+
+.deleteBookingButton{
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid blue;
+}
+
+.manageBookingButtons{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.bookingSpotImage{
+    display: flex;
+    justify-content: center;
+    border: 1px solid blue;
+    width: 75%;
+    height: 75%;
+}

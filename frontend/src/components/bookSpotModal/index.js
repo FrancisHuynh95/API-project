@@ -14,26 +14,44 @@ function BookSpot({ spot }) {
     const errorObj = {}
     const user = useSelector(state => state.session.user)
 
-    const bookingsStuff = bookingsArray.forEach(booking => {
-        const bookingStart = new Date(booking.startDate)
-        const bookingEnd = new Date(booking.endDate)
-        const newStart = new Date(startDate)
-        const newEnd = new Date(endDate)
 
-        const bookingStartTime = bookingStart.getTime()
-        const bookingEndTime = bookingEnd.getTime()
-        const newStartTime = newStart.getTime()
-        const newEndTime = newEnd.getTime()
+            function bookingsStuff(){
+                if(bookingsArray.length > 0){
+                    const bookings = bookingsArray.forEach(booking => {
+                    const bookingStart = new Date(booking.startDate)
+                    const bookingEnd = new Date(booking.endDate)
+                    const newStart = new Date(startDate)
+                    const newEnd = new Date(endDate)
 
-        if (
-            (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
-            (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
-            (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
-        ) return false;
-        else {
-            return true
-        }
-    })
+                    const bookingStartTime = bookingStart.getTime()
+                    const bookingEndTime = bookingEnd.getTime()
+                    const newStartTime = newStart.getTime()
+                    const newEndTime = newEnd.getTime()
+
+                    if (
+                        (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
+                        (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
+                        (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
+                        ) return false;
+                        else {
+                            return true
+                        }
+                    })
+                } else {
+                    const newStart = new Date(startDate)
+                    const newEnd = new Date(endDate)
+
+                    const newStartTime = newStart.getTime()
+                    const newEndTime = newEnd.getTime()
+
+                    if(newEndTime <= newStartTime){
+                        return false;
+                    } else {
+                        return true
+                    }
+                }
+            }
+
 
     // const today = Date.now()
     const today = new Date().toISOString().split("T")[0];

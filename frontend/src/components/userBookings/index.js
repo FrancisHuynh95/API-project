@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { getUserBookingsThunk } from "../../store/bookings"
 import { useHistory } from "react-router-dom/cjs/react-router-dom"
 import BookingCard from "../bookingCard"
+import './manageBooking.css'
 
 
 function UserBookings() {
@@ -20,11 +21,11 @@ function UserBookings() {
     return (
         <>
             <h1>User Bookings</h1>
+            <div className="bookingsContainer">
             {bookingsArray.toReversed().map(booking =>
-            <div>
             < BookingCard booking={booking}/>
-                </div>
                 )}
+                </div>
         </>
     )
 }
