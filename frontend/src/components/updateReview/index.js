@@ -3,6 +3,7 @@ import StarRating from "../starRating";
 import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { updateReviewThunk } from "../../store/review";
+import './updateReview.css'
 
 
 function UpdateReview({ review }) {
@@ -57,7 +58,9 @@ function UpdateReview({ review }) {
                 </div>
                 <p>Stars</p>
             </div>
-            <button disabled={newReview.length < 10 || stars === 0 ? true : false} onClick={() => handleSubmit()}>Submit</button>
+            <div className="updateReviewContainer">
+            <button className="updateReviewButton" disabled={newReview.length < 10 || stars === 0 ? true : false} onClick={() => handleSubmit()}>Submit</button>
+            </div>
         </div>
     )
 }

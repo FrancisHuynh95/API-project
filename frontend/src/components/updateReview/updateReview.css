@@ -1,0 +1,20 @@
+.UpdateReviewModal {
+    margin: 5px;
+}
+
+.UpdateReviewModal > h1 {
+    text-align: center;
+}
+
+.updateReviewContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.updateReviewButton {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
