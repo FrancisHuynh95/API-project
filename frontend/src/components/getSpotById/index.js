@@ -49,16 +49,19 @@ function GetSpotById() {
                     {<p id="username">{review.User?.firstName}</p>}
                     {dateFormat(review)}
                     <p id="userReview">{review.review}</p>
+                    <div className="reviewButtonsSpot">
+
                     {theUser?.id === review.userId
                         ? generateDeleteModal(review.id, review.userId, review)
                         : null}
-                    <div className="updateReviewButton">
+                    <div className="updateReviewButtonSpot">
                         {theUser?.id === review.userId ?
                             <OpenModalButton
-                                buttonText="Update"
-                                modalComponent={< UpdateReview review={review} />}
+                            buttonText="Update"
+                            modalComponent={< UpdateReview review={review} />}
                             /> : null}
                     </div>
+                            </div>
                 </div>
             </>
         )
