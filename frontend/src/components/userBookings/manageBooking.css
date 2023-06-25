@@ -4,16 +4,15 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 5px;
-    border: 1px solid blue;
 }
 
 .bookingSpotCard {
-    border: 1px solid red;
     display: flex;
     width: 24%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .bookingSpotPrice {
@@ -24,13 +23,24 @@
 .updateBookingButton {
     width: fit-content;
     height: fit-content;
-    border: 1px solid blue;
+
+}
+.updateBookingButton > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
+
+.deleteBookingButton > button {
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
 }
 
 .deleteBookingButton{
     width: fit-content;
     height: fit-content;
-    border: 1px solid blue;
+
 }
 
 .manageBookingButtons{
@@ -43,7 +53,8 @@
 .bookingSpotImage{
     display: flex;
     justify-content: center;
-    border: 1px solid blue;
+
     width: 100%;
     object-fit: cover;
+    border-radius: 5px;
 }
