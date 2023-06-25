@@ -1,16 +1,19 @@
 .bookingsContainer{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
     border: 1px solid blue;
 }
 
 .bookingSpotCard {
     border: 1px solid red;
     display: flex;
+    width: 24%;
     flex-direction: column;
-    width: fit-content;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .bookingSpotPrice {
@@ -33,7 +36,7 @@
 .manageBookingButtons{
     display: flex;
     gap: 10px;
-    width: 100%;
+    width: fit-content;
     justify-content: center;
 }
 
@@ -41,6 +44,6 @@
     display: flex;
     justify-content: center;
     border: 1px solid blue;
-    width: 75%;
-    height: 75%;
+    width: 100%;
+    object-fit: cover;
 }
