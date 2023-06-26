@@ -73,6 +73,20 @@ ul {
         height: 325px;
     }
 }
+@media screen and (max-width: 573px) {
+    .cardHolder{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .spotCard{
+        width: 100%;
+        height: fit-content;
+    }
+    .previewImage {
+        object-fit: cover;
+        height: 325px;
+    }
+}
 
 @media screen and (min-width: 574px) and (max-width: 800px){
     .spotCard{
@@ -85,20 +99,6 @@ ul {
     }
 }
 
-@media screen and (max-width: 573px) {
-    .cardHolder{
-        flex-direction: column;
-    }
-
-    .spotCard{
-        width: 100%;
-        height: 100%;
-    }
-    .previewImage {
-        object-fit: cover;
-        height: 325px;
-    }
-}
 
 @media screen and (max-width: 400px){
     .cardHolder{
