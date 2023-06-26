@@ -49,7 +49,6 @@ function ManageSpot() {
 
     function manageSpotBlockCreator() {
         return filteredSpots.map(spot =>
-
                     <div key={spot.id} className="cardHolderWithButtons">
                         <Link className="spotCardManageSpot" to={`/spots/${spot?.id}`}>
                             <div className="spotPic">

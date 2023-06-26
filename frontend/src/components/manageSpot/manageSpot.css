@@ -130,3 +130,50 @@
 #noDelete:hover {
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 573px) {
+    #spotsContainerManageSpot {
+        flex-direction: column;
+        height: 100%;
+    }
+    #manageSpotPreviewImage{
+        width: 100%;
+    }
+    .spotPic{
+        width: 100%;
+    }
+    .cardHolderWithButtons{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 574px) and (max-width: 800px) {
+    #spotsContainerManageSpot {
+        flex-direction: row;
+
+        height: 100%;
+    }
+    #manageSpotPreviewImage{
+        width: 100%;
+    }
+    .cardHolderWithButtons{
+        width: 49%;
+    }
+}
+@media screen and (min-width: 801px) and (max-width: 1000px) {
+    #spotsContainerManageSpot {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        align-items: start;
+    }
+    #manageSpotPreviewImage{
+        width: 100%;
+    }
+    .cardHolderWithButtons{
+        width: 32%;
+
+    }
+
+}
