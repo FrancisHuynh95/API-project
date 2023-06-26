@@ -1,0 +1,20 @@
+.BookSpotModal {
+    margin: 15px;
+}
+
+.BookSpotModal > h1 {
+    text-align: center;
+}
+
+.createBookingButtonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.createBookingButton{
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}

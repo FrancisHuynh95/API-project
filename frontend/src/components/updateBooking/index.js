@@ -66,28 +66,28 @@ function UpdateBooking({ booking }) {
             <form className="datesInput" onSubmit={handleSubmit}>
                 <div className="startInput">
                     <label>
-                    Start : <input
-                        type="date"
-                        onChange={(e) => setStartDate(e.target.value)}
-                        value={startDate}
-                        min={today}
+                        Start : <input
+                            type="date"
+                            onChange={(e) => setStartDate(e.target.value)}
+                            value={startDate}
+                            min={today}
                         ></input>
-                        </label>
+                    </label>
                 </div>
                 <div className="endInput">
                     <label>
-                    End : <input
-                        type="date"
-                        onChange={(e) => setEndDate(e.target.value)}
-                        value={endDate}
-                        min={today < startDate ? startDate : today}
+                        End : <input
+                            type="date"
+                            onChange={(e) => setEndDate(e.target.value)}
+                            value={endDate}
+                            min={today < startDate ? startDate : today}
                         ></input>
-                        </label>
+                    </label>
                 </div>
             </form>
             <div className="submitButtonContainer">
-            <button className="updateBookingButtonModal" type="submit">Submit</button>
             </div>
+            <button className="updateBookingButtonModal" type="submit">Submit</button>
         </div>
     )
 }

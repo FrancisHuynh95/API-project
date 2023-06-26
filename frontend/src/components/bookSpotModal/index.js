@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal"
 import { createBookingThunk, getBookingThunk } from "../../store/bookings"
+import './bookSpot.css'
 
 function BookSpot({ spot }) {
     const { closeModal } = useModal()
@@ -15,42 +16,42 @@ function BookSpot({ spot }) {
     const user = useSelector(state => state.session.user)
 
 
-            function bookingsStuff(){
-                if(bookingsArray.length > 0){
-                    const bookings = bookingsArray.forEach(booking => {
-                    const bookingStart = new Date(booking.startDate)
-                    const bookingEnd = new Date(booking.endDate)
-                    const newStart = new Date(startDate)
-                    const newEnd = new Date(endDate)
+    function bookingsStuff() {
+        if (bookingsArray.length > 0) {
+            const bookings = bookingsArray.forEach(booking => {
+                const bookingStart = new Date(booking.startDate)
+                const bookingEnd = new Date(booking.endDate)
+                const newStart = new Date(startDate)
+                const newEnd = new Date(endDate)
 
-                    const bookingStartTime = bookingStart.getTime()
-                    const bookingEndTime = bookingEnd.getTime()
-                    const newStartTime = newStart.getTime()
-                    const newEndTime = newEnd.getTime()
+                const bookingStartTime = bookingStart.getTime()
+                const bookingEndTime = bookingEnd.getTime()
+                const newStartTime = newStart.getTime()
+                const newEndTime = newEnd.getTime()
 
-                    if (
-                        (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
-                        (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
-                        (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
-                        ) return false;
-                        else {
-                            return true
-                        }
-                    })
-                } else {
-                    const newStart = new Date(startDate)
-                    const newEnd = new Date(endDate)
-
-                    const newStartTime = newStart.getTime()
-                    const newEndTime = newEnd.getTime()
-
-                    if(newEndTime <= newStartTime){
-                        return false;
-                    } else {
-                        return true
-                    }
+                if (
+                    (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
+                    (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
+                    (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
+                ) return false;
+                else {
+                    return true
                 }
+            })
+        } else {
+            const newStart = new Date(startDate)
+            const newEnd = new Date(endDate)
+
+            const newStartTime = newStart.getTime()
+            const newEndTime = newEnd.getTime()
+
+            if (newEndTime <= newStartTime) {
+                return false;
+            } else {
+                return true
             }
+        }
+    }
 
 
     // const today = Date.now()
@@ -80,22 +81,26 @@ function BookSpot({ spot }) {
                     {Object.values(errors).map(error => {
                         <p className="errors">{error}</p>
                     })}
-                    <form onSubmit={handleSubmit}>
-                        Start
-                        <input
-                            type="date"
-                            onChange={(e) => setStartDate(e.target.value)}
-                            value={startDate}
-                            min={today}
-                        ></input>
-                        End
-                        <input
-                            type="date"
-                            onChange={(e) => setEndDate(e.target.value)}
-                            value={endDate}
-                            min={today < startDate ? startDate : today}
-                        ></input>
-                        <button type="submit">Submit</button>
+                    <form className="datesInput" onSubmit={handleSubmit}>
+                        <label>
+                            Start : <input
+                                type="date"
+                                onChange={(e) => setStartDate(e.target.value)}
+                                value={startDate}
+                                min={today}
+                            ></input>
+                        </label>
+                        <label>
+                            End : <input
+                                type="date"
+                                onChange={(e) => setEndDate(e.target.value)}
+                                value={endDate}
+                                min={today < startDate ? startDate : today}
+                            ></input>
+                        </label>
+                        <div className="createBookingButtonContainer">
+                            <button className="createBookingButton" type="submit">Submit</button>
+                        </div>
                     </form>
                 </>
                 : <h1>An owner cannot book their own spot</h1>}
