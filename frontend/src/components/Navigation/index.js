@@ -26,50 +26,40 @@ function Navigation({ isLoaded }) {
   }
 
   const handleEnter = (e) => {
-    if(e.key === 'Enter'){
-        handleSearchSubmit()
+    if (e.key === 'Enter') {
+      handleSearchSubmit()
     }
-}
+  }
 
   return (
-    <>
-      <div id="navPanel">
-        <NavLink className='NavLink' exact to="/"><img id='logo' src='/heir-cnc-logo.png'></img></NavLink>
-        <ul id="navUl">
-          {isLoaded && (
-            <>
-              <div className='searchbarcontainer'>
-                <div className='searchBarStuff'>
-                <input
-                  className="searchBar"
-                  type='text'
-                  placeholder='Search'
-                  onKeyPress={e => handleEnter(e)}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  >
-                </input>
-                <button className='searchButton' onClick={() => handleSearchSubmit()}><i class="fas fa-search"></i></button>
-                  </div>
-              </div>
-              <div className='createSpotAndUser'>
-                <div id='button-createspot'>
-                  {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
-                </div>
-                <div className='upperBarDiv'>
-                  <div className='userButtonLi'>
-                    <div id='profileUserButton'>
+    <div id="navContainer">
+      {isLoaded && (
+        <>
+          <NavLink className='NavLink' exact to="/"><img id='logo' src='/heir-cnc-logo.png'></img></NavLink>
+          <div className='searchbarcontainer'>
+            <input
+              className="searchBar"
+              type='text'
+              placeholder='Search'
+              onKeyPress={e => handleEnter(e)}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            >
+            </input>
+            <button className='searchButton' onClick={() => handleSearchSubmit()}><i class="fas fa-search"></i></button>
+          </div>
+          <div className='createSpotAndUser'>
+            <div id='button-createspot'>
+              {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+            </div>
+            <div id='profileUserButton'>
+              <ProfileButton className='userButton' user={sessionUser} />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
 
-                      <ProfileButton className='userButton' user={sessionUser} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </ul>
-      </div>
-    </>
   );
 }
 

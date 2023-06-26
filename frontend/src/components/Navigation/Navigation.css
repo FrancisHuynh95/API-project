@@ -1,9 +1,13 @@
-.hidden {
-    visibility: hidden;
-}
+
 
 #logo {
     height: 75px;
+    width: 75px;
+    object-fit: cover;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 #navButton {
@@ -12,9 +16,6 @@
     padding: 5px 13px;
     border-radius: 5px;
     background-color: white;
-}
-
-#navButton:hover {
     cursor: pointer;
 }
 
@@ -22,23 +23,23 @@
     text-decoration: none;
     color: black;
 }
+
 #manageBookingsLi {
     border-bottom: 1px solid black;
     padding: 5px 0px;
 }
 
-#navUl {
+#navContainer {
     display: flex;
     gap: 15px;
     align-items: center;
     width: 100%;
 }
 
-#createANewSpotNav{
+#createANewSpotNav {
     text-decoration: none;
     color: teal;
     font-weight: bold;
-
 }
 
 #helloButton {
@@ -46,17 +47,9 @@
     color: black;
 }
 
-#navPanel {
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid lightgray;
-    margin-bottom: 15px;
-}
-
 .profile-dropdown {
     border: 1px solid black;
-    position:absolute;
+    position: absolute;
     right: 1%;
     padding: 0px;
     background-color: white;
@@ -64,49 +57,49 @@
 
 #helloUser {
     border-bottom: 1px solid black;
-    margin: 2px 0px;
+    margin: 2px 0px
 }
 
-#helloUserSpots{
+#helloUserSpots {
     border-bottom: 1px solid black;
     padding: 5px 0px;
+
 }
 
-.searchbarcontainer{
+.searchbarcontainer {
     display: flex;
     justify-content: center;
     width: 70%;
-
-}
-
-.searchBarStuff{
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    border-radius: 5px;
     border: 1px solid black;
+    border-radius: 5px;
 }
 
-.createSpotAndUser{
+.createSpotAndUser {
     display: flex;
     justify-content: end;
-    width: 80%;
+    width: 70%;
     gap: 20px;
 }
 
-.searchBar{
+.searchBar {
     width: 90%;
     padding: 5px;
-    border:none;
+    border: none;
     position: relative;
 }
-.searchBar:focus{
+
+.fa-search {
+    width: 100%;
+}
+
+.searchBar:focus {
     outline: none;
 }
-.searchButton{
-    border:none;
+
+.searchButton {
+    border: none;
     background-color: white;
-    width: 8%;
+    width: 10%;
     cursor: pointer;
 }
 
@@ -131,4 +124,18 @@
 
 .userInfoLi {
     text-align: center;
+}
+
+@media screen and (max-width: 573px) {
+    #navContainer {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid gray;
+    }
+    .createSpotAndUser {
+        display: flex;
+        justify-content: space-between;
+    }
 }
