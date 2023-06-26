@@ -146,3 +146,27 @@ p
     background-color: red;
     box-shadow: 3px 2px 2px black;
 }
+
+
+@media screen and (max-width: 573px){
+    .everythingWrapper {
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+    .createEditSpot{
+        display: flex;
+        padding: 0px;
+        width: 100%;
+    }
+
+    .userInput {
+        width: 100%;
+    }
+    #textArea {
+        width: 100%;
+    }
+
+}
