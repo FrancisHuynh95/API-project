@@ -11,7 +11,7 @@ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 .spotCard {
     width: 22%;
     gap: 5px;
-    height:319.19px;
+    height:100%;
     text-decoration: none;
     color: black;
     font-weight: 500;
@@ -19,8 +19,8 @@ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 
 .previewImage {
     width: 100%;
-    border-radius: 7%;
-    height: 195.2px;
+    border-radius: 15px;
+    height: 225px;
 }
 
 .spotInfo{
@@ -30,26 +30,22 @@ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 
 .leftSide {
     width: 50%;
+}
 
+.cityState > p {
+    text-align: start;
 }
 
 .rightSide {
     display: flex;
     width: 50%;
 }
-
 span {
     display:flex;
     width: 100%;
     gap: 5px;
     justify-content: end;
 }
-/*
-.NavLink{
-    display:flex;
-    justify-content: end;
-} */
-
 .userButton {
     display:flex;
     justify-content: end;
@@ -60,18 +56,61 @@ ul {
     text-align: end;
 }
 
-li {
-
-}
-
 .userButtonLi{
     width: fit-content
 }
-
-
-
-
 .upperBarDiv {
     display:flex;
     justify-content: end;
+}
+@media screen and (min-width: 801px) and (max-width: 1023px){
+    .spotCard{
+        width: 32%;
+        height: 100%;
+    }
+    .previewImage {
+        object-fit: cover;
+        height: 325px;
+    }
+}
+
+@media screen and (min-width: 574px) and (max-width: 800px){
+    .spotCard{
+        width: 49%;
+        height: 100%;
+    }
+    .previewImage {
+        object-fit: cover;
+        height: 325px;
+    }
+}
+
+@media screen and (max-width: 573px) {
+    .cardHolder{
+        flex-direction: column;
+    }
+
+    .spotCard{
+        width: 100%;
+        height: 100%;
+    }
+    .previewImage {
+        object-fit: cover;
+        height: 325px;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .cardHolder{
+        flex-direction: column;
+    }
+
+    .spotCard{
+        width: 100%;
+        height: 100%;
+    }
+    .previewImage {
+        object-fit: cover;
+        height: 250px;
+    }
 }
