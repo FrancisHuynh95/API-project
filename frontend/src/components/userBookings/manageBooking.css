@@ -58,3 +58,28 @@
     object-fit: cover;
     border-radius: 5px;
 }
+
+@media screen and (max-width: 573px) {
+    .bookingsContainer{
+        flex-direction: column;
+        align-items: center;
+    }
+    .bookingSpotCard {
+        width: 100%;
+    }
+    .bookingSpotImage{
+        width: 100%;
+    }
+}
+@media screen and (min-width: 574px) and (max-width: 800px) {
+
+    .bookingSpotCard {
+        width: 49%;
+    }
+}
+@media screen and (min-width: 801px) and (max-width: 1000px) {
+
+    .bookingSpotCard {
+        width: 30%;
+    }
+}
