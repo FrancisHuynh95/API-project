@@ -183,9 +183,7 @@ function GetSpotById() {
                         <div className="Host-Info">
                             <h2>Hosted by {hostInfo?.firstName} {hostInfo?.lastName}</h2>
                             {spot && <p id="spotDescription">{spot.description}</p>}
-                            <div className="smallBox">
                             </div>
-                        </div>
                         <div className="reviewInfo">
                             <div className="smallReviewInfoContainer">
                                 <div id="pricePerNight">

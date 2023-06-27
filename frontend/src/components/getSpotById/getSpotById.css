@@ -3,6 +3,9 @@
     display: flex;
     gap: 5px;
 }
+.name-location > p {
+    text-align: start;
+}
 
 .getOnePreviewImage {
     width: 100%;
@@ -88,10 +91,6 @@
 #keepReviewButton {
     background-color: darkgray;
     color: white;
-}
-
-.topSpanDiv {
-    /* border: 1px solid red; */
 }
 
 .reviewInfo{
@@ -217,4 +216,124 @@ label {
     border-bottom: 1px solid black;
 }
 
+@media screen and (max-width: 573px) {
+    .everythingWrapper{
+        padding: 0px;
+    }
 
+    .name-location {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .everythingWrapper{
+        display: flex;
+    }
+    .topHalf{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .pictures {
+        display: flex;
+        flex-direction: column;
+    }
+    #previewImage, .otherImages{
+        width: 100%;
+        object-fit: fill;
+    }
+
+    .nonPreviewPics {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content
+    }
+    .bigOlDiv{
+        display: flex;
+        flex-direction: column;
+    }
+    .Host-Info {
+        width: 100%;
+        text-align: center;
+    }
+    .reviewInfo {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .reserveButtonContainer {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .reserveButtonContainer > button {
+       width: 80%;
+       display: flex;
+       justify-content: center;
+    }
+    .bottom-half {
+        display: flex;
+        flex-direction: column ;
+        width: 100%;
+    }
+    .user-reviews {
+        width: 100%;
+    };
+    .smallReviewInfoContainer {
+        border: 1px solid red;
+    }
+    #pricePerNight{
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 574px) and (max-width: 902px){
+    .pictures {
+        border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .getOnePreviewImage, #previewImage, .nonPreviewPics{
+        width: 100%;
+    }
+    #pricePerNight{
+        display: flex;
+        justify-content: start;
+        font-size: 1rem;
+        padding: 0px;
+        width: fit-content
+    }
+    .reserveButtonContainer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    .reserveButtonContainer > button {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+    }
+    #reviewInfo {
+        display: flex;
+        justify-content: end;
+        width: 50%;
+        object-fit: cover;
+    }
+    .reviewInfo {
+        width: 100%;
+    }
+    .Host-Info{
+        width: 100%;
+    }
+    .Host-Info > h2{
+        text-align: center    ;
+    }
+    .smallReviewInfoContainer {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+}
