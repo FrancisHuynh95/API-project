@@ -281,9 +281,7 @@ label {
     .user-reviews {
         width: 100%;
     };
-    .smallReviewInfoContainer {
-        border: 1px solid red;
-    }
+
     #pricePerNight{
         width: 100px;
     }
@@ -291,7 +289,6 @@ label {
 
 @media screen and (min-width: 574px) and (max-width: 902px){
     .pictures {
-        border: 1px solid red;
         display: flex;
         flex-direction: column;
         align-items: center;
