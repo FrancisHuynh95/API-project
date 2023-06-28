@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { getSpotThunk } from '../../store/spots';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import SocialsModal from '../socialsModal';
+import OpenModalButton from '../OpenModalButton';
 
 function Navigation({ isLoaded }) {
   const history = useHistory()
@@ -51,6 +53,12 @@ function Navigation({ isLoaded }) {
           <div className='createSpotAndUser'>
             <div id='button-createspot'>
               {sessionUser && <NavLink id='createANewSpotNav' exact to={`/spots/new`}>Create A New Spot</NavLink>}
+            </div>
+            <div className='socialsButton'>
+              <OpenModalButton
+              buttonText={"Contact Me"}
+              modalComponent={SocialsModal}
+               />
             </div>
             <div id='profileUserButton'>
               <ProfileButton className='userButton' user={sessionUser} />

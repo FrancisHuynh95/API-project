@@ -40,6 +40,18 @@
     font-weight: bold;
 }
 
+.socialsButton {
+    display: flex;
+    justify-content: center;
+}
+
+.socialsButton > button {
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    color: teal;
+}
+
 #helloButton {
     text-decoration: none;
     color: black;
