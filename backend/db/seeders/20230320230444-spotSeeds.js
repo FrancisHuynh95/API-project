@@ -55,7 +55,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: '3 beds 2baths in amazing location',
-        description: "Enjoy the amenities provided in this stylish desert oasis that will make you feel right at home! This location is conveniently located near the airport (7minutes), strip (11minutes) and attractions while providing ease-of-mind in a peaceful environment.",
+        description: "Enjoy the amenities provided in this stylish desert oasis that will make you feel right at home! This location is conveniently located near the airport (7minutes), strip (11minutes) and attractions while providing in a peaceful environment.",
         price: 179.99,
         ownerId: 2
       },
@@ -67,7 +67,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'Bliss Villa 4 w/Heated Pool +BEST Rate & Location!',
-        description: "Welcome to Lake Worth Beach's coolest vacation rental. This million+ dollar property boasts an amazing courtyard with a HEATED pool, dining nooks, lounge chairs, grill, outdoor shower & cabana BA - surrounded by 4 private villas.  ",
+        description: "Welcome to Lake Worth Beach's coolest vacation rental. This million+ dollar property boasts an amazing courtyard with a HEATED pool, lounge chairs, grill, outdoor shower & cabana BA - surrounded by 4 private villas.",
         price: 164.99,
         ownerId: 3
       },
@@ -115,7 +115,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'Tiny Home On The Dome',
-        description: "This one of a kind cabin, offers the most spectacular 270° views for both sunrise, sunset, and Aurora viewing! Sitting on top of the locally popular Ester Dome, this unique cabin overlooks all of Fairbanks and the surrounding areas. ",
+        description: "This one of a kind cabin, offers the most spectacular 270° views for both sunrise, sunset, and Aurora viewing! Sitting on top of the locally popular Ester Dome, this unique cabin overlooks all of Fairbanks and the surrounding areas.",
         price: 209.99,
         ownerId: 2
       },
@@ -127,7 +127,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'Northern Lake Yukon Cabin: Lakeside Sauna & Yurt',
-        description: "Northern Lake Yukon Cabin is a quiet lakefront cabin just for you. A place where you can step away from it all. Read a book by the wood stove, unwind in the sauna, jump in the lake, nap in the conservatory, visit the tree fort, and meander the trails both onsite and nearby.",
+        description: "Northern Lake Yukon Cabin is a quiet lakefront cabin just for you. A place where you can step away from it all. Read a book by the wood stove, unwind in the sauna, jump in the lake.",
         price: 114.99,
         ownerId: 1
       },
@@ -151,7 +151,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'The Hideaway',
-        description: "The Hideaway is an enchanting one room casita situated on the outer crest of the property, The Confluence. Wake up to the sunrise with a lush *View* of the natural countryside from your private deck. The Hideaway is accessed by a foot path (200ft) from the Main House. ",
+        description: "The Hideaway is an enchanting one room casita situated on the outer crest of the property, The Confluence. Wake up to the sunrise with a lush *View* of the natural countryside from your private deck.",
         price: 79.99,
         ownerId: 1
       },
@@ -163,7 +163,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'Red Rock VIEWS Villa, Hiking, Iconic Chapel',
-        description: "Enjoy majestic views of famous Sedona Red Rocks in the luxury of your own private villa. Steps away from  iconic Chapel of the Holy Cross,  popular hiking trails. House features  mid-century modern aesthetic, wood finishes,  1- KING size bed with 2 baths, 2 spacious living rooms, kitchen, office, outdoor dining space w BBQ.",
+        description: "Enjoy majestic views of famous Sedona Red Rocks in the luxury of your own private villa. Steps away from  iconic Chapel of the Holy Cross,  popular hiking trails.",
         price: 259.99,
         ownerId: 2
       },
@@ -187,7 +187,7 @@ module.exports = {
         lat: 12,
         lng: 123,
         name: 'The Treehouse, Modern Retreat with Panoramic Views',
-        description: "Welcome to the Treehouse - the ultimate Colorado getaway.  Perched high in the trees with panoramic views, you’ll never want to leave. This completely remodeled, octagon treehouse is just 15 minutes from most attractions in Colorado Springs and 5 minutes from the famous Pikes Peak",
+        description: "Welcome to the Treehouse - the ultimate Colorado getaway.  Perched high in the trees with panoramic views, you’ll never want to leave.15 minutes from most attractions in Colorado Springs and 5 minutes from the famous Pikes Peak",
         price: 394.99,
         ownerId: 2
       },
