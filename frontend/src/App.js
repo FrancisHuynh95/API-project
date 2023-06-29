@@ -11,6 +11,7 @@ import ManageSpot from "./components/manageSpot";
 import UserBookings from "./components/userBookings";
 import UserReviews from "./components/userReviews";
 import Search from "./components/search";
+import Uhoh from "./components/UhOh";
 
 
 
@@ -59,11 +60,7 @@ function App() {
           <Route exact path='/'>
             <Home />
           </Route>
-
-
-
-
-
+          < Uhoh />
         </Switch>
       }
     </>
