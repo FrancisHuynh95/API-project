@@ -1,6 +1,6 @@
 #createReviewModalBox {
     width: 350px;
-    height: 260px;
+    height: fit-content;
     margin: 20px 10px;
 }
 
@@ -47,6 +47,7 @@
     height: 70px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #modal-content {
