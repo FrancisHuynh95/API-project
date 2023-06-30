@@ -3,30 +3,12 @@ import OpenModalButton from "../OpenModalButton"
 import UpdateBooking from "../updateBooking"
 
 function BookingCard({ booking }) {
-    function dateFormat(booking) {
-        let newStartDate = new Date(booking.startDate).toLocaleDateString('en-US', {
-            month: "long",
-            day:"2-digit",
-            year: "numeric"
-        })
-        let newEndDate = new Date(booking.endDate).toLocaleDateString('en-US', {
-            month: "long",
-            day:"2-digit",
-            year: "numeric"
-        })
-        return (
-            <>
-                <p id="formattedDate">{newStartDate} - {newEndDate}</p>
-            </>
-        )
-    }
-
-
 
     return (
         <div className="bookingSpotCard" title={`${booking.Spot?.name}`}>
             <img className="bookingSpotImage" src={`${booking.Spot?.previewImage}`}></img>
-            {dateFormat(booking)}
+            <div>Start : {booking?.startDate.split('T')[0]}</div>
+            <div>End: {booking?.endDate.split('T')[0]}</div>
             <p className="bookingSpotPrice">${`${booking.Spot?.price}`} night</p>
             <div className="manageBookingButtons">
                 <div className="updateBookingButton">

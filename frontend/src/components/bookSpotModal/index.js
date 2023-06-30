@@ -67,6 +67,7 @@ function BookSpot({ spot }) {
         if (Object.values(errors).length > 0) {
             return
         } else {
+            console.log('startDate', startDate)
             const booking = { "startDate": startDate, "endDate": endDate, "spotId": spot.id }
             await dispatch(createBookingThunk(+spot.id, booking))
             closeModal()
