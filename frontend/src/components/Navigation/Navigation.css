@@ -153,3 +153,11 @@
         right: 10%;
     }
 }
+
+.loggedOut > li {
+    margin: 5px 10px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+
+}
