@@ -139,10 +139,8 @@ function GetSpotById() {
     let newArr = [];
     if (otherImages?.length > 0) {
         otherImages.map(image => newArr.push(image.url))
-    } else {
-        newArr.push(noImage)
-        newArr.push(noImage)
-        newArr.push(noImage)
+    } 
+    while(newArr.length < 4) {
         newArr.push(noImage)
     }
     function reserveButton() {

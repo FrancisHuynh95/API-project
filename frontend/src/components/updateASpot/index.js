@@ -23,7 +23,6 @@ function UpdateSpot() {
     const [errors, setErrors] = useState({})
     const history = useHistory()
     const getSpot = useSelector(state => state.spots)
-    const user = useSelector(state => state.session.useddddr)
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId)).then(spot => {
@@ -44,7 +43,7 @@ function UpdateSpot() {
 
     if (!getSpot) return null
 
-     function formSubmit(e) {
+    function formSubmit(e) {
         e.preventDefault()
         const errorObj = {}
         if (country.length === 0) errorObj.country = "Country is required"
@@ -146,10 +145,10 @@ function UpdateSpot() {
                             <div className="priceWithSymbol">
                                 $ <input id="updatePrice" className="userInput" type="text" placeholder="Price per night (USD)" value={price} onChange={e => setPrice(e.target.value)}></input>
                             </div>
-                                {errors.price && <p className="errors">{errors.price}</p>}
+                            {errors.price && <p className="errors">{errors.price}</p>}
                         </div>
                         <div className="section6">
-                        <button id="updateSpotButton" type="submit">Update your Spot</button>
+                            <button id="updateSpotButton" type="submit">Update your Spot</button>
                         </div>
                     </form>
                 </div>

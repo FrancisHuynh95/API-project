@@ -38,6 +38,7 @@ function CreateSpot() {
         if (price.length === 0) errorObj.price = "Price is required"
         if (isNaN(+price)) errorObj.price = "Price must be a number"
         if (previewURL.length === 0) errorObj.previewURL = "Preview URL is required"
+
         if (previewURL && previewURL.slice(previewURL.length - 4, previewURL.length) !== '.png' && previewURL.slice(previewURL.length - 4, previewURL.length) !== '.jpg' && previewURL.slice(previewURL.length - 5, previewURL.length) !== '.jpeg') errorObj.previewURLPNG = 'Image must end in .png, .jpg, or .jpeg'
 
         if (url && url.slice(url.length - 4, url.length) !== '.png' && url.slice(url.length - 4, url.length) !== '.jpg' && url.slice(url.length - 5, url.length) !== '.jpeg') errorObj.urlPNG = 'Image URL must end in .png, .jpg, or .jpeg'
