@@ -35,7 +35,6 @@
 
 .userInput {
     background-color: rgb(184, 211, 250);
-
 }
 
 .lat-lng {
@@ -169,5 +168,21 @@ p
     #textArea {
         width: 100%;
     }
+}
 
+.topMsg > p {
+    text-align: start;
+}
+.section4 > p {
+    text-align: start;
+}
+.section3 > p {
+    text-align: start;
+}
+.section5 > p {
+    text-align: start;
+}
+
+.section2 > #textArea{
+    width: 100%;
 }
