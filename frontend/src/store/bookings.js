@@ -113,7 +113,6 @@ const bookingReducer = (state = initalState, action) => {
             newState = {...state, bookings: {...state.bookings}, user: {...state.user}}
             delete newState.user[action.booking]
             return newState
-
         }
             default:
             return state;

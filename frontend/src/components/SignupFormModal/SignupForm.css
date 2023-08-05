@@ -1,7 +1,7 @@
 #signContainer {
     display: flex;
     flex-direction: column;
-    height: 350px;
+    height: fit-content;
     width: 400px;
     padding: 10px 10px;
 }
@@ -22,5 +22,12 @@
 }
 
 #signupButton {
-    display: inline-block
+    display: inline-block;
+    padding: 5px;
+    margin: 3px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: white;
+    background-color: gray;
 }
