@@ -13,6 +13,10 @@ import { useHistory } from "react-router-dom";
 import UpdateReview from "../updateReview";
 import BookSpot from "../bookSpotModal";
 import { getBookingThunk } from "../../store/bookings";
+import OpenImageModalButton from "../OpenModalButton/image";
+import ImageModalComponent from "../imageModal";
+import { ImageModalProvider } from "../../../src/context/ImageModal"
+import { useImageModal } from "../../../src/context/ImageModal";
 
 
 function GetSpotById() {
@@ -33,11 +37,10 @@ function GetSpotById() {
     }, [dispatch, reviewArray.length])
 
     useEffect(() => {
-        if(spots){
+        if (spots) {
             dispatch(getBookingThunk(spotId))
         }
     }, [dispatch])
-
 
     function generateReview() {
         if (reviewArray[0] === `Spot doesn't have any reviews`) {
@@ -51,17 +54,17 @@ function GetSpotById() {
                     <p id="userReview">{review.review}</p>
                     <div className="reviewButtonsSpot">
 
-                    {theUser?.id === review.userId
-                        ? generateDeleteModal(review.id, review.userId, review)
-                        : null}
-                    <div className="updateReviewButtonSpot">
-                        {theUser?.id === review.userId ?
-                            <OpenModalButton
-                            buttonText="Update"
-                            modalComponent={< UpdateReview review={review} />}
-                            /> : null}
+                        {theUser?.id === review.userId
+                            ? generateDeleteModal(review.id, review.userId, review)
+                            : null}
+                        <div className="updateReviewButtonSpot">
+                            {theUser?.id === review.userId ?
+                                <OpenModalButton
+                                    buttonText="Update"
+                                    modalComponent={< UpdateReview review={review} />}
+                                /> : null}
+                        </div>
                     </div>
-                            </div>
                 </div>
             </>
         )
@@ -122,6 +125,7 @@ function GetSpotById() {
 
     let previewImage
     let otherImages
+    let allPics = []
 
     const hostInfo = spot?.Owner
     const noReview = "New"
@@ -133,18 +137,18 @@ function GetSpotById() {
         if (spot.SpotImages && spot.SpotImages !== `Spot doesn't have any images`) {
             previewImage = spot?.SpotImages?.filter(spot => spot.preview === true)
             otherImages = spot?.SpotImages?.filter(spot => spot.preview !== true)
+            spot.SpotImages.sort((a,b) => a.id - b.id).forEach(image => allPics.push(image.url))
         }
     }
+
+    console.log("allPics", allPics)
 
     let newArr = [];
     if (otherImages?.length > 0) {
         otherImages.map(image => newArr.push(image.url))
-    } 
-    while(newArr.length < 4) {
-        newArr.push(noImage)
     }
-    function reserveButton() {
-        alert("Feature Coming Soon...")
+    while (newArr.length < 4) {
+        newArr.push(noImage)
     }
 
     function generateModal() {
@@ -171,17 +175,28 @@ function GetSpotById() {
                     </div>
                     <div className="pictures">
                         <div id="previewImage">
-                            {previewImage && <img className="getOnePreviewImage" src={previewImage[0]['url']}></img>}
+                            {previewImage &&
+                                <OpenImageModalButton
+                                    buttonText={`${previewImage[0]['url']}`}
+                                    modalComponent={<ImageModalComponent url={previewImage[0]['url']} allPics={allPics}/>}
+                                />}
+                            {/* {previewImage && <img className="getOnePreviewImage" id="imageClick" src={previewImage[0]['url']}></img>} */}
                         </div>
                         <div className="nonPreviewPics">
-                            {newArr?.map((image, index) => <img className="otherImages" id={index + 1} src={`${image}`}></img>)}
+                            {newArr?.map((image, index) =>
+                                // <img className="otherImages" id="imageClick" src={`${image}`}></img>
+                                <OpenImageModalButton
+                                    buttonText={`${image}`}
+                                    modalComponent={<ImageModalComponent url={image} allPics={allPics} />}
+                                />
+                            )}
                         </div>
                     </div>
                     <div className="bigOlDiv">
                         <div className="Host-Info">
                             <h2>Hosted by {hostInfo?.firstName} {hostInfo?.lastName}</h2>
                             {spot && <p id="spotDescription">{spot.description}</p>}
-                            </div>
+                        </div>
                         <div className="reviewInfo">
                             <div className="smallReviewInfoContainer">
                                 <div id="pricePerNight">
@@ -197,8 +212,8 @@ function GetSpotById() {
                             </div>
                             <div className="reserveButtonContainer">
                                 <OpenModalButton
-                                buttonText={"Reserve"}
-                                modalComponent={<BookSpot spot={spot}/>}
+                                    buttonText={"Reserve"}
+                                    modalComponent={<BookSpot spot={spot} />}
                                 />
                             </div>
                         </div>

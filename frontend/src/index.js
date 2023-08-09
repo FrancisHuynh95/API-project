@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ModalProvider, Modal } from "./context/Modal";
+import { ImageModalProvider, ImageModal } from "./context/ImageModal";
 import App from "./App";
 
 import configureStore from "./store";
@@ -28,12 +29,15 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <ModalProvider>
+      <ImageModalProvider>
       <Provider store={store}>
         <BrowserRouter>
           <App />
           <Modal />
+          <ImageModal />
         </BrowserRouter>
       </Provider>
+      </ImageModalProvider>
     </ModalProvider>
   );
 }
