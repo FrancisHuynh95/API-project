@@ -142,7 +142,7 @@ function GetSpotById() {
             spot.SpotImages.sort((a,b) => a.id - b.id).forEach(image => allPics.push(image.url))
         }
     }
-   
+
 
     let newArr = [];
     if (otherImages?.length > 0) {

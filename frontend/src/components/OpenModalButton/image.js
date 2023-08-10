@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useImageModal } from "../../context/ImageModal";
 
 function OpenImageModalButton({
@@ -8,10 +8,12 @@ function OpenImageModalButton({
   onModalClose, // optional: callback function that will be called once the modal is closed
 }) {
   const { setModalContent, setOnModalClose } = useImageModal();
-
+  const noImage = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
   const onClick = () => {
-    setModalContent(modalComponent);
+    if(buttonText !== noImage){
+      setModalContent(modalComponent);
+    }
   };
-  return <img id="imageClick" onClick={onClick} src={`${buttonText}`}></img>;
+  return <img id={buttonText !== noImage ? "imageClick" : null} onClick={onClick} src={`${buttonText}`}></img>;
 }
 export default OpenImageModalButton;

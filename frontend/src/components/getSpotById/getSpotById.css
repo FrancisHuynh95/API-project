@@ -354,7 +354,7 @@ label {
 
 @media screen and (min-width: 1300px){
     .pictures {
-        height: 500px;
+        height: 600px;
     }
     #previewImage > img {
         height:100%;
