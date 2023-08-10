@@ -1,6 +1,7 @@
+import { useImageModal } from "../../context/ImageModal"
 import { useState } from "react"
 function ImageModalComponent({ url, allPics }) {
-
+    const { closeModal } = useImageModal()
     const [currIndex, setCurrIndex] = useState(allPics.indexOf(url))
     function increaseIndex() {
         if (currIndex === allPics.length - 1) {
@@ -16,9 +17,18 @@ function ImageModalComponent({ url, allPics }) {
             setCurrIndex(currIndex - 1)
         }
     }
+
     return (
         <>
-            <p style={{ color: "white" }}>{(currIndex + 1)} / {allPics.length}</p>
+            <div className="testingthisout">
+                <div className="container1">
+                <p style={{ color: "white" }}>{(currIndex + 1)} / {allPics.length}</p>
+                </div>
+                <div className="container2">
+                <i class="far fa-times-circle" id="closeModalButton" onClick={() => closeModal()}></i>
+                </div>
+
+            </div>
             <div className="imageModalContainer">
                 <i class="fas fa-chevron-left" onClick={() => decreaseIndex()}></i>
                 <img className="zoomedInImage" src={`${allPics[currIndex % allPics.length]}`}></img>

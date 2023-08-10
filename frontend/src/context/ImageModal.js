@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import "./Modal.css";
 
+
 const ImageModalContext = React.createContext();
 
 export function ImageModalProvider({ children }) {
@@ -47,7 +48,7 @@ export function ImageModal() {
   // Render the following component to the div referenced by the modalRef
   return ReactDOM.createPortal(
     <div id="modal">
-      <div id="image-modal-background" onClick={closeModal} />
+      <div id="image-modal-background" />
       <div id="image-modal-content">{modalContent}</div>
     </div>,
     modalRef.current

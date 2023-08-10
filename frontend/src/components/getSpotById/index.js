@@ -19,6 +19,7 @@ import { ImageModalProvider } from "../../../src/context/ImageModal"
 import { useImageModal } from "../../../src/context/ImageModal";
 
 
+
 function GetSpotById() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
@@ -28,6 +29,7 @@ function GetSpotById() {
     const spot = spots[spotId]
     const noImage = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
     const bookings = useSelector(state => state.bookings)
+
 
     const reviewArray = Object.values(spotReviews)
     const theUser = users['user']
@@ -140,6 +142,7 @@ function GetSpotById() {
             spot.SpotImages.sort((a,b) => a.id - b.id).forEach(image => allPics.push(image.url))
         }
     }
+   
 
     let newArr = [];
     if (otherImages?.length > 0) {
@@ -185,7 +188,7 @@ function GetSpotById() {
                                 // <img className="otherImages" id="imageClick" src={`${image}`}></img>
                                 <OpenImageModalButton
                                     buttonText={`${image}`}
-                                    modalComponent={<ImageModalComponent url={image} allPics={allPics} />}
+                                    modalComponent={<ImageModalComponent url={image} allPics={allPics}/>}
                                 />
                             )}
                         </div>
