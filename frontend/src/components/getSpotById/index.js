@@ -141,8 +141,6 @@ function GetSpotById() {
         }
     }
 
-    console.log("allPics", allPics)
-
     let newArr = [];
     if (otherImages?.length > 0) {
         otherImages.map(image => newArr.push(image.url))
