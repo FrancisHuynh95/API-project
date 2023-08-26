@@ -25,7 +25,7 @@ function LoginFormModal() {
   };
 
   const demoUser = (e) => {
-    const credential = 'FakeUser2'
+    const credential = 'JackDoe'
     const password = 'password3'
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
