@@ -138,19 +138,37 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
     const getBookingId = req.params.bookingId;
     const { user } = req;
     const getBooking = await Booking.findByPk(getBookingId)
-    const today = new Date().getTime()
+    const newToday = new Date()
+    const today = newToday.getTime()
+
     if (!getBooking) {
         res.statusCode = 404;
         return res.json({
             message: `Booking couldn't be found`
         })
     }
-    const start = getBooking.startDate.getTime()
-    const end = getBooking.endDate.getTime()
+    //'2023-10-18'
+    const start1 = new Date(getBooking.startDate)
+    const startFormat1 = getBooking.startDate.toISOString().split('T')[0]
+    const startFormat = startFormat1.split('-')
+    const endFormat1 = getBooking.endDate.toISOString().split('T')[0]
+    const endFormat = endFormat1.split("-")
+    const end1 = new Date(getBooking.endDate)
+    start1.setFullYear(+startFormat[0])
+    start1.setMonth(+startFormat[1]-1)
+    start1.setDate(+startFormat[2])
+    start1.setHours(0)
+    end1.setHours(0)
+    end1.setFullYear(+endFormat[0])
+    end1.setMonth(+endFormat[1]-1)
+    end1.setDate(+endFormat[2])
+    const start = start1.getTime()
+    const end = end1.getTime()
+
     const getSpot = await Spot.findAll({ where: { ownerId: user.id } })
 
 
-    if (today > start || today > end) {
+    if (today >= parseInt(start) + 54000000 && today <= parseInt(end) + 54000000) {
         res.statusCode = 403;
         return res.json({
             message: `Bookings that have been started can't be deleted`

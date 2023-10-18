@@ -798,15 +798,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
         }
-        // if (startDateTime + 54000000 < todayTime || todayTime > endDateTime + 54000000) {
-        //     console.log('start',startDateTime + 54000000)
-        //     console.log('end',endDateTime + 54000000)
-        //     let newToday = new Date()
-        //     let newTodayTime = newToday.getMilliseconds()
-        //     console.log('newTodayTime',newTodayTime)
-        //     console.log('today',todayTime)
-        //     errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
-        // }
     })
     if (startDateMS + 54000000 < todayTime || todayTime > endDateMS + 54000000) {
         errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
