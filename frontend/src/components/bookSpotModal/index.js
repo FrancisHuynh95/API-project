@@ -54,8 +54,15 @@ function BookSpot({ spot }) {
     }
 
 
-    // const today = Date.now()
-    const today = new Date().toISOString().split("T")[0];
+    const today2 = Date.now()
+    const today = new Date(today2).toISOString().split("T")[0];
+    const newStart = new Date(startDate)
+    const newEnd = new Date(endDate)
+
+    const newStartTime = newStart.getTime()
+    // const newEndTime = newEnd.getTime()
+
+    console.log('newStart',newStartTime, newStartTime + 54000000)
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -74,8 +81,8 @@ function BookSpot({ spot }) {
                 setErrors(err.errors)
                 return
             }
+            if(!Object.values(errors).length) closeModal()
         }
-        if(!Object.values(errors)) closeModal()
     }
 
     return (

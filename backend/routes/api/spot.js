@@ -682,6 +682,24 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req;
     const getSpotId = req.params.spotId;
     const { startDate, endDate } = req.body
+    const startDateDate = new Date(0)
+    const endDateDate = new Date(0)
+
+
+    let startDateArr = startDate.split('-')
+    let endDateArr = endDate.split('-')
+    startDateDate.setFullYear(+startDateArr[0])
+    startDateDate.setMonth(+startDateArr[1]-1)
+    startDateDate.setDate(+startDateArr[2])
+    startDateDate.setHours(0)
+    endDateDate.setFullYear(+endDateArr[0])
+    endDateDate.setMonth(+endDateArr[1]-1)
+    endDateDate.setDate(+endDateArr[2])
+    endDateDate.setHours(0)
+
+    let startDateMS = startDateDate.getTime()
+    let endDateMS = endDateDate.getTime()
+
     if(Object.keys(req.body).length === 0){
         res.statusCode = 400;
         return res.json( {
@@ -780,11 +798,19 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
         }
-        if (startDateTime < todayTime || todayTime > endDateTime) {
-            errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
-        }
-
+        // if (startDateTime + 54000000 < todayTime || todayTime > endDateTime + 54000000) {
+        //     console.log('start',startDateTime + 54000000)
+        //     console.log('end',endDateTime + 54000000)
+        //     let newToday = new Date()
+        //     let newTodayTime = newToday.getMilliseconds()
+        //     console.log('newTodayTime',newTodayTime)
+        //     console.log('today',todayTime)
+        //     errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
+        // }
     })
+    if (startDateMS + 54000000 < todayTime || todayTime > endDateMS + 54000000) {
+        errorObjConflicts.errors.message = `Sorry, you can't book for a time in the past`
+    }
     if (Object.keys(errorObjConflicts.errors).length > 0) {
         res.statusCode = 403;
         return res.json(errorObjConflicts)
