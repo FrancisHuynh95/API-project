@@ -71,12 +71,10 @@ function BookSpot({ spot }) {
                 await dispatch(createBookingThunk(+spot.id, booking))
             } catch(e){
                 let err = await e.json()
-                console.log('err', err.errors)
                 setErrors(err.errors)
                 return
             }
         }
-        console.log('errors',errors)
         if(!Object.values(errors)) closeModal()
     }
 
