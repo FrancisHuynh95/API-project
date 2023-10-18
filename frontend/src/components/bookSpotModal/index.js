@@ -69,17 +69,15 @@ function BookSpot({ spot }) {
             const booking = { "startDate": startDate, "endDate": endDate, "spotId": spot.id }
             try {
                 await dispatch(createBookingThunk(+spot.id, booking))
-                console.log('in try')
             } catch(e){
                 let err = await e.json()
-                console.log('err', err.errors.message)
-                setErrors(err.errors.message)
-                if(Object.values(errors).length){
-                    return
-                }
+                console.log('err', err.errors)
+                setErrors(err.errors)
+                return
             }
-            closeModal()
         }
+        console.log('errors',errors)
+        if(!Object.values(errors)) closeModal()
     }
 
     return (
@@ -87,9 +85,9 @@ function BookSpot({ spot }) {
             {user.id !== spot.ownerId ?
                 <>
                     <h1>Book Your Spot</h1>
-                    {Object.values(errors).map(error => {
+                    {Object.values(errors).map(error =>
                         <p className="errors">{error}</p>
-                    })}
+                    )}
                     <form className="datesInput" onSubmit={handleSubmit}>
                         <label>
                             Start : <input
