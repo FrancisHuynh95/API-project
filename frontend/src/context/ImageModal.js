@@ -49,7 +49,7 @@ export function ImageModal() {
   return ReactDOM.createPortal(
     <div id="modal">
       <div id="image-modal-background" />
-      <div id="image-modal-content">{modalContent}</div>
+      <div id="image-modal-content" >{modalContent}</div>
     </div>,
     modalRef.current
   );

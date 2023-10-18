@@ -41,17 +41,36 @@ export const getBookingThunk = (spotId) => async (dispatch) => {
     }
 }
 
+// export const createBookingThunk = (spotId, booking) => async (dispatch) => {
+//     try {
+//         const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
+//             method: "POST",
+//             headers: {'Content-Type': "application/json"},
+//             body: JSON.stringify(booking)
+//         })
+//         if(res.ok){
+//             const response = await res.json()
+//             dispatch(createBooking(response))
+//             return response
+//         }
+//     } catch(e){
+//         const errors = await e.json()
+//         return errors
+//     }
+// }
+
 export const createBookingThunk = (spotId, booking) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
-        method: "POST",
-        headers: {'Content-Type': "application/json"},
-        body: JSON.stringify(booking)
-    })
-    if(res.ok){
-        const response = await res.json()
-        dispatch(createBooking(response))
-        return response
-    }
+        const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
+            method: "POST",
+            headers: {'Content-Type': "application/json"},
+            body: JSON.stringify(booking)
+        })
+        if(res.ok){
+            const response = await res.json()
+            dispatch(createBooking(response))
+            return response
+        }
+
 }
 
 export const updateBookingThunk = (bookingId, booking) => async (dispatch) => {

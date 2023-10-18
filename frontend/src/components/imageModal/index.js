@@ -32,7 +32,7 @@ function ImageModalComponent({ url, allPics }) {
             <div className="imageModalContainer">
                 <i class="fas fa-chevron-left" onClick={() => decreaseIndex()}></i>
                 <img className="zoomedInImage" src={`${allPics[currIndex % allPics.length]}`}></img>
-                <i class="fas fa-chevron-right" onClick={() => increaseIndex()}></i>
+                <i class="fas fa-chevron-right" onClick={() => increaseIndex() }></i>
             </div>
         </>
     )

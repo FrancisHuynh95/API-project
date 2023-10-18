@@ -63,13 +63,21 @@ function BookSpot({ spot }) {
             errorObj.dates = "This date range is not available"
         }
         setErrors(errorObj);
-
         if (Object.values(errors).length > 0) {
             return
         } else {
-            console.log('startDate', startDate)
             const booking = { "startDate": startDate, "endDate": endDate, "spotId": spot.id }
-            await dispatch(createBookingThunk(+spot.id, booking))
+            try {
+                await dispatch(createBookingThunk(+spot.id, booking))
+                console.log('in try')
+            } catch(e){
+                let err = await e.json()
+                console.log('err', err.errors.message)
+                setErrors(err.errors.message)
+                if(Object.values(errors).length){
+                    return
+                }
+            }
             closeModal()
         }
     }
