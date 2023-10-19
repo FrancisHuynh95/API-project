@@ -18,7 +18,7 @@ function BookSpot({ spot }) {
 
     function bookingsStuff() {
         if (bookingsArray.length > 0) {
-            const bookings = bookingsArray.forEach(booking => {
+                bookingsArray.forEach(booking => {
                 const bookingStart = new Date(booking.startDate)
                 const bookingEnd = new Date(booking.endDate)
                 const newStart = new Date(startDate)
@@ -60,33 +60,31 @@ function BookSpot({ spot }) {
     const newEnd = new Date(endDate)
 
     const newStartTime = newStart.getTime()
-    // const newEndTime = newEnd.getTime()
 
-    // console.log('newStart',newStartTime, newStartTime + 54000000)
 
     async function handleSubmit(e) {
+        let submitErrors = {}
         e.preventDefault()
         if (bookingsStuff === false) {
-            errorObj.dates = "This date range is not available"
+            submitErrors.dates = "This date range is not available"
         }
-        setErrors(errorObj);
-        if (Object.values(errors).length > 0) {
+        setErrors(submitErrors);
+        if (Object.values(submitErrors).length > 0) {
             return
         } else {
+            let err
             const booking = { "startDate": startDate, "endDate": endDate, "spotId": spot.id }
             try {
                 await dispatch(createBookingThunk(+spot.id, booking))
-            } catch(e){
+            } catch (e) {
                 // console.log('catchhcvhch')
-                let err = await e.json()
+                err = await e.json()
                 setErrors(err.errors)
             }
-            if(!Object.values(errors).length){
-                // closeModal()
-                // console.log(errors)
-            } else {
-                return
+            if(err === undefined){
+                closeModal()
             }
+                // console.log(errors)
         }
     }
 
