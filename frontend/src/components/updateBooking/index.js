@@ -54,16 +54,27 @@ function UpdateBooking({ booking }) {
         if (Object.values(errors).length > 0) {
             return
         } else {
-            const newBooking = { "startDate": startDate, "endDate": endDate }
-            await dispatch(updateBookingThunk(+booking.id, newBooking))
-            closeModal()
+            const newBooking = { "startDate": startDate, "endDate": endDate, spotId: booking.spotId }
+            try {
+                await dispatch(updateBookingThunk(+booking.id, newBooking))
+            } catch(e){
+                let err = await e.json()
+                console.log(err)
+                setErrors(err)
+                return
+            }
+            // console.log('err \n\n\n',errors)
+            if(!Object.values(errors).length) closeModal()
         }
     }
 
     return (
         <div className="updateBookingModal">
             <h1 className="modalH1">Update Booking</h1>
-            <form className="datesInput" onSubmit={handleSubmit}>
+            <form className="datesInput">
+                {Object.values(errors).length > 0 &&
+                    <p className="errors">{errors.message}</p>
+                }
                 <div className="startInput">
                     <label>
                         Start : <input
@@ -87,7 +98,7 @@ function UpdateBooking({ booking }) {
             </form>
             <div className="submitButtonContainer">
             </div>
-            <button className="updateBookingButtonModal" type="submit">Submit</button>
+            <button className="updateBookingButtonModal" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
