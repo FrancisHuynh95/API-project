@@ -779,16 +779,16 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         bookedEndDateTime = bookedEndDate.getTime()
 
 
-        if (startDateTime < bookedStartDateTime && endDateTime > bookedStartDateTime) {
+        if (startDateTime <= bookedStartDateTime && endDateTime >= bookedStartDateTime) {
             errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
         }
-        if (startDateTime > bookedStartDateTime && startDateTime < bookedEndDateTime) {
+        if (startDateTime >= bookedStartDateTime && startDateTime <= bookedEndDateTime) {
             errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`;
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
         }
 
-        if (bookedStartDateTime > startDateTime && endDateTime > bookedEndDateTime) {
+        if (bookedStartDateTime >= startDateTime && endDateTime >= bookedEndDateTime) {
             errorObjConflicts.message = `Sorry, this spot is already booked for the specified dates`;
             errorObjConflicts.errors.startDate = `Start date conflicts with an existing booking`
             errorObjConflicts.errors.endDate = "End date conflicts with an existing booking"
