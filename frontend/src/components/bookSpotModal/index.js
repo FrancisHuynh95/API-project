@@ -62,7 +62,7 @@ function BookSpot({ spot }) {
     const newStartTime = newStart.getTime()
     // const newEndTime = newEnd.getTime()
 
-    console.log('newStart',newStartTime, newStartTime + 54000000)
+    // console.log('newStart',newStartTime, newStartTime + 54000000)
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -77,13 +77,13 @@ function BookSpot({ spot }) {
             try {
                 await dispatch(createBookingThunk(+spot.id, booking))
             } catch(e){
-                console.log('catchhcvhch')
+                // console.log('catchhcvhch')
                 let err = await e.json()
                 setErrors(err.errors)
             }
             if(!Object.values(errors).length){
                 // closeModal()
-                console.log(errors)
+                // console.log(errors)
             } else {
                 return
             }

@@ -59,11 +59,9 @@ function UpdateBooking({ booking }) {
                 await dispatch(updateBookingThunk(+booking.id, newBooking))
             } catch(e){
                 let err = await e.json()
-                console.log(err)
                 setErrors(err)
                 return
             }
-            // console.log('err \n\n\n',errors)
             if(!Object.values(errors).length) closeModal()
         }
     }
