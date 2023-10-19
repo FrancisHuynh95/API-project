@@ -12,7 +12,6 @@ function UpdateBooking({ booking }) {
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
     const [errors, setErrors] = useState({})
-    const errorObj = {}
 
     useEffect(() => {
         dispatch(getBookingThunk(booking?.Spot.id))
@@ -31,9 +30,9 @@ function UpdateBooking({ booking }) {
             const newEndTime = newEnd.getTime()
 
             if (
-                (newStartTime < bookingStartTime && newEndTime > bookingStartTime) ||
-                (newStartTime > bookingStartTime && newStartTime < bookingEndTime) ||
-                (bookingStartTime > newStartTime && newEndTime > bookingEndTime)
+                (newStartTime <= bookingStartTime && newEndTime >= bookingStartTime) ||
+                (newStartTime >= bookingStartTime && newStartTime <= bookingEndTime) ||
+                (bookingStartTime >= newStartTime && newEndTime >= bookingEndTime)
 
             ) return false;
             else {
@@ -45,24 +44,26 @@ function UpdateBooking({ booking }) {
     const today = new Date().toISOString().split("T")[0];
 
     async function handleSubmit(e) {
+        let submitErrors = {}
         e.preventDefault()
         if (bookingStuff() === false) {
-            errorObj.dates = "This date range is not available"
+            submitErrors.dates = "This date range is not available"
         }
-        setErrors(errorObj);
+        setErrors(submitErrors);
 
-        if (Object.values(errors).length > 0) {
+        if (Object.values(submitErrors).length > 0) {
             return
         } else {
+            let err
             const newBooking = { "startDate": startDate, "endDate": endDate, spotId: booking.spotId }
             try {
                 await dispatch(updateBookingThunk(+booking.id, newBooking))
             } catch(e){
-                let err = await e.json()
+                err = await e.json()
                 setErrors(err)
                 return
             }
-            if(!Object.values(errors).length) closeModal()
+            if(err === undefined) closeModal()
         }
     }
 
