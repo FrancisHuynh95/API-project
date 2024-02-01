@@ -88,7 +88,7 @@ function BookSpot({ spot }) {
         }
     }
 
-    return (
+    return user ? (
         <div className="BookSpotModal">
             {user.id !== spot.ownerId ?
                 <>
@@ -121,7 +121,7 @@ function BookSpot({ spot }) {
                 : <h1>An owner cannot book their own spot</h1>}
         </div>
 
-    )
+    ) : <h1 className="BookSpotModal">Please log in to continue</h1>
 }
 
 export default BookSpot
