@@ -20,11 +20,13 @@
 #manageBookings {
     text-decoration: none;
     color: black;
+    text-align: center;
 }
 
 #manageBookingsLi {
     border-bottom: 1px solid black;
     padding: 5px 0px;
+    text-align: center;
 }
 
 #navContainer {
@@ -135,6 +137,7 @@
 
 .userInfoLi {
     text-align: center;
+    word-wrap: break-word;
 }
 
 @media screen and (max-width: 573px) {
