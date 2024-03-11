@@ -313,7 +313,7 @@ module.exports = {
     },
       {
       spotId: 13,
-      url: 'https://a0.muscache.com/im/pictures/miso/Hosting-635410431678555440/original/ce010598-127c-451e-b841-480db9b815de.jpeg',
+      url: 'https://a0.muscache.com/im/pictures/miso/Hosting-635410431678555440/original/4992a519-2088-4e08-a927-a1cf366cfe52.jpeg',
       preview: true
     },
       {
