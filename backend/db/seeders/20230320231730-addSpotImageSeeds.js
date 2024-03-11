@@ -138,7 +138,7 @@ module.exports = {
     },
       {
       spotId: 6,
-      url: 'https://a0.muscache.com/im/pictures/8fbf9bec-a749-475b-944b-cd320d52c115.jpg',
+      url: 'https://cf.bstatic.com/xdata/images/hotel/max1280x900/252843858.jpg?k=c2071641f87edc93b077b0168941448d1dedfc3b13d69842b905131360b9b76e&o=&hp=1',
       preview: true
     },
       {
